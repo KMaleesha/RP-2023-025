@@ -58,5 +58,7 @@ IT20245238 - Arachchi O.B.K
 **Other necessary information**
 
 > Supervisor -  Prof. Koliya Pulasinghe
+
 > Co-Supervisor - Vishan Jayasinghearachchi
+
 > External Supervisor - Mrs. Avishka Peiris 
