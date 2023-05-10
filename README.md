@@ -4,7 +4,8 @@
 
 **Main objective**
 
-To develop a full-featured articulation and phonology test for Speech Pathologists, other speech professionals and parents to assess the articulation and speech production of Sinhala language-speaking children of age 2-4 years old and to improve the speech of children who have defects in their speech using entertaining high-quality computer-aided speech therapy.
+
+> To develop a full-featured articulation and phonology test for Speech Pathologists, other speech professionals and parents to assess the articulation and speech production of Sinhala language-speaking children of age 2-4 years old and to improve the speech of children who have defects in their speech using entertaining high-quality computer-aided speech therapy. 
 
 **Main Research questions**
 
