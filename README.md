@@ -9,7 +9,9 @@
 
 **Main Research questions**
 > How to develop a system to detect phonological errors of 2-4 year children in Sri Lanka?
+
 > How to reduce the workload on speech pathologists?
+
 > How to engage children with the app?
 
 
