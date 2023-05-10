@@ -53,7 +53,7 @@ IT20088514 - Kumarsinghe K.A.M.T
 
 IT20245238 - Arachchi O.B.K
 
-> To implement speech to text targeting 2–4-year-old Sinhala speaking children using machine learning
+> To implement speech to text targeting 2–4-year-old Sinhala speaking children using machine learning.
 
 **Other necessary information**
 
