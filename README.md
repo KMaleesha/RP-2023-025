@@ -2,12 +2,12 @@
 
 **EARLY DETECTION & TREATMENT OF SINHALA PHONOLOGICAL DISORDERS IN 2-4 YEAR OLD CHILDREN USING COMPUTER-AIDED SPEECH THERAPY**
 
-**Main objective**
+**Main Objective**
 
 
 > To develop a full-featured articulation and phonology test for Speech Pathologists, other speech professionals and parents to assess the articulation and speech production of Sinhala language-speaking children of age 2-4 years old and to improve the speech of children who have defects in their speech using entertaining high-quality computer-aided speech therapy. 
 
-**Main Research questions**
+**Main Research Questions**
 > How to develop a system to detect phonological errors of 2-4 year children in Sri Lanka?
 
 > How to reduce the workload on speech pathologists?
@@ -16,7 +16,7 @@
 
 
 
-**Individual research question**
+**Individual Research Question**
 
 
 IT20190002-Doloswala
@@ -34,6 +34,8 @@ IT20088514 - Kumarsinghe K.A.M.T
 
 IT20245238 - Arachchi O.B.K
 
+> How to automate the process of transcribing audio of Sinhala speaking 2-4 year old children in order for Speech Language Pathologists to track the progress of their patients? 
+
 
 **Individual Objectives**
 
@@ -47,5 +49,6 @@ IT20088514 - Kumarsinghe K.A.M.T
 
 > The main objective of this research component is to provide a solution to identify the phonological errors of the word that child speaks to the application. When child speaks a word with mispronunciations and incompatible letters, system identify the position of the incorrect letter and the letter category.
 
-
 IT20245238 - Arachchi O.B.K
+
+> To create a system that automates the process of transcribing audio of children, helping speech language pathologists keep track of child’s progress to ensure child is making steady progress towards the goal.
