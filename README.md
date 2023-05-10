@@ -8,6 +8,10 @@
 > To develop a full-featured articulation and phonology test for Speech Pathologists, other speech professionals and parents to assess the articulation and speech production of Sinhala language-speaking children of age 2-4 years old and to improve the speech of children who have defects in their speech using entertaining high-quality computer-aided speech therapy. 
 
 **Main Research questions**
+> How to develop a system to detect phonological errors of 2-4 year children in Sri Lanka?
+> How to reduce the workload on speech pathologists?
+> How to engage children with the app?
+
 
 
 **Individual research question**
