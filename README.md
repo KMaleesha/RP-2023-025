@@ -16,10 +16,11 @@ IT20190002-Doloswala
 
 
 
-> IT20668686-Wijesooriya W.M.R.K 
+IT20668686-Wijesooriya W.M.R.K 
 
-How to use Neural networks to detect accuracy of child’s speech?
-What’s the best neural networks to detect accuracy of child’s speech?
+> How to use Neural networks to detect accuracy of child’s speech?
+> What’s the best neural networks to detect accuracy of child’s speech?
+
 
 IT20088514 - Kumarsinghe K.A.M.T
 
