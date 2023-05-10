@@ -25,6 +25,7 @@ IT20668686-Wijesooriya W.M.R.K
 IT20088514 - Kumarsinghe K.A.M.T
 
 > How can we develop an automated system that accurately identifies the position and category of incorrect letters in the words spoken by a child, to help diagnose phonological errors in their speech? 
+
 IT20245238 - Arachchi O.B.K
 
 
@@ -32,8 +33,13 @@ IT20245238 - Arachchi O.B.K
 
 IT20190002-Doloswala
 
+> Therapy for children with incorrect pronunciations and its influence on 2-4 year old children's ability to do things by themselves. 
+
 IT20668686-Wijesooriya W.M.R.K
 
 IT20088514 - Kumarsinghe K.A.M.T
+
+> The main objective of this research component is to provide a solution to identify the phonological errors of the word that child speaks to the application. When child speaks a word with mispronunciations and incompatible letters, system identify the position of the incorrect letter and the letter category.
+
 
 IT20245238 - Arachchi O.B.K
