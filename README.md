@@ -53,9 +53,10 @@ IT20088514 - Kumarsinghe K.A.M.T
 
 IT20245238 - Arachchi O.B.K
 
-> To create a system that automates the process of transcribing audio of children, helping speech language pathologists keep track of child’s progress to ensure child is making steady progress towards the goal.
+> To implement speech to text targeting 2–4-year-old Sinhala speaking children using machine learning
 
 **Other necessary information**
 
-
+> Supervisor -  Prof. Koliya Pulasinghe
+> Co-Supervisor - Vishan Jayasinghearachchi
 > External Supervisor - Mrs. Avishka Peiris 
