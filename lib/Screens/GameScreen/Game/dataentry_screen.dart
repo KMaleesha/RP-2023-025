@@ -58,7 +58,7 @@ class _DataEntryScreenState extends State<DataEntryScreen> {
                 GestureDetector(
                   onTap: () => Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => HomeScreen()),
+                    MaterialPageRoute(builder: (context) => HomeScreenAll()),
                   ),
                   child: Padding(
                     padding: EdgeInsets.only(left: width * 0.04),
