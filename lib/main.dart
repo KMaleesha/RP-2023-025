@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 import 'Provider/internet_provider.dart';
 import 'Provider/sign_in_provider.dart';
 import 'Screens/GameScreen/Game/dataentry_screen.dart';
+import 'Screens/GameScreen/Game/question_screen.dart';
 import 'Screens/GameScreen/Game/selection_screen.dart';
 import 'Screens/GameScreen/testing/questionPage.dart';
 import 'firebase_options.dart';
