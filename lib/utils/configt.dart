@@ -15,7 +15,10 @@ class Configt {
   static const app_ibba = 'assets/gameAssets/ibba.gif';
   static const app_makuluwa = 'assets/gameAssets/makuluwa.gif';
   static const app_samanalaya = 'assets/gameAssets/samanalaya.gif';
-
+  static const app_walkingchild = 'assets/gameAssets/walking1.gif';
+  static const app_child = 'assets/gameAssets/child.gif';
+  static const app_childface = 'assets/gameAssets/childface.png';
+  static const appspritesheet = 'assets/gameAssets/spritesheet.png';
   //texts
   static const app_dataentrytitle = "දරුවාගේ පින්තූරයක් ";
   static const app_upload = "ඇතුළත් කරන්න";
