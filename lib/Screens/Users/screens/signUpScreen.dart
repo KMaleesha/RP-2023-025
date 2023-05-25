@@ -249,7 +249,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   // //handle After SignIn
   handleAfterSignIn() {
     Future.delayed(const Duration(milliseconds: 1000)).then((value) {
-      nextScreenReplace(context, const HomeScreen());
+      nextScreenReplace(context, const HomeScreenAll());
     });
   }
 
@@ -277,7 +277,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       Fluttertoast.showToast(msg: "Account created successfully ");
       Navigator.pushAndRemoveUntil(
           (context),
-          MaterialPageRoute(builder: (context) => HomeScreen()),
+          MaterialPageRoute(builder: (context) => HomeScreenAll()),
           (route) => false);
     }
   }
