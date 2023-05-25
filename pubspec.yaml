@@ -13,7 +13,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-
+  like_button: ^2.0.5
 
   cupertino_icons: ^1.0.2
   firebase_core: ^2.1.1
@@ -59,7 +59,12 @@ flutter:
     - assets/gameAssets/ibba.gif
     - assets/gameAssets/makuluwa.gif
     - assets/gameAssets/samanalaya.gif
-    - assets/gameAssets/walking1.gif
-    - assets/gameAssets/child.gif
-    - assets/gameAssets/childface.png
-    - assets/gameAssets/spritesheet.png
+    - assets/screenTestAssets/HomeScreen.gif
+    - assets/screenTestAssets/wordListBack.jpg
+    - assets/screenTestAssets/DogList.gif
+    - assets/screenTestAssets/GoatList.gif
+    - assets/screenTestAssets/icon-home.png
+    - assets/screenTestAssets/icon-profile.png
+    - assets/screenTestAssets/icon-back.png
+    - assets/screenTestAssets/SpiderList.gif
+    - assets/screenTestAssets/DogIn.gif
