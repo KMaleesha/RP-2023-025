@@ -40,7 +40,7 @@ class _SelectionScreenState extends State<SelectionScreen> {
             children: <Widget>[
               Row(
                 children: [
-                  Image.asset(Configt.app_man,height: 150,width: 150,),
+                  // Image.asset(Configt.app_man,height: 150,width: 150,),
                   Image.asset(Configt.app_balla,height: 150,width: 150,),
                   Image.asset(Configt.app_eluwa,height: 150,width: 150,),
                   Image.asset(Configt.app_gemba,height: 150,width: 150,),
