@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "256253270922",
+    "project_id": "kathaapp-38e12",
+    "storage_bucket": "kathaapp-38e12.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:256253270922:android:049ef3b02d42d0b718c673",
+        "android_client_info": {
+          "package_name": "com.kathaappa.kathaappa"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "256253270922-d375vu13us5a1gk7pclnib21ae06dtii.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB2uilTTCDDgKj7Xb-awPWFrQzHJ5lYo-A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "256253270922-d375vu13us5a1gk7pclnib21ae06dtii.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

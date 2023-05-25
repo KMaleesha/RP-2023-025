@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>256253270922-40fg5ra97q35i2s4v9j5jmen8m2kdkgi.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.256253270922-40fg5ra97q35i2s4v9j5jmen8m2kdkgi</string>
+	<key>API_KEY</key>
+	<string>AIzaSyDKQoEt3SZ_2gMFZInQ6C-hatUvOntRJmw</string>
+	<key>GCM_SENDER_ID</key>
+	<string>256253270922</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.kathaappa.kathaappa</string>
+	<key>PROJECT_ID</key>
+	<string>kathaapp-38e12</string>
+	<key>STORAGE_BUCKET</key>
+	<string>kathaapp-38e12.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:256253270922:ios:146d0b499243128d18c673</string>
+</dict>
+</plist>
