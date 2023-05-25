@@ -161,7 +161,7 @@ class HomeScreen extends StatelessWidget {
                 child: Align(
                   child: SizedBox(
                     width: 400,
-                    height: 600,
+                    height: 700,
                     child: Image.asset(
                       'assets/screenTestAssets/HomeScreen.gif',
                       fit: BoxFit.cover,
@@ -266,7 +266,7 @@ class HomeScreen extends StatelessWidget {
                       'අරඹමු',
                       style: TextStyle(
                         fontFamily: 'Noto Sans Sinhala',
-                        fontSize: 18.5 * ffem,
+                        fontSize: 17 * ffem,
                         fontWeight: FontWeight.w700,
                         height: 1.3025 * ffem / fem,
                         color: Color(0xff591010),
@@ -286,7 +286,7 @@ class HomeScreen extends StatelessWidget {
                       'දැනගමු',
                       style: TextStyle(
                         fontFamily: 'Noto Sans Sinhala',
-                        fontSize: 18.5 * ffem,
+                        fontSize: 17 * ffem,
                         fontWeight: FontWeight.w700,
                         height: 1.3025 * ffem / fem,
                         color: Color(0xff591010),
