@@ -1,8 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+
+import '../utils/next_Screen.dart';
 
 class SignInProvider extends ChangeNotifier {
   //instantiate of  firebaseAuth, facebook and google
@@ -12,6 +16,7 @@ class SignInProvider extends ChangeNotifier {
 
 
   bool _isSignedIn = false;
+
   bool get isSignedIn => _isSignedIn;
 
   //hasError, errorCode, provider,uid,email,name,imageUrl
@@ -26,6 +31,10 @@ class SignInProvider extends ChangeNotifier {
   String? _uid;
 
   String? get uid => _uid;
+
+  String? _displayName;
+
+  String? get displayName => _displayName;
 
   String? _email;
 
@@ -50,7 +59,9 @@ class SignInProvider extends ChangeNotifier {
 
 
 
-  //ENTRY FOR CLOUD_FIRESTORE
+
+
+  // ENTRY FOR CLOUD_FIRESTORE
 
   Future getUserDataFromFirestore(uid) async {
     await FirebaseFirestore.instance
@@ -58,17 +69,19 @@ class SignInProvider extends ChangeNotifier {
         .doc('uid')
         .get()
         .then((DocumentSnapshot snapshot) => {
-              _uid = snapshot['uid'],
-              _email = snapshot['email'],
-            });
+      _uid = snapshot['uid'],
+      _email = snapshot['email'],
+      _displayName = snapshot['displayName'],
+    });
   }
 
   Future saveDataToFirestore() async {
     final DocumentReference r =
-        FirebaseFirestore.instance.collection('users').doc(uid);
+    FirebaseFirestore.instance.collection('users').doc(uid);
     await r.set({
       'email': _email,
       'uid': _uid,
+      'displayName': _displayName,
     });
     notifyListeners();
   }
@@ -77,6 +90,7 @@ class SignInProvider extends ChangeNotifier {
     final SharedPreferences s = await SharedPreferences.getInstance();
     await s.setString('email', _email!);
     await s.setString('uid', _uid!);
+    await s.setString('displayName', _displayName!);
     notifyListeners();
   }
 
@@ -84,13 +98,14 @@ class SignInProvider extends ChangeNotifier {
     final SharedPreferences s = await SharedPreferences.getInstance();
     _email = s.getString('email');
     _uid = s.getString('uid');
+    _displayName = s.getString('displayName');
     notifyListeners();
   }
 
   // checkUser exists or not in cloudfirestore
   Future<bool> checkUserExists() async {
     DocumentSnapshot snap =
-        await FirebaseFirestore.instance.collection('users').doc(_uid).get();
+    await FirebaseFirestore.instance.collection('users').doc(_uid).get();
     if (snap.exists) {
       print('EXISTING USER');
       return false;
@@ -102,10 +117,14 @@ class SignInProvider extends ChangeNotifier {
 
   //signOut
   Future userSignOut() async {
+    firebaseAuth.signOut;
+
+
     _isSignedIn = false;
     notifyListeners();
 
     //clear all storage information
+
     clearStoredData();
   }
 
