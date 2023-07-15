@@ -72,7 +72,7 @@ class _DataEntryScreenState extends State<DataEntryScreen> {
     }
   }
 
-
+  List<Offset> _points = <Offset>[];
 
   Future<void> pickImage() async {
     try {
@@ -81,13 +81,6 @@ class _DataEntryScreenState extends State<DataEntryScreen> {
       if (pickedFile != null) {
         final croppedFile = await _imageCropper.cropImage(
           sourcePath: pickedFile.path,
-          aspectRatioPresets: [
-            CropAspectRatioPreset.original,
-            CropAspectRatioPreset.square,
-            CropAspectRatioPreset.ratio3x2,
-            CropAspectRatioPreset.ratio4x3,
-            CropAspectRatioPreset.ratio16x9,
-          ],
           androidUiSettings: const AndroidUiSettings(
             toolbarTitle: 'Crop Image',
             toolbarColor: Colors.deepOrange,
@@ -113,6 +106,7 @@ class _DataEntryScreenState extends State<DataEntryScreen> {
       showSnackBar("Error: $e", const Duration(seconds: 2));
     }
   }
+
 
 
 

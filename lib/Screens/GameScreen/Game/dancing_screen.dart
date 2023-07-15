@@ -6,9 +6,6 @@ import 'package:flutter/material.dart';
 
 import 'model/childImage.dart';
 
-
-
-
 class SpriteAnimationScreen extends StatefulWidget {
   const SpriteAnimationScreen({super.key});
 
@@ -27,6 +24,7 @@ class _SpriteAnimationScreenState extends State<SpriteAnimationScreen>
   final audioPlayer = AudioPlayer();
   bool isPlaying = false;
   TextEditingController url = TextEditingController();
+
   @override
   void initState() {
     super.initState();
@@ -37,7 +35,7 @@ class _SpriteAnimationScreenState extends State<SpriteAnimationScreen>
     }
 
     _controller = AnimationController(
-      duration: const Duration(milliseconds: 1000),
+      duration: const Duration(milliseconds: 5000),
       vsync: this,
     );
     _animation =
@@ -46,10 +44,8 @@ class _SpriteAnimationScreenState extends State<SpriteAnimationScreen>
     _controller.repeat();
     _controller.stop();
 
-    // //initialize head/face image
-    // _headImage = Image.network(
-    //     '${result?.url}'
-    // );
+    //initialize head/face image
+    _headImage = Image.network(url.text);
 
     //initialize audio
     setAudio();
@@ -60,8 +56,8 @@ class _SpriteAnimationScreenState extends State<SpriteAnimationScreen>
     });
   }
 
-
   User? user = FirebaseAuth.instance.currentUser;
+
   Future<void> getData() async {
     final reference = FirebaseFirestore.instance
         .collection("users")
@@ -70,15 +66,13 @@ class _SpriteAnimationScreenState extends State<SpriteAnimationScreen>
         .doc(user?.uid);
     final snapshot = await reference.get();
     final result =
-    snapshot.data() == null ? null : ChildImage.fromJson(snapshot.data()!);
+        snapshot.data() == null ? null : ChildImage.fromJson(snapshot.data()!);
 
     setState(() {
       url.text = result?.url ?? '';
-
-
     });
-
   }
+
   //function to initialize audio
   Future setAudio() async {
     audioPlayer.setReleaseMode(ReleaseMode.loop);
@@ -114,7 +108,6 @@ class _SpriteAnimationScreenState extends State<SpriteAnimationScreen>
                   setState(() {
                     isPlaying = true;
                     audioPlayer.pause();
-
                   });
                 } else {
                   _controller.repeat();
@@ -125,7 +118,6 @@ class _SpriteAnimationScreenState extends State<SpriteAnimationScreen>
                 }
 
                 //play or pause audio
-
               },
               child: Center(
                 child: AnimatedBuilder(
@@ -140,21 +132,21 @@ class _SpriteAnimationScreenState extends State<SpriteAnimationScreen>
                                 height: spriteHeight,
                                 width: spriteWidth,
                                 child: _spriteImages[_animation.value]),
-
                           ),
                         ),
                         //you can change the position of the head/face image according to your need for portrait and landscape mode
                         Positioned(
-                          top: (orientation == Orientation.portrait) ? 160 : 30,
+                          top: (orientation == Orientation.portrait) ? 160 : 60,
                           left:
-                          (orientation == Orientation.portrait) ? 110 : 350,
+                              (orientation == Orientation.portrait) ? 110 : 370,
                           child: SizedBox(
-                              width: (orientation == Orientation.portrait)
-                                  ? 300
-                                  : 250,
-                              child:    Image.network(url.text) ?? Image.asset(
-                                'assets/images/face.png',
-                              ) ),
+                            width: (orientation == Orientation.landscape)
+                                ? 100
+                                : 200,
+                            child: url.text.isNotEmpty
+                                ? Image.network(url.text)
+                                : Image.asset('assets/images/face.png'),
+                          ),
                         ),
                       ],
                     );
@@ -171,7 +163,7 @@ class _SpriteAnimationScreenState extends State<SpriteAnimationScreen>
   //function to build sprite images
   Image _buildSpriteImage(int index) {
     final AssetImage childImage =
-    AssetImage('assets/images/sprite_images/$index.png');
+        AssetImage('assets/images/sprite_images/$index.png');
     final Image child = Image(image: childImage, fit: BoxFit.fill);
 
     return child;

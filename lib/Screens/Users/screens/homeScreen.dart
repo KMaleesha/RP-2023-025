@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../../../utils/configt.dart';
+import '../../GameScreen/Game/animationScreen.dart';
 import '../../GameScreen/Game/dataentry_screen.dart';
 import '../../GameScreen/Game/selection_screen.dart';
 import '../../GameScreen/testing/questionPage.dart';
@@ -22,6 +24,12 @@ class HomeScreenAll extends StatefulWidget {
 }
 
 class _HomeScreenAllState extends State<HomeScreenAll> {
+  @override
+  void initState() {
+    super.initState();
+    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+  }
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -257,7 +265,7 @@ class _HomeScreenAllState extends State<HomeScreenAll> {
                       ElevatedButton(
                         onPressed: () {
                           Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => RecordScreen(),
+                            builder: (context) => AnimationSpriteAnimationScreen(),
                           ));
                         },
                         style: ElevatedButton.styleFrom(
@@ -273,7 +281,7 @@ class _HomeScreenAllState extends State<HomeScreenAll> {
                             Icon(Icons.note_add, size: 60.0, color: Colors.white),
                             SizedBox(height: 16.0),
                             Text(
-                              'RecordScreen',
+                              'ani',
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                 fontSize: 24.0,
