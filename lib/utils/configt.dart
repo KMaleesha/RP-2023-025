@@ -19,6 +19,14 @@ class Configt {
   static const app_child = 'assets/gameAssets/child.gif';
   static const app_childface = 'assets/gameAssets/childface.png';
   static const appspritesheet = 'assets/gameAssets/spritesheet.png';
+  static const appwinner = 'assets/images/other/smilingface.json';
+  static const appwinnergif = 'assets/images/other/smilingface.gif';
+  static const appcryface = 'assets/images/other/cryface.gif';
+  static const appcryface2 = 'assets/images/other/cryface.json';
+  static const appiconback = 'assets/images/other/back.png';
+  static const appiconhome = 'assets/images/other/home.png';
+  static const appiconnext = 'assets/images/other/next.png';
+  static const appiconreplay = 'assets/images/other/replay.png';
   //texts
   static const app_dataentrytitle = "දරුවාගේ පින්තූරයක් ";
   static const app_upload = "ඇතුළත් කරන්න";

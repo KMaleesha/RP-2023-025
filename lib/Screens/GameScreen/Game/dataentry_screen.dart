@@ -233,7 +233,9 @@ class _DataEntryScreenState extends State<DataEntryScreen> {
       'child':true,
       'url': downloadURL ?? "", // May be null if image upload failed
     }).then((_) {
-      Navigator.pop(context, true);
+      Navigator.of(context).push(MaterialPageRoute(
+        builder: (context) => SelectionScreen(),
+      ));
       showSnackBar("Child Image Added successfully", Duration(seconds: 2));
     }).catchError((error) {
       print("Error adding pet: $error");

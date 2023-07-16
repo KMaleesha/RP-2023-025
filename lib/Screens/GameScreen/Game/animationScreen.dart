@@ -3,9 +3,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
 import 'package:flutter/services.dart';
-
+import 'package:kathaappa/Screens/GameScreen/Game/questionAnimation.dart';
+import 'package:kathaappa/Screens/GameScreen/Game/selection_screen.dart';
+import '../../../utils/configt.dart';
 import 'model/childImage.dart';
 
 class AnimationSpriteAnimationScreen extends StatefulWidget {
@@ -138,19 +139,37 @@ class _AnimationSpriteAnimationScreenState extends State<AnimationSpriteAnimatio
                           ),
                         ),
                         //you can change the position of the head/face image according to your need for portrait and landscape mode
-                        // Positioned(
-                        //   top: (orientation == Orientation.portrait) ? 160 : 60,
-                        //   left:
-                        //   (orientation == Orientation.portrait) ? 110 : 370,
-                        //   child: SizedBox(
-                        //     width: (orientation == Orientation.landscape)
-                        //         ? 100
-                        //         : 200,
-                        //     child: url.text.isNotEmpty
-                        //         ? Image.network(url.text)
-                        //         : Image.asset('assets/images/face.png'),
-                        //   ),
-                        // ),
+                        Positioned(
+                          top: (orientation == Orientation.portrait) ? 160 : 5,
+                          left: (orientation == Orientation.portrait) ? 110 : 2,
+                          child: SizedBox(
+                            width: (orientation == Orientation.landscape) ? 75 : 75,
+                            child:    GestureDetector(
+                    child:  Image.asset(Configt.appiconback,height: 75,width: 75,),
+                    onTap: () {
+                    _controller.stop();
+                    audioPlayer.pause();
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => SelectionScreen()),);
+                    }
+                    ),
+                          ),
+                        ),
+                        Positioned(
+                          top: (orientation == Orientation.portrait) ? 160 : 260,
+                          left: (orientation == Orientation.portrait) ? 110 : 700,
+                          child: SizedBox(
+                            width: (orientation == Orientation.landscape) ? 100 : 200,
+                            child:    GestureDetector(
+                              child:  Image.asset(Configt.appiconnext,height: 75,width: 75,),
+                                onTap: () {
+                    _controller.stop();
+                    audioPlayer.pause();
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => QuestionAnimationScreen()),);
+                    }
+                            )
+
+                          ),
+                        ),
                       ],
                     );
                   },
@@ -184,4 +203,5 @@ class _AnimationSpriteAnimationScreenState extends State<AnimationSpriteAnimatio
     );
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
+
 }

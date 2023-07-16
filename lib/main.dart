@@ -9,10 +9,15 @@ import 'package:provider/provider.dart';
 
 import 'Provider/internet_provider.dart';
 import 'Provider/sign_in_provider.dart';
+import 'Screens/GameScreen/Game/animationScreen.dart';
 import 'Screens/GameScreen/Game/dancing_screen.dart';
 import 'Screens/GameScreen/Game/dataentry_screen.dart';
+import 'Screens/GameScreen/Game/loserScreen.dart';
+import 'Screens/GameScreen/Game/questionAnimation.dart';
 import 'Screens/GameScreen/Game/question_screen.dart';
 import 'Screens/GameScreen/Game/selection_screen.dart';
+import 'Screens/GameScreen/Game/winnerScreen.dart';
+import 'Screens/GameScreen/testing/bubbles.dart';
 import 'Screens/GameScreen/testing/questionPage.dart';
 import 'firebase_options.dart';
 
@@ -38,7 +43,7 @@ class MyApp extends StatelessWidget {
           create: ((context) => InternetProvider()),
         )
       ],
-      child: MaterialApp(
+      child:  MaterialApp(
         home: SplashScreen(),
         debugShowCheckedModeBanner: false,
       ),

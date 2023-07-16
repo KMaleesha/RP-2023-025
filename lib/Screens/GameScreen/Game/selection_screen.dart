@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 
 import '../../../utils/configt.dart';
 import '../../Users/screens/homeScreen.dart';
+import 'animationScreen.dart';
 import 'dancing_screen.dart';
 
 class SelectionScreen extends StatefulWidget {
@@ -40,6 +41,7 @@ class _SelectionScreenState extends State<SelectionScreen> {
         child: SafeArea(
           child: Column(
             children: <Widget>[
+
               Padding(
                 padding: EdgeInsets.only(top: height * 0.03),
                 child: Row(
@@ -51,10 +53,17 @@ class _SelectionScreenState extends State<SelectionScreen> {
                       ),
                       child: Padding(
                         padding: EdgeInsets.only(left: width * 0.04),
-                        child: Icon(
-                          Icons.arrow_back_ios_outlined,
-                          size: 28,
-                          color: const Color.fromARGB(255, 12, 63, 112),
+                        child:    Positioned(
+                          top: 1, left:  2,
+                          child: SizedBox(
+                            width:  75,
+                            child: GestureDetector(
+                                child:  Image.asset(Configt.appiconback,height: 75,width: 75),
+                                onTap: () {
+                                  Navigator.push(context, MaterialPageRoute(builder: (context) => SelectionScreen()),);
+                                }
+                            ),
+                          ),
                         ),
                       ),
                     ),
@@ -71,13 +80,12 @@ class _SelectionScreenState extends State<SelectionScreen> {
               Row(
                 children: [
                   // Image.asset(Configt.app_man,height: 150,width: 150,),
-                  GestureDetector(onTap: () => Navigator.push(
-                    context,
+                  GestureDetector(onTap: () => Navigator.push(context,
                     MaterialPageRoute(builder: (context) => SpriteAnimationScreen()),
                   ),
-                      child: Image.asset(Configt.app_balla,height: 150,width: 150,)),
-                  Image.asset(Configt.app_eluwa,height: 150,width: 150,),
-                  Image.asset(Configt.app_gemba,height: 150,width: 150,),
+                      child: Image.asset(Configt.app_balla,height: 100,width: 100,)),
+                  Image.asset(Configt.app_eluwa,height: 100,width: 100,),
+                  Image.asset(Configt.app_gemba,height: 100,width: 100,),
 
                 ],
               ),
@@ -86,14 +94,14 @@ class _SelectionScreenState extends State<SelectionScreen> {
                   GestureDetector(
                       onTap: () => Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => SpriteAnimationScreen()),
+                        MaterialPageRoute(builder: (context) => AnimationSpriteAnimationScreen()),
                       ),
                       child: Image.asset(Configt.app_hawa,height: 150,width: 150,)),
                   Image.asset(Configt.app_ibba,height: 150,width: 150,),
                   Image.asset(Configt.app_makuluwa,height: 150,width: 150,),
                   Image.asset(Configt.app_samanalaya,height: 150,width: 150,),
                 ],
-              )
+              ),
 
 
             ],

@@ -8,7 +8,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: '>=2.18.0 <3.0.0'
+  sdk: '>=2.18.2 <3.0.0'
 
 dependencies:
   flutter:
@@ -33,6 +33,11 @@ dependencies:
   image_cropper: ^1.4.1
   dotted_border: ^2.0.0+3
   audioplayers: ^4.1.0
+  record: ^4.4.4
+  flutter_sound: ^8.0.1
+  permission_handler: ^8.2.2
+  material_dialogs: ^1.1.4
+  lottie: ^2.3.0
 
 
 dev_dependencies:
@@ -73,5 +78,15 @@ flutter:
     - assets/images/sprite_images/
     - assets/images/
     - assets/songs/
+    - assets/songs/questionWords/
     - assets/
     - assets/images/animationframes/
+    - lib/Screens/GameScreen/testing/
+    - assets/images/other/smilingface.json
+    - assets/images/other/smilingface.gif
+    - assets/images/other/cryface.gif
+    - assets/images/other/cryface.json
+    - assets/images/other/back.png
+    - assets/images/other/home.png
+    - assets/images/other/next.png
+    - assets/images/other/replay.png

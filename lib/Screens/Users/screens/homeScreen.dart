@@ -369,11 +369,11 @@ class _HomeScreenAllState extends State<HomeScreenAll> {
                         ),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
+                          children: const <Widget>[
                             Icon(Icons.healing, size: 60.0, color: Colors.white),
                             SizedBox(height: 16.0),
                             Text(
-                              'DataEntryScreen',
+                              'Therapeutic Games',
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                 fontSize: 24.0,

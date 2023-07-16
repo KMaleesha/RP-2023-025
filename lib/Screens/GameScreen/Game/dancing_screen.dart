@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:audioplayers/audioplayers.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -35,14 +37,13 @@ class _SpriteAnimationScreenState extends State<SpriteAnimationScreen>
     }
 
     _controller = AnimationController(
-      duration: const Duration(milliseconds: 5000),
+      duration: const Duration(milliseconds: 5500),
       vsync: this,
     );
     _animation =
         IntTween(begin: 0, end: _spriteImages.length - 1).animate(_controller);
 
-    _controller.repeat();
-    _controller.stop();
+    _controller.stop(); // Stop the animation initially
 
     //initialize head/face image
     _headImage = Image.network(url.text);
@@ -55,7 +56,11 @@ class _SpriteAnimationScreenState extends State<SpriteAnimationScreen>
       _showStartDancingSnackbar();
     });
   }
-
+//ask question
+  askQuestion(){
+    _controller.stop();
+    audioPlayer.pause();
+  }
   User? user = FirebaseAuth.instance.currentUser;
 
   Future<void> getData() async {
@@ -66,7 +71,7 @@ class _SpriteAnimationScreenState extends State<SpriteAnimationScreen>
         .doc(user?.uid);
     final snapshot = await reference.get();
     final result =
-        snapshot.data() == null ? null : ChildImage.fromJson(snapshot.data()!);
+    snapshot.data() == null ? null : ChildImage.fromJson(snapshot.data()!);
 
     setState(() {
       url.text = result?.url ?? '';
@@ -101,24 +106,7 @@ class _SpriteAnimationScreenState extends State<SpriteAnimationScreen>
             final double spriteHeight = constraints.maxHeight;
 
             return GestureDetector(
-              onTap: () async {
-                //play or pause animation
-                if (_controller.isAnimating) {
-                  _controller.stop();
-                  setState(() {
-                    isPlaying = true;
-                    audioPlayer.pause();
-                  });
-                } else {
-                  _controller.repeat();
-                  setState(() {
-                    isPlaying = false;
-                    audioPlayer.resume();
-                  });
-                }
-
-                //play or pause audio
-              },
+              onTap: _handleTap, // Use the custom method for handling tap
               child: Center(
                 child: AnimatedBuilder(
                   animation: _animation,
@@ -129,16 +117,17 @@ class _SpriteAnimationScreenState extends State<SpriteAnimationScreen>
                         Positioned.fill(
                           child: Center(
                             child: SizedBox(
-                                height: spriteHeight,
-                                width: spriteWidth,
-                                child: _spriteImages[_animation.value]),
+                              height: spriteHeight,
+                              width: spriteWidth,
+                              child: _spriteImages[_animation.value],
+                            ),
                           ),
                         ),
                         //you can change the position of the head/face image according to your need for portrait and landscape mode
                         Positioned(
                           top: (orientation == Orientation.portrait) ? 160 : 60,
                           left:
-                              (orientation == Orientation.portrait) ? 110 : 370,
+                          (orientation == Orientation.portrait) ? 110 : 370,
                           child: SizedBox(
                             width: (orientation == Orientation.landscape)
                                 ? 100
@@ -163,7 +152,7 @@ class _SpriteAnimationScreenState extends State<SpriteAnimationScreen>
   //function to build sprite images
   Image _buildSpriteImage(int index) {
     final AssetImage childImage =
-        AssetImage('assets/images/sprite_images/$index.png');
+    AssetImage('assets/images/sprite_images/$index.png');
     final Image child = Image(image: childImage, fit: BoxFit.fill);
 
     return child;
@@ -180,5 +169,28 @@ class _SpriteAnimationScreenState extends State<SpriteAnimationScreen>
       behavior: SnackBarBehavior.floating,
     );
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
+
+  // Function to handle tap on the screen
+  void _handleTap() {
+    if (_controller.isAnimating) {
+      _controller.stop();
+      audioPlayer.pause();
+    } else {
+      // If the animation is not complete, set the animation value based on the current position
+      if (_controller.status != AnimationStatus.completed) {
+        _controller.value =
+            (_animation.value / (_spriteImages.length - 1)).toDouble();
+      }
+      //startvoice recorder
+      Timer(Duration(seconds: 5), () {
+        askQuestion();
+      });
+      _controller.repeat();
+      audioPlayer.resume();
+    }
+    setState(() {
+      isPlaying = _controller.isAnimating;
+    });
   }
 }
