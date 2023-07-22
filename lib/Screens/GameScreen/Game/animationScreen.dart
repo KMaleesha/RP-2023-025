@@ -145,7 +145,8 @@ class _AnimationSpriteAnimationScreenState extends State<AnimationSpriteAnimatio
                           child: SizedBox(
                             width: (orientation == Orientation.landscape) ? 75 : 75,
                             child:    GestureDetector(
-                    child:  Image.asset(Configt.appiconback,height: 75,width: 75,),
+                    child:  Image.asset(Configt.appiconback,
+                      height: 75,width: 75,),
                     onTap: () {
                     _controller.stop();
                     audioPlayer.pause();
@@ -160,7 +161,9 @@ class _AnimationSpriteAnimationScreenState extends State<AnimationSpriteAnimatio
                           child: SizedBox(
                             width: (orientation == Orientation.landscape) ? 100 : 200,
                             child:    GestureDetector(
-                              child:  Image.asset(Configt.appiconnext,height: 75,width: 75,),
+                              child:  Image.asset(Configt.appiconnext,
+
+                                height: 75,width: 75,),
                                 onTap: () {
                     _controller.stop();
                     audioPlayer.pause();
@@ -186,7 +189,7 @@ class _AnimationSpriteAnimationScreenState extends State<AnimationSpriteAnimatio
   Image _buildSpriteImage(int index) {
     final AssetImage childImage =
     AssetImage('assets/images/animationframes/ezgif-frame-$index.jpg');
-    final Image child = Image(image: childImage, fit: BoxFit.fill);
+    final Image child = Image(image: childImage, fit: BoxFit.fill,gaplessPlayback: true,);
 
     return child;
   }
