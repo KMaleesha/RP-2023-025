@@ -7,7 +7,8 @@ class Configt {
 
   //GameScreen
   static const app_SelectionPageBackground1 = 'assets/gameAssets/selectionPage.png';
-  static const app_man = 'assets/gameAssets/man.png';
+  static const app_boy = 'assets/images/boy.png';
+  static const app_girl = 'assets/images/girl.png';
   static const app_balla =  'assets/gameAssets/balla.gif';
   static const app_eluwa =  'assets/gameAssets/eluwa.gif';
   static const app_gemba = 'assets/gameAssets/gemba.gif';
@@ -27,6 +28,11 @@ class Configt {
   static const appiconhome = 'assets/images/other/home.png';
   static const appiconnext = 'assets/images/other/next.png';
   static const appiconreplay = 'assets/images/other/replay.png';
+  static const cryGirl = 'assets/images/other/cryGirl.json';
+  static const happyGirl = 'assets/images/other/happyGirl.json';
+  static const stars = 'assets/images/other/stars.json';
+  static const stars2 = 'assets/images/other/stars2.json';
+
   //texts
   static const app_dataentrytitle = "දරුවාගේ පින්තූරයක් ";
   static const app_upload = "ඇතුළත් කරන්න";

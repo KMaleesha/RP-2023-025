@@ -7,6 +7,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:kathaappa/Screens/GameScreen/Game/questionAnimation.dart';
 import 'package:kathaappa/Screens/GameScreen/Game/selection_screen.dart';
 import 'package:kathaappa/Screens/GameScreen/Game/winnerScreen.dart';
 import 'package:path_provider/path_provider.dart';
@@ -16,17 +17,17 @@ import '../../ScreenTest/HomeScreen.dart';
 import 'loserScreen.dart';
 import 'model/childImage.dart';
 import 'package:flutter_sound/flutter_sound.dart';
-class QuestionAnimationScreen extends StatefulWidget {
-  const QuestionAnimationScreen({super.key});
+class QuestionPageScreen extends StatefulWidget {
+  const QuestionPageScreen({super.key});
 
   @override
-  State<QuestionAnimationScreen> createState() => _QuestionAnimationScreenState();
+  State<QuestionPageScreen> createState() => _QuestionPageScreenState();
 }
 
-class _QuestionAnimationScreenState extends State<QuestionAnimationScreen>
+class _QuestionPageScreenState extends State<QuestionPageScreen>
     with SingleTickerProviderStateMixin {
-  late AnimationController _controller;
-  Animation<double>? _animation;
+   AnimationController? _controller;
+  late Animation<int> _animation;
   final List<Image> _spriteImages = [];
   File? _file;
   bool _isRecording = false;
@@ -40,28 +41,28 @@ class _QuestionAnimationScreenState extends State<QuestionAnimationScreen>
   bool isPlaying = false;
   TextEditingController url = TextEditingController();
   bool result = true;
-  double _leftPadding = 0.0;
-  double _stopPosition = 0.0;
-  double _leftPadding2 = 0.0;
-  double _stopPosition2 = 0.0;
-
 
   @override
   void initState() {
     super.initState();
     SystemChrome.setPreferredOrientations([DeviceOrientation.landscapeLeft]);
     getData();
+    _handleTap();
     _player = FlutterSoundPlayer();
     _player?.openAudioSession();
     //add sprite images to list
-
+    for (int i = 1; i <= 10; i++) {
+      _spriteImages.add(_buildSpriteImage(i));
+    }
 
     _controller = AnimationController(
       duration: const Duration(milliseconds: 5500),
       vsync: this,
     );
+    _animation =
+        IntTween(begin: 0, end: _spriteImages.length - 1).animate(_controller!);
 
-    _controller.stop(); // Stop the animation initially
+    _controller?.stop(); // Stop the animation initially
 
     //initialize head/face image
     _headImage = Image.network(url.text);
@@ -69,34 +70,9 @@ class _QuestionAnimationScreenState extends State<QuestionAnimationScreen>
     //initialize audio
     setAudio();
 
-    WidgetsBinding.instance!.addPostFrameCallback((_) {
-      final double width = MediaQuery
-          .of(context)
-          .size
-          .width;
-      _stopPosition = width * 0.1;
-      _stopPosition2 = width * 0.2;
-      _animation = Tween<double>(
-        begin: 0.0,
-        end: _stopPosition,
-      ).animate(
-        CurvedAnimation(
-          parent: _controller,
-          curve: Curves.linear,
-        ),
-      )
-        ..addListener(() {
-          setState(() {
-            _leftPadding = _animation!.value;
-            _leftPadding2 = _animation!.value;
-          });
-        });
-
-      _controller.forward();
-    });
-    //startvoice recorder
-    Timer(Duration(seconds: 1), () {
-      _handleTap();
+    //show snackbar
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _showStartDancingSnackbar();
     });
   }
 
@@ -129,83 +105,85 @@ class _QuestionAnimationScreenState extends State<QuestionAnimationScreen>
 
   @override
   void dispose() {
-    _controller.dispose();
+    _controller?.dispose();
     audioPlayer.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    double height = MediaQuery.of(context).size.height;
-    double widthall = MediaQuery.of(context).size.width;
     return Scaffold(
       body: SafeArea(
-        child:Container(
-          decoration: const BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage(Configt.app_SelectionPageBackground1),
-              fit: BoxFit.cover,
-            ),
-          ),
-          child: SafeArea(
-            child: Column(
-              children: [
-                Stack(
-                  children: [
-                    Row(
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.only(
-                              top: height * 0.3, left: _leftPadding2),
-                          child: Column(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.only(left: 13),
-                                child:  url.text.isNotEmpty
-                                    ? Image.network(url.text,height: 65,
-                                  width: 65,)
-                                    : Image.asset(Configt.app_childface,
-                                  height: 50,
-                                  width: 100,),
-                              ),
-                              Image.asset(
-                                Configt.app_child,
-                                width: 150,
-                                height: 120,
-                              ),
-                            ],
+        child: OrientationBuilder(builder: (context, orientation) {
+          return LayoutBuilder(builder: (context, constraints) {
+            //set sprite width and height according to screen size
+            final double spriteWidth = MediaQuery.of(context).size.width;
+            final double spriteHeight = constraints.maxHeight;
+
+            return Center(
+              child: AnimatedBuilder(
+                animation: _animation,
+                builder: (context, child) {
+                  return Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      Positioned.fill(
+                        child: Center(
+                          child: SizedBox(
+                            height: spriteHeight,
+                            width: spriteWidth,
+                            child: _spriteImages[_animation.value],
                           ),
                         ),
-                        Padding(
-                          padding: EdgeInsets.only(
-                              top: height * 0.48, left:   _leftPadding),
-                          child: Image.asset(
-                              Configt.app_walkingchild, width: 150, height: 150),
-                        ),
-                      ],
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(
-                          left: widthall * 0.7, top: height * 0.4),
-                      child: Container(
-                        width: 150,
-                        height: 150,
-                        alignment: Alignment.topLeft,
-                        child: Image.asset(Configt.app_hawa),
                       ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-        ),
-
+                      Positioned(
+                        top: (orientation == Orientation.portrait) ? 160 : 5,
+                        left: (orientation == Orientation.portrait) ? 110 : 2,
+                        child: SizedBox(
+                          width: (orientation == Orientation.landscape) ? 75 : 75,
+                          child:    GestureDetector(
+                              child:  Image.asset(Configt.appiconback,height: 75,width: 75,),
+                              onTap: () {
+                                _controller?.stop();
+                                audioPlayer.pause();
+                                Navigator.push(context, MaterialPageRoute(builder: (context) => SelectionScreen()),);
+                              }
+                          ),
+                        ),
+                      ),
+                      //you can change the position of the head/face image according to your need for portrait and landscape mode
+                      Positioned(
+                        top: (orientation == Orientation.portrait) ? 160 : 60,
+                        left:
+                        (orientation == Orientation.portrait) ? 110 : 370,
+                        child: SizedBox(
+                          width: (orientation == Orientation.landscape)
+                              ? 100
+                              : 200,
+                          child: url.text.isNotEmpty
+                              ? Image.network(url.text)
+                              : Image.asset('assets/images/face.png'),
+                        ),
+                      ),
+                    ],
+                  );
+                },
+              ),
+            );
+          });
+        }),
       ),
     );
   }
 
+  //function to build sprite images
+  Image _buildSpriteImage(int index) {
+    final AssetImage childImage =
+    AssetImage('assets/images/sprite_images/$index.png');
+    final Image child = Image(image: childImage, fit: BoxFit.fill);
 
+    return child;
+  }
 
   //function to show snackbar
   void _showStartDancingSnackbar() {
@@ -222,11 +200,14 @@ class _QuestionAnimationScreenState extends State<QuestionAnimationScreen>
 
   // Function to handle tap on the screen
   void _handleTap() {
-    Timer(Duration(seconds: 5), () {
-    askQuestion();
-  });
-  _controller.repeat();
-  audioPlayer.resume();
+
+    audioPlayer.resume();
+      //startvoice recorder
+      Timer(Duration(seconds: 5), () {
+        askQuestion();
+        audioPlayer.stop();
+      });
+
 
 
 
@@ -234,7 +215,7 @@ class _QuestionAnimationScreenState extends State<QuestionAnimationScreen>
   //ask question
   askQuestion(){
     print(" askQuestion ");
-    _controller.stop();
+
     audioPlayer.pause();
     startRecording;
     Timer(Duration(seconds: 15), () {
@@ -329,7 +310,7 @@ class _QuestionAnimationScreenState extends State<QuestionAnimationScreen>
         'url': audioUrl,
       }).whenComplete(() => Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => QuestionAnimationScreen()),
+        MaterialPageRoute(builder: (context) => QuestionPageScreen()),
       ));
       // Display a success message
       ScaffoldMessenger.of(context).showSnackBar(
@@ -337,10 +318,10 @@ class _QuestionAnimationScreenState extends State<QuestionAnimationScreen>
 
       if( result == true){
         Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) => WinnerScreen()));
+            context, MaterialPageRoute(builder: (context) => QuestionPageScreen()));
       }else{
         Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) => LoserScreen()));
+            context, MaterialPageRoute(builder: (context) => QuestionPageScreen()));
       }
 
 

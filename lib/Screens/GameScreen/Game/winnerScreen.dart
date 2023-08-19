@@ -19,10 +19,12 @@ class _WinnerScreenState extends State<WinnerScreen> with SingleTickerProviderSt
   double _containerHeight = 100.0;
   double _imageWidth = 50.0;
   double _imageHeight = 50.0;
-
+  double _image2Width = 20.0;
+  double _image2Height = 30.0;
   late AnimationController _controller;
   late Animation<double> _sizeAnimation;
   late Animation<double> _imageSizeAnimation;
+  late Animation<double> _image2SizeAnimation;
 
   @override
   void initState() {
@@ -45,7 +47,13 @@ class _WinnerScreenState extends State<WinnerScreen> with SingleTickerProviderSt
           _imageHeight = _imageSizeAnimation.value;
         });
       });
-
+    _image2SizeAnimation = Tween<double>(begin: 30.0, end: 100.0).animate(_controller)
+      ..addListener(() {
+        setState(() {
+          _image2Width = _image2SizeAnimation.value;
+          _image2Height = _image2SizeAnimation.value;
+        });
+      });
     _controller.forward();
   }
 
@@ -78,12 +86,33 @@ class _WinnerScreenState extends State<WinnerScreen> with SingleTickerProviderSt
                     child: Column(
                       children: [
                         Center(
-                          child: Image.asset(
-                            Configt.appwinnergif,
+                          child: Lottie.asset(Configt.happyGirl,
+                            fit: BoxFit.contain,
                             height: _imageHeight,
                             width: _imageWidth,
                           ),
                         ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Lottie.asset(Configt.stars2,
+                              fit: BoxFit.contain,
+                              height: _image2Height,
+                              width: _image2Width,
+                            ),
+                            Lottie.asset(Configt.stars2,
+                              fit: BoxFit.contain,
+                              height: _image2Height,
+                              width: _image2Width,
+                            ),
+                            Lottie.asset(Configt.stars2,
+                              fit: BoxFit.contain,
+                              height: _image2Height,
+                              width: _image2Width,
+                            ),
+                          ],
+                        )
+
                       ],
                     ),
                   ),
