@@ -6,7 +6,7 @@ import 'package:flutter/services.dart';
 import '../../../utils/configt.dart';
 import '../../Users/screens/homeScreen.dart';
 import 'animationScreen.dart';
-import 'dancing_screen.dart';
+import 'testing/dancing_screen.dart';
 
 class SelectionScreen extends StatefulWidget {
   const SelectionScreen({Key? key}) : super(key: key);

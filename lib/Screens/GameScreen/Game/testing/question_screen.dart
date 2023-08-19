@@ -13,9 +13,9 @@ import 'package:path_provider/path_provider.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:record/record.dart';
 
-import '../../../utils/configt.dart';
-import 'loserScreen.dart';
-import 'model/childImage.dart';
+import '../../../../utils/configt.dart';
+import '../loserScreen.dart';
+import '../model/childImage.dart';
 
 class GameQuestionScreen extends StatefulWidget {
   const GameQuestionScreen({Key? key}) : super(key: key);

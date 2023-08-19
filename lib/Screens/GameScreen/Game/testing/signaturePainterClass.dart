@@ -11,7 +11,6 @@ class SignaturePainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final paint = Paint()
-      ..color = Colors.black
       ..strokeWidth = 2.0
       ..strokeCap = StrokeCap.round;
 

@@ -6,7 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import 'model/childImage.dart';
+import '../model/childImage.dart';
 
 class SpriteAnimationScreen extends StatefulWidget {
   const SpriteAnimationScreen({super.key});

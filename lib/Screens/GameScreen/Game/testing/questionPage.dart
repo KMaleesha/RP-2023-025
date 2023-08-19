@@ -12,10 +12,10 @@ import 'package:kathaappa/Screens/GameScreen/Game/selection_screen.dart';
 import 'package:kathaappa/Screens/GameScreen/Game/winnerScreen.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:record/record.dart';
-import '../../../utils/configt.dart';
-import '../../ScreenTest/HomeScreen.dart';
-import 'loserScreen.dart';
-import 'model/childImage.dart';
+import '../../../../utils/configt.dart';
+import '../../../ScreenTest/HomeScreen.dart';
+import '../loserScreen.dart';
+import '../model/childImage.dart';
 import 'package:flutter_sound/flutter_sound.dart';
 class QuestionPageScreen extends StatefulWidget {
   const QuestionPageScreen({super.key});
