@@ -57,7 +57,7 @@ class _QuestionAnimationScreenState extends State<QuestionAnimationScreen>
 
 
     _controller = AnimationController(
-      duration: const Duration(milliseconds: 5500),
+      duration: const Duration(seconds: 20),
       vsync: this,
     );
 
@@ -65,9 +65,11 @@ class _QuestionAnimationScreenState extends State<QuestionAnimationScreen>
 
     //initialize head/face image
     _headImage = Image.network(url.text);
-
+    Timer(Duration(seconds: 15), () {
+      setAudio();
+    });
     //initialize audio
-    setAudio();
+
 
     WidgetsBinding.instance!.addPostFrameCallback((_) {
       final double width = MediaQuery
@@ -77,7 +79,7 @@ class _QuestionAnimationScreenState extends State<QuestionAnimationScreen>
       _stopPosition = width * 0.1;
       _stopPosition2 = width * 0.2;
       _animation = Tween<double>(
-        begin: 0.0,
+        begin:0.0,
         end: _stopPosition,
       ).animate(
         CurvedAnimation(
@@ -95,7 +97,7 @@ class _QuestionAnimationScreenState extends State<QuestionAnimationScreen>
       _controller.forward();
     });
     //startvoice recorder
-    Timer(Duration(seconds: 1), () {
+    Timer(Duration(seconds: 20), () {
       _handleTap();
     });
   }
@@ -131,6 +133,7 @@ class _QuestionAnimationScreenState extends State<QuestionAnimationScreen>
   void dispose() {
     _controller.dispose();
     audioPlayer.dispose();
+    audioPlayer.pause();
     super.dispose();
   }
 
@@ -222,10 +225,10 @@ class _QuestionAnimationScreenState extends State<QuestionAnimationScreen>
 
   // Function to handle tap on the screen
   void _handleTap() {
-    Timer(Duration(seconds: 5), () {
+    Timer(Duration(seconds:15), () {
     askQuestion();
   });
-  _controller.repeat();
+
   audioPlayer.resume();
 
 
