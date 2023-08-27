@@ -75,27 +75,28 @@ flutter:
     - assets/screenTestAssets/icon-back.png
     - assets/screenTestAssets/SpiderList.gif
     - assets/screenTestAssets/DogIn.gif
-    - assets/images/sprite_images/
-    - assets/images/
-    - assets/songs/
-    - assets/songs/questionWords/
+    - assets/gameAssets/images/sprite_images/
+    - assets/gameAssets/images/
+    - assets/gameAssets/songs/
+    - assets/gameAssets/songs/questionWords/
     - assets/
     - assets/gameAssets/child.gif
     - assets/gameAssets/childface.png
     - assets/gameAssets/walking1.gif
-    - assets/images/animationframes/
+    - assets/gameAssets/images/animationframes/
     - lib/Screens/GameScreen/testing/
-    - assets/images/other/smilingface.json
-    - assets/images/other/smilingface.gif
-    - assets/images/other/cryface.gif
-    - assets/images/other/cryface.json
-    - assets/images/other/back.png
-    - assets/images/other/home.png
-    - assets/images/other/next.png
-    - assets/images/other/cryGirl.json
-    - assets/images/other/happyGirl.json
-    - assets/images/other/stars.json
-    - assets/images/other/stars2.json
-    - assets/images/boy.png
-    - assets/images/girl.png
-    - assets/songs/questionWords/hawa.wav
+    - assets/gameAssets/images/other/smilingface.json
+    - assets/gameAssets/images/other/smilingface.gif
+    - assets/gameAssets/images/other/cryface.gif
+    - assets/gameAssets/images/other/cryface.json
+    - assets/gameAssets/images/other/back.png
+    - assets/gameAssets/images/other/home.png
+    - assets/gameAssets/images/other/next.png
+    - assets/gameAssets/images/other/cryGirl.json
+    - assets/gameAssets/images/other/happyGirl.json
+    - assets/gameAssets/images/other/stars.json
+    - assets/gameAssets/images/other/stars2.json
+    - assets/gameAssets/images/boy.png
+    - assets/gameAssets/images/girl.png
+    - assets/gameAssets/songs/questionWords/hawa.wav
+    - assets/logoGif.gif

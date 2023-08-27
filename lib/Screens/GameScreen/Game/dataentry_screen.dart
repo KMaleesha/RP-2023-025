@@ -42,7 +42,7 @@ class _DataEntryScreenState extends State<DataEntryScreen> {
   @override
   void initState() {
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-   child = false;
+    child = false;
     super.initState();
     getData();
   }
@@ -81,15 +81,19 @@ class _DataEntryScreenState extends State<DataEntryScreen> {
       if (pickedFile != null) {
         final croppedFile = await _imageCropper.cropImage(
           sourcePath: pickedFile.path,
-          androidUiSettings: const AndroidUiSettings(
+          aspectRatio: CropAspectRatio(ratioX: 4.0, ratioY: 3.0),
+          cropStyle: CropStyle.rectangle,  // This will allow freeform rectangular cropping
+          androidUiSettings: AndroidUiSettings(
             toolbarTitle: 'Crop Image',
             toolbarColor: Colors.deepOrange,
             toolbarWidgetColor: Colors.white,
-            initAspectRatio: CropAspectRatioPreset.original,
-            lockAspectRatio: false,
+            hideBottomControls: false,  // This shows the control for aspect ratio
+            showCropGrid: false,  // This hides the grid
+            initAspectRatio: CropAspectRatioPreset.ratio4x3,
           ),
           iosUiSettings: const IOSUiSettings(
             title: 'Crop Image',
+            minimumAspectRatio: 1.0,  // This allows a more freeform crop on iOS
           ),
         );
 
@@ -110,99 +114,132 @@ class _DataEntryScreenState extends State<DataEntryScreen> {
 
 
 
+
+  // Add a state variable to track whether the content is loading
+  bool isLoading = true;
+
   @override
   Widget build(BuildContext context) {
     width = MediaQuery.of(context).size.width;
     height = MediaQuery.of(context).size.height;
     print("child $child");
-    return Scaffold(
-      body: Container(
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage(Configt.app_background2),
-            fit: BoxFit.cover,
+
+
+    // Delay for 3 seconds to simulate loading
+    Future.delayed(Duration(seconds: 3), () {
+      setState(() {
+        isLoading = false; // Content is now loaded
+      });
+    });
+    return   (isLoading) ?
+    Scaffold(
+        backgroundColor: Colors.white,
+        body: Container(
+
+          child: Container(
+            color: Colors.white10,
+            child: Center(
+              child: Image.asset(Configt.appLogo),
+            ),
           ),
-        ),
-        child: Column(
-          children: [
-            Padding(
-              padding: EdgeInsets.only(top: height * 0.03),
-              child: Row(
-                children: <Widget>[
-                  GestureDetector(
-                    onTap: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => HomeScreenAll()),
-                    ),
-                    child: Padding(
-                      padding: EdgeInsets.only(left: width * 0.04),
-                      child: Icon(
-                        Icons.arrow_back_ios_outlined,
-                        size: 28,
-                        color: const Color.fromARGB(255, 12, 63, 112),
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(left: width * 0.29),
-                    child: Text(
-                      Configt.app_dataentrytitle,
-                      style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w800),
-                    ),
-                  ),
-                ],
+        )
+    )
+        :
+    Scaffold(
+      backgroundColor: Colors.white,
+      body: Stack(
+        children: [
+          Container(
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage(Configt.app_background2),
+                fit: BoxFit.cover,
               ),
             ),
-            SizedBox(height: height * 0.03),
-            SizedBox(
-              child: Center(
-                child: GestureDetector(
-                  onTap: pickImage,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      ClipRRect(
-                        borderRadius: BorderRadius.all(Radius.circular(5)),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            shape: BoxShape.rectangle,
-                            border: Border.all(
-                              color: Colors.black,
-                              width: 2.0,
-                            ),
+            child: Column(
+              children: [
+                Padding(
+                  padding: EdgeInsets.only(top: height * 0.04),
+                  child: Row(
+                    children: <Widget>[
+                      GestureDetector(
+                        onTap: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => HomeScreenAll()),
+                        ),
+                        child: Padding(
+                          padding: EdgeInsets.only(left: width * 0.04),
+                          child: Icon(
+                            Icons.arrow_back_ios_outlined,
+                            size: 28,
+                            color: const Color.fromARGB(255, 12, 63, 112),
                           ),
-                          child: SizedBox(
-                            width: width * 0.5,
-                            height: height * 0.19,
-                            child: Container(
-                              child: _image != null
-                                  ? Image.file(_image!)
-                                  : url.text.isNotEmpty
-                                  ? Image.network(url.text)
-                                  : Image.asset(Configt.app_addImage),
-                            ),
-                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(left: width * 0.29),
+                        child: Text(
+                          Configt.app_dataentrytitle,
+                          style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w800),
                         ),
                       ),
                     ],
                   ),
                 ),
-              ),
+                SizedBox(height: height * 0.03),
+                SizedBox(
+                  child: Center(
+                    child: GestureDetector(
+                      onTap: pickImage,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          ClipRRect(
+                            borderRadius: BorderRadius.all(Radius.circular(5)),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                shape: BoxShape.rectangle,
+                                border: Border.all(
+                                  color: Colors.black,
+                                  width: 2.0,
+                                ),
+                              ),
+                              child: SizedBox(
+                                width: width * 0.5,
+                                height: height * 0.19,
+                                child: Container(
+                                  child: _image != null
+                                      ? Image.file(_image!)
+                                      : url.text.isNotEmpty
+                                      ? Image.network(url.text)
+                                      : Image.asset(Configt.app_addImage),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                ElevatedButton(
+                  onPressed:  check,
+                  child: Text(Configt.app_upload),
+                ),
+              ],
             ),
-            ElevatedButton(
-              onPressed:  check,
-              child: Text(Configt.app_upload),
-            ),
-          ],
-        ),
+          ),
+          // Circular progress indicator overlay
+
+        ],
       ),
     );
   }
   void check(){
     if(_image == null)
-      {
-        showSnackBar("add image", Duration(seconds: 2));
-      }
+    {
+      showSnackBar("add image", Duration(seconds: 2));
+    }
     else{
       Add();
     }

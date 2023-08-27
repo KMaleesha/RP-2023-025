@@ -16,6 +16,8 @@ import '../../ScreenTest/HomeScreen.dart';
 import 'loserScreen.dart';
 import 'model/childImage.dart';
 import 'package:flutter_sound/flutter_sound.dart';
+
+
 class QuestionAnimationScreen extends StatefulWidget {
   const QuestionAnimationScreen({super.key});
 
@@ -24,6 +26,9 @@ class QuestionAnimationScreen extends StatefulWidget {
 }
 
 class _QuestionAnimationScreenState extends State<QuestionAnimationScreen>
+
+
+
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   Animation<double>? _animation;
@@ -209,7 +214,6 @@ class _QuestionAnimationScreenState extends State<QuestionAnimationScreen>
   }
 
 
-
   //function to show snackbar
   void _showStartDancingSnackbar() {
     final snackBar = const SnackBar(
@@ -226,13 +230,9 @@ class _QuestionAnimationScreenState extends State<QuestionAnimationScreen>
   // Function to handle tap on the screen
   void _handleTap() {
     Timer(Duration(seconds:15), () {
-    askQuestion();
-  });
-
-  audioPlayer.resume();
-
-
-
+      askQuestion();
+    });
+    audioPlayer.resume();
   }
   //ask question
   askQuestion(){

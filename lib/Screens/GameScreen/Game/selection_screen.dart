@@ -45,21 +45,18 @@ class _SelectionScreenState extends State<SelectionScreen> {
                 padding: EdgeInsets.only(top: height * 0.01),
                 child: Row(
                   children: <Widget>[
-                    GestureDetector(
-                      onTap: () => Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => HomeScreenAll()),
-                      ),
-                      child: Padding(
-                        padding: EdgeInsets.only(left: width * 0.01),
-                        child:  SizedBox(
-                          width:  75,
-                          child: GestureDetector(
-                              child:  Image.asset(Configt.appiconback,height: 75,width: 75),
-                              onTap: () {
-                                Navigator.push(context, MaterialPageRoute(builder: (context) => SelectionScreen()),);
-                              }
-                          ),
+                    Padding(
+                      padding: EdgeInsets.only(left: width * 0.01),
+                      child:  SizedBox(
+                        width:  75,
+                        child: GestureDetector(
+                            child:  Image.asset(Configt.appiconback,height: 75,width: 75),
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => HomeScreenAll()),
+                              );
+                            }
                         ),
                       ),
                     ),
