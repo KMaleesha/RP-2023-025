@@ -2,10 +2,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:kathaappa/Screens/GameScreen/Game/selection_screen.dart';
+import 'package:kathaappa/Screens/ScreenTest/HomeScreen.dart';
 import 'package:lottie/lottie.dart';
 import 'package:material_dialogs/dialogs.dart';
 
 import '../../../utils/configt.dart';
+import '../../Users/screens/homeScreen.dart';
 
 class WinnerScreen extends StatefulWidget {
   WinnerScreen({Key? key}) : super(key: key);
@@ -69,51 +72,61 @@ class _WinnerScreenState extends State<WinnerScreen> with SingleTickerProviderSt
       body: Center(
         child: Container(
           width: MediaQuery.of(context).size.width, // To make it landscape left
-          height: MediaQuery.of(context).size.height, // To make it landscape left
+          height: MediaQuery.of(context).size.height,
+          decoration:  const BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage(Configt.app_SelectionPageBackground1),
+              fit: BoxFit.cover,
+            ),
+          ),
           child: Stack(
             children: [
-              Image.asset(
-                'assets/gameAssets/selectionPage.png',
-                fit: BoxFit.cover,
-              ),
               Center(
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(20),
-                  child: Container(
-                    width: _containerWidth,
-                    height: _containerHeight,
-                    color: Colors.white,
-                    child: Column(
-                      children: [
-                        Center(
-                          child: Lottie.asset(Configt.happyGirl,
-                            fit: BoxFit.contain,
-                            height: _imageHeight,
-                            width: _imageWidth,
+                child: GestureDetector(
+                  onTap: (){
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => SelectionScreen()),
+                    );
+                  },
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(20),
+                    child: Container(
+                      width: _containerWidth,
+                      height: _containerHeight,
+                      color: Colors.white,
+                      child: Column(
+                        children: [
+                          Center(
+                            child: Lottie.asset(Configt.happyGirl,
+                              fit: BoxFit.contain,
+                              height: _imageHeight,
+                              width: _imageWidth,
+                            ),
                           ),
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Lottie.asset(Configt.stars2,
-                              fit: BoxFit.contain,
-                              height: _image2Height,
-                              width: _image2Width,
-                            ),
-                            Lottie.asset(Configt.stars2,
-                              fit: BoxFit.contain,
-                              height: _image2Height,
-                              width: _image2Width,
-                            ),
-                            Lottie.asset(Configt.stars2,
-                              fit: BoxFit.contain,
-                              height: _image2Height,
-                              width: _image2Width,
-                            ),
-                          ],
-                        )
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Lottie.asset(Configt.stars2,
+                                fit: BoxFit.contain,
+                                height: _image2Height,
+                                width: _image2Width,
+                              ),
+                              Lottie.asset(Configt.stars2,
+                                fit: BoxFit.contain,
+                                height: _image2Height,
+                                width: _image2Width,
+                              ),
+                              Lottie.asset(Configt.stars2,
+                                fit: BoxFit.contain,
+                                height: _image2Height,
+                                width: _image2Width,
+                              ),
+                            ],
+                          )
 
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                 ),
