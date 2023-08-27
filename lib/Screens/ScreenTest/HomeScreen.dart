@@ -17,12 +17,13 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-
+  //1
+  final audioPlayer = AudioPlayer();
   @override
   void initState() {
     super.initState();
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-
+//2
     Timer(Duration(seconds: 1), () {
       setAudio();
     });
@@ -31,7 +32,9 @@ class _HomeScreenState extends State<HomeScreen> {
     Timer(Duration(seconds: 2), () {
       _handleTap();
     });
+    /////////////////2
   }
+  /////////////////3
   // Function to handle tap on the screen
   void _handleTap() {
     Timer(Duration(seconds:15), () {
@@ -55,6 +58,7 @@ class _HomeScreenState extends State<HomeScreen> {
     audioPlayer.pause();
     super.dispose();
   }
+  /////////////////3
   @override
   Widget build(BuildContext context) {
     double fem = 1.0; // Your factor value
@@ -356,7 +360,7 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
-  final audioPlayer = AudioPlayer();
+
 
 
 }
