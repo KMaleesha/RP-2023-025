@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'dart:ui';
@@ -20,11 +22,39 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-    setAudio();
+
+    Timer(Duration(seconds: 1), () {
+      setAudio();
+    });
+
+    //startvoice recorder
+    Timer(Duration(seconds: 2), () {
+      _handleTap();
+    });
   }
+  // Function to handle tap on the screen
+  void _handleTap() {
+    Timer(Duration(seconds:15), () {
 
+    });
+    audioPlayer.resume();
+  }
+  //function to initialize audio
+  Future setAudio() async {
+    audioPlayer.setReleaseMode(ReleaseMode.loop);
 
+    final player = AudioCache(prefix: "assets/screenTestAssets/VoiceOver/");
+    //load song from assets
+    final url = await player.load("sc1.wav");
+    audioPlayer.setSourceUrl(url.path);
+  }
+  @override
+  void dispose() {
 
+    audioPlayer.dispose();
+    audioPlayer.pause();
+    super.dispose();
+  }
   @override
   Widget build(BuildContext context) {
     double fem = 1.0; // Your factor value
@@ -65,6 +95,8 @@ class _HomeScreenState extends State<HomeScreen> {
                             height: 30 * fem,
                             child: ElevatedButton(
                               onPressed: () {
+                                audioPlayer.dispose();
+                                audioPlayer.pause();
                                 Navigator.of(context).push(MaterialPageRoute(
                                   builder: (context) => HomeScreenAll(),
                                 ));
@@ -200,7 +232,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     height: 43.73 * fem,
                     child: GestureDetector(
                       onTap: () {
-                        print('Hello, world!');
+                        audioPlayer.dispose();
+                        audioPlayer.pause();
                         Navigator.push(
                           context,
                           MaterialPageRoute(builder: (context) => ListWords()),
@@ -323,19 +356,6 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
   final audioPlayer = AudioPlayer();
-  Future setAudio() async {
-    audioPlayer.setReleaseMode(ReleaseMode.loop);
 
-    final player = AudioCache(prefix: "assets/screenTestAssets/voiceOver/sc1.wav");
-    //load song from assets
-    final url = await player.load("Sc1.wav");
-    audioPlayer.setSourceUrl(url.path);
-  }
 
-  @override
-  void dispose() {
-    audioPlayer.dispose();
-    audioPlayer.pause();
-    super.dispose();
-  }
 }
