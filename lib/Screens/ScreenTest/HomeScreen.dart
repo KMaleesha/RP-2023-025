@@ -1,8 +1,30 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'dart:ui';
-import 'package:kathaappa/Screens/ScreenTest/ListWords.dart';
+import 'package:kathaappa/Screens/Users/screens/homeScreen.dart';
+import 'package:audioplayers/audioplayers.dart';
 
-class HomeScreen extends StatelessWidget {
+import 'ListWords.dart';
+
+
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({Key? key}) : super(key: key);
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+
+  @override
+  void initState() {
+    super.initState();
+    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+    setAudio();
+  }
+
+
+
   @override
   Widget build(BuildContext context) {
     double fem = 1.0; // Your factor value
@@ -43,12 +65,10 @@ class HomeScreen extends StatelessWidget {
                             height: 30 * fem,
                             child: ElevatedButton(
                               onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => HomeScreen(),
-                                  ),
-                                );
+                                Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) => HomeScreenAll(),
+                                ));
+
                               },
                               child: Image.asset(
                                 'assets/screenTestAssets/icon-back.png',
@@ -301,5 +321,21 @@ class HomeScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+  final audioPlayer = AudioPlayer();
+  Future setAudio() async {
+    audioPlayer.setReleaseMode(ReleaseMode.loop);
+
+    final player = AudioCache(prefix: "assets/screenTestAssets/voiceOver/sc1.wav");
+    //load song from assets
+    final url = await player.load("Sc1.wav");
+    audioPlayer.setSourceUrl(url.path);
+  }
+
+  @override
+  void dispose() {
+    audioPlayer.dispose();
+    audioPlayer.pause();
+    super.dispose();
   }
 }
