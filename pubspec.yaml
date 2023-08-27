@@ -100,5 +100,10 @@ flutter:
     - assets/gameAssets/images/girl.png
     - assets/gameAssets/songs/questionWords/hawa.wav
     - assets/logoGif.gif
+    - assets/screenTestAssets/incorrect.jpg
+    - assets/screenTestAssets/correct.jpg
+    - assets/screenTestAssets/HowTo.jpg
+    - assets/screenTestAssets/VoiceOver/Sc1.wav
+    - assets/screenTestAssets/VoiceOver/
     - assets/screenTestAssets/VoiceOver/sc1.wav
     - assets/screenTestAssets/VoiceOver/
