@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'patient_model.dart';
+import '../model/patient_model.dart';
 import 'patient_profile.dart';
-import '../../../utils/configt.dart';
+import '../../../../utils/configt.dart';
 
 class PatientDashboard extends StatefulWidget {
   const PatientDashboard({Key? key}) : super(key: key);

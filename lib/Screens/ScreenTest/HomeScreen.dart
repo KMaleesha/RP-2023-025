@@ -4,6 +4,8 @@ import 'dart:ui';
 import 'package:kathaappa/Screens/Users/screens/homeScreen.dart';
 import 'package:audioplayers/audioplayers.dart';
 
+import 'ListWords.dart';
+
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -63,12 +65,10 @@ class _HomeScreenState extends State<HomeScreen> {
                             height: 30 * fem,
                             child: ElevatedButton(
                               onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => homeScreen(),
-                                  ),
-                                );
+                                Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) => HomeScreenAll(),
+                                ));
+
                               },
                               child: Image.asset(
                                 'assets/screenTestAssets/icon-back.png',
