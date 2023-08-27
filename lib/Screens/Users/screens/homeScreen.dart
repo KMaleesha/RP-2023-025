@@ -262,98 +262,10 @@ class _HomeScreenAllState extends State<HomeScreenAll> {
                           ],
                         ),
                       ),
-                      ElevatedButton(
-                        onPressed: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => AnimationSpriteAnimationScreen(),
-                          ));
-                        },
-                        style: ElevatedButton.styleFrom(
-                          primary: Colors.blue.shade400,
-                          padding: EdgeInsets.all(16.0),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(16.0),
-                          ),
-                        ),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            Icon(Icons.note_add, size: 60.0, color: Colors.white),
-                            SizedBox(height: 16.0),
-                            Text(
-                              'ani',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontSize: 24.0,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
 
-                      //tharindu's pages
-                      ElevatedButton(
-                        onPressed: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => QuestionScreen(),
-                          ));
-                        },
-                        style: ElevatedButton.styleFrom(
-                          primary: Colors.teal.shade400,
-                          padding: EdgeInsets.all(16.0),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(16.0),
-                          ),
-                        ),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            Icon(Icons.healing, size: 60.0, color: Colors.white),
-                            SizedBox(height: 16.0),
-                            Text(
-                              'Question Game page',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontSize: 24.0,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      ElevatedButton(
-                        onPressed: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => SelectionScreen(),
-                          ));
-                        },
-                        style: ElevatedButton.styleFrom(
-                          primary: Colors.teal.shade400,
-                          padding: EdgeInsets.all(16.0),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(16.0),
-                          ),
-                        ),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            Icon(Icons.healing, size: 60.0, color: Colors.white),
-                            SizedBox(height: 16.0),
-                            Text(
-                              'SelectionScreen',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontSize: 24.0,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
+//tharindu's screens
+
+
                       ElevatedButton(
                         onPressed: () {
                           Navigator.of(context).push(MaterialPageRoute(
