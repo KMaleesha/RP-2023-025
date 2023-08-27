@@ -4,6 +4,10 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:kathaappa/Screens/Users/screens/signUpScreen.dart';
+import 'package:provider/provider.dart';
+import '../../../Provider/sign_in_provider.dart';
+import '../../../utils/next_Screen.dart';
+import '../../ScreenTest/HomeScreen.dart';
 import 'homeScreen.dart';
 
 
@@ -205,17 +209,34 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
+
+  //handle After SignIn
+  handleAfterSignIn() {
+    Future.delayed(const Duration(milliseconds: 1000)).then((value) {
+      nextScreenReplace(context,  HomeScreen());
+    });
+  }
+
+
   void signIn(String email, String password) async {
+    User? user = _auth.currentUser;
+    final sp = context.read<SignInProvider>();
+
     if (_formKey.currentState!.validate()) {
-      await _auth
-          .signInWithEmailAndPassword(email: email, password: password)
-          .then((uid) => {
-                Fluttertoast.showToast(msg: "Login Successful"),
-                Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(builder: (context) => HomeScreen())),
-              })
+      await _auth.signInWithEmailAndPassword(email: email, password: password)
+          .then((value) {
+        sp.setSignIn();
+        Fluttertoast.showToast(msg:"Login Successful");
+        Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => HomeScreenAll()));
+      })
           .catchError((e) {
-        Fluttertoast.showToast(msg: e!.message);
+        if (e is FirebaseAuthException && e.code == 'wrong-password') {
+
+          Fluttertoast.showToast(msg:"Incorrect password");
+
+        } else {
+          Fluttertoast.showToast(msg: e!.message);
+        }
       });
     }
   }
