@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../utils/configt.dart';
+import '../../../../utils/configt.dart';
 import 'package:flutter_sound/public/flutter_sound_player.dart';
 
 class WordDetailScreen extends StatefulWidget {
