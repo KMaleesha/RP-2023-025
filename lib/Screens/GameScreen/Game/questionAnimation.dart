@@ -128,7 +128,7 @@ class _QuestionAnimationScreenState extends State<QuestionAnimationScreen>
   Future setAudio() async {
     audioPlayer.setReleaseMode(ReleaseMode.loop);
 
-    final player = AudioCache(prefix: "assets/songs/questionWords/");
+    final player = AudioCache(prefix: "assets/gameAssets/songs/questionWords/");
     //load song from assets
     final url = await player.load("hawa.wav");
     audioPlayer.setSourceUrl(url.path);
