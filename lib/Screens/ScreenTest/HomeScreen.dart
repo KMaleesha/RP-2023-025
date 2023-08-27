@@ -11,6 +11,7 @@ class HomeScreen extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
         body: Container(
+
           width: double.infinity,
           height: 807 * fem,
           child: Stack(

@@ -1,17 +1,13 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:kathaappa/Screens/Users/screens/homeScreen.dart';
 import 'package:kathaappa/splashScreen.dart';
-
 import 'package:provider/provider.dart';
-
 import 'Provider/internet_provider.dart';
 import 'Provider/sign_in_provider.dart';
-import 'Screens/GameScreen/Game/dataentry_screen.dart';
-import 'Screens/GameScreen/Game/question_screen.dart';
-import 'Screens/GameScreen/Game/selection_screen.dart';
-import 'Screens/GameScreen/testing/questionPage.dart';
+import 'Screens/GameScreen/Game/testing/dancing_screen.dart';
+import 'Screens/GameScreen/Game/questionAnimation.dart';
+import 'Screens/GameScreen/Game/testing/questionPage.dart';
+import 'Screens/GameScreen/Game/testing/question_screen.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -19,7 +15,7 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -36,8 +32,8 @@ class MyApp extends StatelessWidget {
           create: ((context) => InternetProvider()),
         )
       ],
-      child: MaterialApp(
-        home: HomeScreenAll(),
+      child:  const MaterialApp(
+        home: SplashScreen(),
         debugShowCheckedModeBanner: false,
       ),
     );
