@@ -81,7 +81,7 @@ class _AnimationSpriteAnimationScreenState extends State<AnimationSpriteAnimatio
   Future setAudio() async {
     audioPlayer.setReleaseMode(ReleaseMode.loop);
 
-    final player = AudioCache(prefix: "assets/songs/");
+    final player = AudioCache(prefix: "assets/gameAssets/songs/");
     //load song from assets
     final url = await player.load("song.mp3");
     audioPlayer.setSourceUrl(url.path);
@@ -188,7 +188,7 @@ class _AnimationSpriteAnimationScreenState extends State<AnimationSpriteAnimatio
   //function to build sprite images
   Image _buildSpriteImage(int index) {
     final AssetImage childImage =
-    AssetImage('assets/images/animationframes/ezgif-frame-$index.jpg');
+    AssetImage('assets/gameAssets/images/animationframes/ezgif-frame-$index.jpg');
     final Image child = Image(image: childImage, fit: BoxFit.fill,gaplessPlayback: true,);
 
     return child;
