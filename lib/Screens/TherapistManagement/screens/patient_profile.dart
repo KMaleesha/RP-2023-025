@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../../utils/configt.dart';
-import 'patient_model.dart';
+import '../../../../utils/configt.dart';
+import '../model/patient_model.dart';
 import 'patient_word.dart';
 
 class PatientProfileScreen extends StatelessWidget {
