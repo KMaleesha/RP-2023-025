@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_sound/public/flutter_sound_player.dart';
 import 'dart:ui';
 import 'package:kathaappa/Screens/Users/screens/homeScreen.dart';
 import 'package:audioplayers/audioplayers.dart';
@@ -15,12 +16,15 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-
+  FlutterSoundPlayer? _player;
   @override
   void initState() {
+    audioPlayer.resume();
     super.initState();
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
     setAudio();
+    _player = FlutterSoundPlayer();
+    _player?.openAudioSession();
   }
 
 
@@ -326,10 +330,11 @@ class _HomeScreenState extends State<HomeScreen> {
   Future setAudio() async {
     audioPlayer.setReleaseMode(ReleaseMode.loop);
 
-    final player = AudioCache(prefix: "assets/screenTestAssets/voiceOver/sc1.wav");
+    final player = AudioCache(prefix: "assets/screenTestAssets/VoiceOver/");
     //load song from assets
     final url = await player.load("Sc1.wav");
     audioPlayer.setSourceUrl(url.path);
+    print("Set Audio");
   }
 
   @override
