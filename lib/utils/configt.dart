@@ -34,6 +34,11 @@ class Configt {
   static const stars2 = 'assets/gameAssets/images/other/stars2.json';
   static const appLogo = 'assets/logoGif.gif';
 
+  static const thoughtBubble = 'assets/gameAssets/thoughtBubble.json';
+  static const childRobot = 'assets/gameAssets/images/other/childRobot.json';
+  //audios
+  static const hariiii = 'assets/gameAssets/songs/questionWords/Hariiii.wav';
+  static const uthsahakarankooo = 'assets/gameAssets/songs/questionWords/uthsahakarankooo.wav';
   //texts
   static const app_dataentrytitle = "දරුවාගේ පින්තූරයක් ";
   static const app_upload = "ඇතුළත් කරන්න";
