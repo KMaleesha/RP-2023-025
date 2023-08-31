@@ -8,6 +8,9 @@ import 'Screens/GameScreen/Game/testing/dancing_screen.dart';
 import 'Screens/GameScreen/Game/questionAnimation.dart';
 import 'Screens/GameScreen/Game/testing/questionPage.dart';
 import 'Screens/GameScreen/Game/testing/question_screen.dart';
+import 'Screens/ScreenTest/Correct.dart';
+import 'Screens/ScreenTest/InCorrect.dart';
+import 'Screens/ScreenTest/HowToSpeak.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -33,7 +36,7 @@ class MyApp extends StatelessWidget {
         )
       ],
       child:  const MaterialApp(
-        home: SplashScreen(),
+        home:InCorrect(),
         debugShowCheckedModeBanner: false,
       ),
     );

@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'dart:ui'; // For ImageFilter
 
 class Correct extends StatefulWidget {
+  const Correct({Key? key}) : super(key: key);
   @override
-  _CorrectState createState() => _CorrectState();
+  State<Correct> createState() => _CorrectState();
 }
-
 class _CorrectState extends State<Correct> {
   @override
   Widget build(BuildContext context) {
