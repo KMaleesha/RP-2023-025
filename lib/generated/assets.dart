@@ -522,6 +522,6 @@ class Assets {
   static const String utilsConfigt = 'lib/utils/configt.dart';
   static const String utilsNextScreen = 'lib/utils/next_Screen.dart';
   static const String utilsSnackBar = 'lib/utils/snack_bar.dart';
-  static const String voiceOverSc1 = 'assets/screenTestAssets/VoiceOver/Sc1.wav';
+  static const String voiceOverSc1 = 'assets/screenTestAssets/VoiceOver/sc1.wav';
 
 }

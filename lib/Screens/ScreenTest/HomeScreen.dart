@@ -1,6 +1,7 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_sound/public/flutter_sound_player.dart';
 import 'dart:ui';
 import 'package:kathaappa/Screens/Users/screens/homeScreen.dart';
 import 'package:audioplayers/audioplayers.dart';
@@ -16,19 +17,48 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  FlutterSoundPlayer? _player;
+  //1
+  final audioPlayer = AudioPlayer();
   @override
   void initState() {
-    audioPlayer.resume();
     super.initState();
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-    setAudio();
-    _player = FlutterSoundPlayer();
-    _player?.openAudioSession();
+//2
+    Timer(Duration(seconds: 1), () {
+      setAudio();
+    });
+
+    //startvoice recorder
+    Timer(Duration(seconds: 2), () {
+      _handleTap();
+    });
+    /////////////////2
   }
+  /////////////////3
+  // Function to handle tap on the screen
+  void _handleTap() {
+    Timer(Duration(seconds:15), () {
 
+    });
+    audioPlayer.resume();
+  }
+  //function to initialize audio
+  Future setAudio() async {
+    audioPlayer.setReleaseMode(ReleaseMode.loop);
 
+    final player = AudioCache(prefix: "assets/screenTestAssets/VoiceOver/");
+    //load song from assets
+    final url = await player.load("sc1.wav");
+    audioPlayer.setSourceUrl(url.path);
+  }
+  @override
+  void dispose() {
 
+    audioPlayer.dispose();
+    audioPlayer.pause();
+    super.dispose();
+  }
+  /////////////////3
   @override
   Widget build(BuildContext context) {
     double fem = 1.0; // Your factor value
@@ -69,6 +99,8 @@ class _HomeScreenState extends State<HomeScreen> {
                             height: 30 * fem,
                             child: ElevatedButton(
                               onPressed: () {
+                                audioPlayer.dispose();
+                                audioPlayer.pause();
                                 Navigator.of(context).push(MaterialPageRoute(
                                   builder: (context) => HomeScreenAll(),
                                 ));
@@ -195,6 +227,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
               ),
+              ///
               Positioned(
                 left: 46 * fem,
                 top: 646.991394043 * fem,
@@ -204,7 +237,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     height: 43.73 * fem,
                     child: GestureDetector(
                       onTap: () {
-                        print('Hello, world!');
+                        audioPlayer.dispose();
+                        audioPlayer.pause();
                         Navigator.push(
                           context,
                           MaterialPageRoute(builder: (context) => ListWords()),
@@ -326,21 +360,7 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
-  final audioPlayer = AudioPlayer();
-  Future setAudio() async {
-    audioPlayer.setReleaseMode(ReleaseMode.loop);
 
-    final player = AudioCache(prefix: "assets/screenTestAssets/VoiceOver/");
-    //load song from assets
-    final url = await player.load("Sc1.wav");
-    audioPlayer.setSourceUrl(url.path);
-    print("Set Audio");
-  }
 
-  @override
-  void dispose() {
-    audioPlayer.dispose();
-    audioPlayer.pause();
-    super.dispose();
-  }
+
 }

@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'dart:ui'; // For ImageFilter
 
 class InCorrect extends StatefulWidget {
+  const InCorrect({Key? key}) : super(key: key);
   @override
-  _InCorrectState createState() => _InCorrectState();
+  State<InCorrect> createState() => _InCorrectState();
 }
 
 class _InCorrectState extends State<InCorrect> {

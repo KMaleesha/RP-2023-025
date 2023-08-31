@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'dart:ui'; // For ImageFilter
 
 class HowToSpeak extends StatefulWidget {
+  const HowToSpeak({Key? key}) : super(key: key);
   @override
-  _HowToSpeakState createState() => _HowToSpeakState();
+  State<HowToSpeak> createState() => _HowToSpeakState();
 }
 
 class _HowToSpeakState extends State<HowToSpeak> {
