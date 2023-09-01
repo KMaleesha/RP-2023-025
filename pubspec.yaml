@@ -108,9 +108,11 @@ flutter:
     - assets/screenTestAssets/incorrect.jpg
     - assets/screenTestAssets/correct.jpg
     - assets/screenTestAssets/HowTo.jpg
-    - assets/screenTestAssets/VoiceOver/Sc1.wav
-    - assets/screenTestAssets/VoiceOver/
-    - assets/screenTestAssets/VoiceOver/sc1.wav
+    - assets/screenTestAssets/g1.gif
+    - assets/screenTestAssets/g2.gif
+    - assets/screenTestAssets/g3.gif
+    - assets/screenTestAssets/tears.gif
+    - assets/screenTestAssets/VoiceOver/S1.wav
     - assets/screenTestAssets/VoiceOver/
 
 
