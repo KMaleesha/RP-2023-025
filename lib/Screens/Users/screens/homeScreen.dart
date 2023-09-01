@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:lottie/lottie.dart';
 
 import '../../../utils/configt.dart';
 import '../../GameScreen/Game/animationScreen.dart';
@@ -264,37 +265,42 @@ class _HomeScreenAllState extends State<HomeScreenAll> {
                         ),
                       ),
 
-//tharindu's screens
 
-
-                      ElevatedButton(
-                        onPressed: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => DataEntryScreen(),
-                          ));
-                        },
-                        style: ElevatedButton.styleFrom(
-                          primary: Colors.teal.shade400,
-                          padding: EdgeInsets.all(16.0),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(16.0),
+//Tharindu's part
+                      SizedBox(
+                        width: 100,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.5),
+                                spreadRadius: 2,
+                                blurRadius: 5,
+                                offset: Offset(0, 3), // changes position of shadow
+                              ),
+                            ],
                           ),
-                        ),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: const <Widget>[
-                            Icon(Icons.healing, size: 60.0, color: Colors.white),
-                            SizedBox(height: 16.0),
-                            Text(
-                              'Therapeutic Games',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontSize: 24.0,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white,
+                          child: GestureDetector(
+                            onTap: (){
+                              Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => DataEntryScreen(),
+                              ));
+                            },
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(20),
+                              child: Stack(
+                                alignment: Alignment.center,
+                                children: [
+                                  Lottie.asset(
+                                    Configt.childRobot,
+
+                                  ),
+
+                                ],
                               ),
                             ),
-                          ],
+                          ),
                         ),
                       ),
 

@@ -89,6 +89,11 @@ flutter:
     - assets/gameAssets/images/other/smilingface.gif
     - assets/gameAssets/images/other/cryface.gif
     - assets/gameAssets/images/other/cryface.json
+    - assets/gameAssets/images/other/childRobot.json
+    - assets/gameAssets/songs/questionWords/Hariiii.wav
+    - assets/gameAssets/songs/questionWords/
+    - assets/gameAssets/songs/questionWords/uthsahakarankooo.wav
+    - assets/gameAssets/thoughtBubble.json
     - assets/gameAssets/images/other/back.png
     - assets/gameAssets/images/other/home.png
     - assets/gameAssets/images/other/next.png
@@ -98,5 +103,17 @@ flutter:
     - assets/gameAssets/images/other/stars2.json
     - assets/gameAssets/images/boy.png
     - assets/gameAssets/images/girl.png
+    - assets/gameAssets/rocketg.json
+    - assets/gameAssets/baby.json
+    - assets/gameAssets/rabbit.json
+    - assets/gameAssets/bAnimation.gif
     - assets/gameAssets/songs/questionWords/hawa.wav
     - assets/logoGif.gif
+    - assets/screenTestAssets/incorrect.jpg
+    - assets/screenTestAssets/correct.jpg
+    - assets/screenTestAssets/HowTo.jpg
+    - assets/screenTestAssets/VoiceOver/sc1.wav
+    - assets/screenTestAssets/VoiceOver/
+
+
+
