@@ -12,6 +12,7 @@ import '../../PositionalValueDetection/Screens/PositionalErrorDetection.dart';
 import '../../PositionalValueDetection/Screens/letterErrorDetails.dart';
 import '../../PositionalValueDetection/Screens/letterErrorDetection.dart';
 import '../../PositionalValueDetection/Screens/markCalculation.dart';
+import '../../TherapistManagement/screens/therapist_dashboard.dart';
 import '../../ScreenTest/HomeScreen.dart';
 import '../../ScreenTest/ListWords.dart';
 import '../../ScreenTest/RecordScreen.dart';
@@ -303,7 +304,39 @@ class _HomeScreenAllState extends State<HomeScreenAll> {
                         ),
                       ),
 
+//bathiya's screens
 
+
+                      ElevatedButton(
+                        onPressed: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => TherapistDashboard(),
+                          ));
+                        },
+                        style: ElevatedButton.styleFrom(
+                          primary: Colors.teal.shade400,
+                          padding: EdgeInsets.all(16.0),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(16.0),
+                          ),
+                        ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: const <Widget>[
+                            Icon(Icons.healing, size: 60.0, color: Colors.white),
+                            SizedBox(height: 16.0),
+                            Text(
+                              'Therapist Dashboard',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontSize: 24.0,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
 
                     ],
                   ),

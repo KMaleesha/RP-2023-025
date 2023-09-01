@@ -1,51 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'add_patient.dart';
 import '../model/patient_model.dart';
 import 'patient_profile.dart';
 import '../../../../utils/configt.dart';
 
-class PatientDashboard extends StatefulWidget {
-  const PatientDashboard({Key? key}) : super(key: key);
+class TherapistDashboard extends StatefulWidget {
+  const TherapistDashboard({Key? key}) : super(key: key);
 
   @override
-  State<PatientDashboard> createState() => PatientDashboardState();
+  TherapistDashboardState createState() => TherapistDashboardState();
 }
 
-class PatientDashboardState extends State<PatientDashboard> {
-  List<Patient> patients = [
-    Patient(
-      name: 'Saman Kumara',
-      age: 2,
-      wordList: [
-        PatientWord(word: 'සමනලයා', date: '06-05-2023'),
-        PatientWord(word: 'බල්ලා', date: '04-05-2023'),
-      ],
-    ),
-    Patient(
-      name: 'Kamal Perera',
-      age: 3,
-      wordList: [
-        PatientWord(word: 'මකුළුවා', date: '20-05-2023'),
-        PatientWord(word: 'බල්ලා', date: '10-05-2023'),
-      ],
-    ),
-    Patient(
-      name: 'Minindu Peiris',
-      age: 4,
-      wordList: [
-        PatientWord(word: 'වඳුරා', date: '10-05-2023'),
-        PatientWord(word: 'සමනලයා', date: '06-05-2023'),
-      ],
-    ),
-  ];
-
+class TherapistDashboardState extends State<TherapistDashboard> {
+  List<Patient> filteredPatients = [];
   late double width, height;
   TextEditingController searchController = TextEditingController();
-  List<Patient> filteredPatients = [];
 
   @override
   void initState() {
     super.initState();
-    filteredPatients = patients;
+    _fetchPatientsFromDatabase();
     searchController.addListener(filterPatients);
   }
 
@@ -55,14 +31,37 @@ class PatientDashboardState extends State<PatientDashboard> {
     super.dispose();
   }
 
+  Future<void> _fetchPatientsFromDatabase() async {
+    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(FirebaseAuth.instance.currentUser?.uid)
+        .collection('patients')
+        .get();
+
+    List<Patient> tempPatients = [];
+    for (var doc in querySnapshot.docs) {
+      if (doc.data() is Map<String, dynamic>) {
+        tempPatients.add(Patient.fromMap(doc.data()! as Map<String, dynamic>));
+      }
+    }
+
+    setState(() {
+      filteredPatients = tempPatients;
+    });
+  }
+
   void filterPatients() {
     String query = searchController.text.toLowerCase();
     setState(() {
-      filteredPatients = patients.where((patient) {
-        final nameLower = patient.name.toLowerCase();
-        final ageString = patient.age.toString(); 
-        final ageLower = ageString.toLowerCase(); 
-        return nameLower.contains(query) || ageLower.contains(query); 
+      filteredPatients = filteredPatients.where((patient) {
+        final uidLower = patient.uid?.toLowerCase() ?? ""; // null check here
+        final ageLower =
+            patient.age?.toString().toLowerCase() ?? ""; // null check here
+        final mobileLower =
+            patient.mobile?.toLowerCase() ?? ""; // null check here
+        return uidLower.contains(query) ||
+            ageLower.contains(query) ||
+            mobileLower.contains(query);
       }).toList();
     });
   }
@@ -80,9 +79,10 @@ class PatientDashboardState extends State<PatientDashboard> {
   Widget build(BuildContext context) {
     width = MediaQuery.of(context).size.width;
     height = MediaQuery.of(context).size.height;
+
     return Scaffold(
       appBar: AppBar(
-        title: Text('Patient Dashboard'),
+        title: Text('Therapist Dashboard'),
       ),
       body: Container(
         decoration: BoxDecoration(
@@ -119,12 +119,11 @@ class PatientDashboardState extends State<PatientDashboard> {
                     },
                     child: Card(
                       elevation: 2,
-                      margin:
-                          EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                      margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                       child: ListTile(
-                        title: Text(filteredPatients[index].name),
+                        title: Text(filteredPatients[index].uid),
                         subtitle: Text(
-                            'Age: ${filteredPatients[index].age}'),
+                            'Age: ${filteredPatients[index].age} \nMobile: ${filteredPatients[index].mobile}'),
                       ),
                     ),
                   );
@@ -136,7 +135,16 @@ class PatientDashboardState extends State<PatientDashboard> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          // Handle the onPressed event for the floating action button
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => AddPatient(
+                onPatientAdded: () {
+                  _fetchPatientsFromDatabase();
+                },
+              ),
+            ),
+          );
         },
         child: Icon(Icons.add),
       ),
