@@ -403,6 +403,7 @@ class Assets {
   static const String assetsGameAssetsIbba = 'assets/gameAssets/ibba.gif';
   static const String assetsGameAssetsMakuluwa = 'assets/gameAssets/makuluwa.gif';
   static const String assetsGameAssetsMan = 'assets/gameAssets/man.png';
+  static const String assetsGameAssetsRocketg = 'assets/gameAssets/rocketg.json';
   static const String assetsGameAssetsSamanalaya = 'assets/gameAssets/samanalaya.gif';
   static const String assetsGameAssetsSelectionPage = 'assets/gameAssets/selectionPage.png';
   static const String assetsGameAssetsThoughtBubble = 'assets/gameAssets/thoughtBubble.json';
@@ -423,6 +424,7 @@ class Assets {
   static const String assetsScreenTestAssetsWordListBack = 'assets/screenTestAssets/wordListBack.jpg';
   static const String gameAnimationScreen = 'lib/Screens/GameScreen/Game/animationScreen.dart';
   static const String gameAssetsBAnimation = 'assets/gameAssets/bAnimation.gif';
+  static const String gameAssetsBaby = 'assets/gameAssets/baby.json';
   static const String gameAssetsBalla = 'assets/gameAssets/balla.gif';
   static const String gameAssetsChild = 'assets/gameAssets/child.gif';
   static const String gameAssetsChildface = 'assets/gameAssets/childface.png';
@@ -434,6 +436,8 @@ class Assets {
   static const String gameAssetsImagesGirl = 'assets/gameAssets/images/girl.png';
   static const String gameAssetsMakuluwa = 'assets/gameAssets/makuluwa.gif';
   static const String gameAssetsMan = 'assets/gameAssets/man.png';
+  static const String gameAssetsRabbit = 'assets/gameAssets/rabbit.json';
+  static const String gameAssetsRocketg = 'assets/gameAssets/rocketg.json';
   static const String gameAssetsSamanalaya = 'assets/gameAssets/samanalaya.gif';
   static const String gameAssetsSelectionPage = 'assets/gameAssets/selectionPage.png';
   static const String gameAssetsSpritesheet = 'assets/gameAssets/spritesheet.png';

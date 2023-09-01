@@ -33,9 +33,12 @@ class Configt {
   static const stars = 'assets/gameAssets/images/other/stars.json';
   static const stars2 = 'assets/gameAssets/images/other/stars2.json';
   static const appLogo = 'assets/logoGif.gif';
-
+  static const rocketg = 'assets/gameAssets/rocketg.json';
   static const thoughtBubble = 'assets/gameAssets/thoughtBubble.json';
   static const childRobot = 'assets/gameAssets/images/other/childRobot.json';
+  static const baby = 'assets/gameAssets/baby.json';
+  static const rabbit = 'assets/gameAssets/rabbit.json';
+  static const bAnimation = 'assets/gameAssets/bAnimation.gif';
   //audios
   static const hariiii = 'assets/gameAssets/songs/questionWords/Hariiii.wav';
   static const uthsahakarankooo = 'assets/gameAssets/songs/questionWords/uthsahakarankooo.wav';

@@ -90,7 +90,7 @@ class _AnimationSpriteAnimationScreenState extends State<AnimationSpriteAnimatio
   @override
   void dispose() {
     _controller.dispose();
-    audioPlayer.dispose();
+    audioPlayer.pause();
     super.dispose();
   }
 
@@ -167,7 +167,7 @@ class _AnimationSpriteAnimationScreenState extends State<AnimationSpriteAnimatio
                                 onTap: () {
                     _controller.stop();
                     audioPlayer.pause();
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => QuestionAnimationScreen()),);
+                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => QuestionAnimationScreen()),);
                     }
                             )
 

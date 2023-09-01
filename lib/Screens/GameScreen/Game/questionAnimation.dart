@@ -50,6 +50,8 @@ class _QuestionAnimationScreenState extends State<QuestionAnimationScreen>
   bool askQ = false;
   bool askA = false;
   bool isLoading = true;
+  bool isUpload = false;
+
   @override
   void initState() {
     super.initState();
@@ -134,7 +136,11 @@ class _QuestionAnimationScreenState extends State<QuestionAnimationScreen>
 
   @override
   void dispose() {
-    _controller.dispose();
+    // if (_controller != null && _controller.isAnimating) {
+    //   _controller.stop();
+    // }
+    // _controller.dispose();
+    _controller.stop();
     audioPlayer.dispose();
     audioPlayer.pause();
     super.dispose();
@@ -153,12 +159,21 @@ class _QuestionAnimationScreenState extends State<QuestionAnimationScreen>
 
     return (isLoading)
         ? Scaffold(
-            backgroundColor: Colors.white,
+
             body: Container(
+              decoration: const BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage(Configt.bAnimation),
+                  fit: BoxFit.cover,
+                ),
+              ),
               child: Container(
                 color: Colors.white10,
                 child: Center(
-                  child: Image.asset(Configt.appLogo),
+                  child: Lottie.asset(Configt.rabbit,
+                    fit: BoxFit.fill,
+
+                  ),
                 ),
               ),
             ))
@@ -179,41 +194,59 @@ class _QuestionAnimationScreenState extends State<QuestionAnimationScreen>
                           Row(
                             children: [
                               Padding(
-                                padding: EdgeInsets.only(
-                                    top: height * 0.45, left: _leftPadding2),
-                                child: Column(
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.only(left: 13),
-                                      child: url.text.isNotEmpty
-                                          ? Image.network(
-                                              url.text,
-                                              height: 50,
-                                              width: 65,
-                                            )
-                                          : Image.asset(
-                                              Configt.app_childface,
-                                              height: 50,
-                                              width: 100,
-                                            ),
-                                    ),
-                                    Image.asset(
-                                      Configt.app_child,
-                                      width: 150,
-                                      height: 120,
-                                    ),
-
-                                  ],
-                                ),
-                              ),
+                                  padding: EdgeInsets.only(
+                                      top: height * 0.34, left: _leftPadding2),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    // align at the start
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    // align children horizontally at the start
+                                    children: [
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(left: 42),
+                                        child: url.text.isNotEmpty
+                                            ? Container(
+                                                height: 80,
+                                                width:
+                                                    60, // Adjust dimensions as needed
+                                                child: ClipOval(
+                                                  child: Image.network(
+                                                    url.text, // Your image URL here
+                                                    fit: BoxFit.cover,
+                                                  ),
+                                                ),
+                                              )
+                                            : Container(
+                                                color:
+                                                    Colors.blue, // Debug color
+                                                child: Image.asset(
+                                                  Configt.app_childface,
+                                                  height: 50,
+                                                  width: 100,
+                                                  fit: BoxFit
+                                                      .fitHeight, // To make sure it fits as intended
+                                                ),
+                                              ),
+                                      ),
+                                      Container(
+                                        child: Image.asset(
+                                          Configt.app_child,
+                                          width: 133,
+                                          height: 120,
+                                          fit: BoxFit
+                                              .cover, // To make sure it fits as intended
+                                        ),
+                                      ),
+                                    ],
+                                  )),
                               Padding(
                                 padding: EdgeInsets.only(
                                     top: height * 0.50, left: _leftPadding),
                                 child: Image.asset(Configt.app_walkingchild,
                                     width: 150, height: 150),
                               ),
-
-
                             ],
                           ),
                           Padding(
@@ -228,29 +261,24 @@ class _QuestionAnimationScreenState extends State<QuestionAnimationScreen>
                           ),
                         ],
                       ),
-                      if( askA  )
-                      Stack(
-                        children: [
-                            Padding(
-                                padding: EdgeInsets.only(left: width * 0.23,top: height * 0.31 ),
-                              child: SizedBox(
-                                height: 80,
-                                width: 80,
-                                child: Lottie.asset(
-                                  Configt.thoughtBubble,
-                                  fit: BoxFit.contain,
-                                ),
+                      if (isUpload)
+                        Stack(
+                          children: [
+                            SizedBox(
+                              width: width * 1,
+                              child: Lottie.asset(
+                                Configt.rocketg,
+                                fit: BoxFit.fill,
                               ),
-
                             ),
-
-                        ],
-                      ),
-                      if( askQ  )
+                          ],
+                        ),
+                      if (askA)
                         Stack(
                           children: [
                             Padding(
-                              padding: EdgeInsets.only(left: width * 0.487,top: height * 0.41 ),
+                              padding: EdgeInsets.only(
+                                  left: width * 0.223, top: height * 0.27),
                               child: SizedBox(
                                 height: 80,
                                 width: 80,
@@ -259,9 +287,24 @@ class _QuestionAnimationScreenState extends State<QuestionAnimationScreen>
                                   fit: BoxFit.contain,
                                 ),
                               ),
-
                             ),
-
+                          ],
+                        ),
+                      if (askQ)
+                        Stack(
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.only(
+                                  left: width * 0.46, top: height * 0.48),
+                              child: SizedBox(
+                                height: 80,
+                                width: 80,
+                                child: Lottie.asset(
+                                  Configt.thoughtBubble,
+                                  fit: BoxFit.contain,
+                                ),
+                              ),
+                            ),
                           ],
                         )
                     ],
@@ -289,7 +332,6 @@ class _QuestionAnimationScreenState extends State<QuestionAnimationScreen>
   void _handleTap() {
     Timer(Duration(seconds: 15), () {
       askQuestion();
-
     });
     audioPlayer.resume();
 
@@ -309,14 +351,14 @@ class _QuestionAnimationScreenState extends State<QuestionAnimationScreen>
     Timer(Duration(seconds: 20), () {
       print(" Timer stopRecording seconds: 20");
       stopRecording();
-
+      setState(() {
+        isUpload = true;
+      });
     });
     Timer(Duration(seconds: 25), () async {
       print(" Timer addnewvoice seconds: 25");
 
-     await addnewvoice();
-
-
+      await addnewvoice();
 
       // startPlayback();
       // Timer(Duration(seconds: 5), () {
@@ -359,7 +401,6 @@ class _QuestionAnimationScreenState extends State<QuestionAnimationScreen>
       String? path = await record.stop();
       if (path != null) {
         setState(() {
-
           askQ = false;
           askA = false;
           // _isRecording = false;
@@ -403,7 +444,7 @@ class _QuestionAnimationScreenState extends State<QuestionAnimationScreen>
       // Get a reference to the Firebase Storage bucket
       final storage = FirebaseStorage.instance;
       final audioStorageRef =
-      storage.ref().child('audio/${DateTime.now().toIso8601String()}.wav');
+          storage.ref().child('audio/${DateTime.now().toIso8601String()}.wav');
 
       // Upload the audio file to Firebase Storage
       final uploadTask = audioStorageRef.putFile(audioFile);
@@ -414,7 +455,10 @@ class _QuestionAnimationScreenState extends State<QuestionAnimationScreen>
       print(" uploading added voice");
       // Save the audio URL and title to Firestore
       final firestore = FirebaseFirestore.instance;
-      await firestore.collection('therapeuticGamesQuestionAudio').doc(user?.uid).set({
+      await firestore
+          .collection('therapeuticGamesQuestionAudio')
+          .doc(user?.uid)
+          .set({
         'uid': user?.uid,
         'date': '${DateTime.now().toIso8601String()}',
         'url': audioUrl,
@@ -428,15 +472,15 @@ class _QuestionAnimationScreenState extends State<QuestionAnimationScreen>
         'uid': user?.uid,
         'date': '${DateTime.now().toIso8601String()}',
         'url': audioUrl,
-      }).whenComplete(() =>  ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(
-              'Audio uploaded to firestore and firebase storage successfully.'))));
-          setState(()  {
+      }).whenComplete(() => ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              content: Text(
+                  'Audio uploaded to firestore and firebase storage successfully.'))));
+      setState(() {
         isLoading = false;
         resultAPI = true;
+        isUpload = false;
       });
       if (resultAPI == true) {
-
         Navigator.pushReplacement(
             context, MaterialPageRoute(builder: (context) => WinnerScreen()));
       } else {
@@ -444,25 +488,17 @@ class _QuestionAnimationScreenState extends State<QuestionAnimationScreen>
             context, MaterialPageRoute(builder: (context) => LoserScreen()));
       }
 
-
-
       print("not added voice");
     }
-      // Display a success message
+    // Display a success message
 
-      //API Call
+    //API Call
 
-      /*Future<void> askQuestion() {
+    /*Future<void> askQuestion() {
       url = 'http://'
 
       }
 
      */
-
-
-
-
-
-
   }
 }
