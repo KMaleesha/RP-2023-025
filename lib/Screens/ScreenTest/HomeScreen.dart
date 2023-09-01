@@ -5,7 +5,8 @@ import 'package:flutter/services.dart';
 import 'dart:ui';
 import 'package:kathaappa/Screens/Users/screens/homeScreen.dart';
 import 'package:audioplayers/audioplayers.dart';
-
+import 'InCorrect.dart';
+import 'Correct.dart';
 import 'ListWords.dart';
 
 
@@ -48,7 +49,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
     final player = AudioCache(prefix: "assets/screenTestAssets/VoiceOver/");
     //load song from assets
-    final url = await player.load("sc1.wav");
+    final url = await player.load("S1.wav");
     audioPlayer.setSourceUrl(url.path);
   }
   @override
@@ -126,7 +127,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                 height: 32 * fem,
                                 child: ElevatedButton(
                                   onPressed: () {
-                                    // Profile button pressed action
+                                    audioPlayer.dispose();
+                                    audioPlayer.pause();
+                                    Navigator.of(context).push(MaterialPageRoute(
+                                      builder: (context) => InCorrect(),
+                                    ));
+
                                   },
                                   child: Image.asset(
                                     'assets/screenTestAssets/icon-profile.png',
@@ -147,7 +153,11 @@ class _HomeScreenState extends State<HomeScreen> {
                                 height: 32 * fem,
                                 child: ElevatedButton(
                                   onPressed: () {
-                                    // Home button pressed action
+                                    audioPlayer.dispose();
+                                    audioPlayer.pause();
+                                    Navigator.of(context).push(MaterialPageRoute(
+                                      builder: (context) => Correct(),
+                                    ));
                                   },
                                   child: Image.asset(
                                     'assets/screenTestAssets/icon-home.png',
@@ -211,22 +221,23 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
 
 
-              Positioned(
-                left: 0,
-                right: 0,
-                top: 140,
-                child: Align(
-                  child: SizedBox(
-                    width: 400,
-                    height: 700,
-                    child: Image.asset(
-                      'assets/screenTestAssets/HomeScreen.gif',
-                      fit: BoxFit.cover,
-
-                    ),
-                  ),
-                ),
+        // ... (rest of the code above)
+        Positioned(
+          left: 0,
+          right: 0,
+          top: 140,
+          child: Align(
+            child: SizedBox(
+              width: 500,  // Increased width from 400 to 500
+              height: 700, // Keep the existing height or adjust as needed
+              child: Image.asset(
+                'assets/screenTestAssets/HomeScreen.gif',
+                fit: BoxFit.cover,
               ),
+            ),
+          ),
+        ),
+// ... (rest of the code below)
               ///
               Positioned(
                 left: 46 * fem,
