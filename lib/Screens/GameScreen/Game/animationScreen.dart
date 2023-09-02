@@ -1,13 +1,14 @@
 import 'dart:async';
 
+import 'package:Katha/Screens/GameScreen/Game/questionAnimation.dart';
+import 'package:Katha/Screens/GameScreen/Game/selection_screen.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:kathaappa/Screens/GameScreen/Game/questionAnimation.dart';
-import 'package:kathaappa/Screens/GameScreen/Game/selection_screen.dart';
+
 import 'package:lottie/lottie.dart';
 import '../../../utils/configt.dart';
 import 'model/childImage.dart';

@@ -1,4 +1,4 @@
-name: kathaappa
+name: Katha
 description: A new Flutter project.
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
@@ -108,6 +108,10 @@ flutter:
     - assets/gameAssets/click.json
     - assets/gameAssets/rabbit.json
     - assets/gameAssets/bAnimation.gif
+    - assets/gameAssets/songs/winAudio.mp3
+    - assets/gameAssets/songs/selectionAudio.mp3
+    - assets/gameAssets/songs/questionPage.mp3
+    - assets/gameAssets/songs/loseAudio.mp3
     - assets/gameAssets/songs/questionWords/hawa.wav
     - assets/logoGif.gif
     - assets/screenTestAssets/incorrect.jpg
@@ -115,6 +119,7 @@ flutter:
     - assets/screenTestAssets/HowTo.jpg
     - assets/screenTestAssets/VoiceOver/sc1.wav
     - assets/screenTestAssets/VoiceOver/
+    - assets/loginImage.jpg
 
 
 

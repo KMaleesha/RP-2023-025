@@ -1,6 +1,7 @@
+import 'package:Katha/splashScreen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:kathaappa/splashScreen.dart';
+
 import 'package:provider/provider.dart';
 import 'Provider/internet_provider.dart';
 import 'Provider/sign_in_provider.dart';

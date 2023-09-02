@@ -1,15 +1,16 @@
+import 'package:Katha/Screens/Users/screens/signUpScreen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:kathaappa/Screens/Users/screens/signUpScreen.dart';
+import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import '../../../Provider/sign_in_provider.dart';
+import '../../../utils/configt.dart';
 import '../../../utils/next_Screen.dart';
 import '../../ScreenTest/HomeScreen.dart';
 import 'homeScreen.dart';
-
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -109,7 +110,7 @@ class _LoginScreenState extends State<LoginScreen> {
             signIn(emailController.text, passwordController.text);
           },
           child: const Text(
-            "Login",
+            "පිවිසෙන්න",
             textAlign: TextAlign.center,
             style: TextStyle(
                 fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),
@@ -120,88 +121,106 @@ class _LoginScreenState extends State<LoginScreen> {
     return WillPopScope(
       onWillPop: _onWillPop,
       child: Scaffold(
-        backgroundColor: Colors.white,
-        body: Container(
-          // decoration: BoxDecoration(
-          //   image: DecorationImage(
-          //       image: AssetImage(Config.app_background1), fit: BoxFit.cover),
-          // ),
-          child: SafeArea(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Padding(
-                  padding: EdgeInsets.only(top: height * 0.1),
-                  child: Row(
-                    children: [
-                    ],
-                  ),
-                ),
-                Form(
-                  key: _formKey,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      const Text(
-                        "Login",
-                        style: TextStyle(
-                          fontSize: 24.0,
-                          color: Colors.black,
 
-                          decorationColor: Colors.redAccent,
-                          // fontStyle: FontStyle.italic,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      SizedBox(height: 45),
-                      emailField,
-                      SizedBox(height: 25),
-                      passwordField,
-                      SizedBox(height: 10),
-                      Padding(
-                        padding: EdgeInsets.only(left: width * 0.05),
-                        child: Row(
-                          children: <Widget>[
-                            RichText(
-                              text: TextSpan(
-                                text: "I am new user, ",
-                                style: TextStyle(
-                                    fontSize: 12, color: Colors.black),
-                                children: <TextSpan>[
-                                  TextSpan(
-                                      text: 'Create Account',
-                                      recognizer: new TapGestureRecognizer()
-                                        ..onTap = () => Navigator.of(context)
-                                            .pushReplacement(MaterialPageRoute(
-                                                builder: (context) =>
-                                                    SignUpScreen())),
-                                      style: const TextStyle(
-                                          color: Color(0xFF175c4c),
-                                          decoration: TextDecoration.underline,
-                                          height: 1.2)),
-                                ],
+        body: SafeArea(
+          child: Container(
+            decoration:  BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage(Configt.loginImage),
+                  fit: BoxFit.fill,)
+            ),
+            child: Container(
+              decoration: const BoxDecoration(
+                image: DecorationImage(
+              image: AssetImage(Configt.bAnimation),
+                  fit: BoxFit.fitHeight,)
+              ),
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    SizedBox(height: 65),
+
+                    Form(
+                      key: _formKey,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          const Text(
+                            "පිවිසෙන්න",
+                            style: TextStyle(
+                              fontSize: 24.0,
+                              color: Colors.black,
+
+                              decorationColor: Colors.redAccent,
+                              // fontStyle: FontStyle.italic,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          SizedBox(height: 5),
+                          SizedBox(height: 245,
+                          child: Container(
+                            color: Colors.white10,
+                            child: Center(
+                              child: Lottie.asset(Configt.rabbit,
+                                fit: BoxFit.contain,
+
                               ),
                             ),
-                          ],
-                        ),
+                          ), ),
+
+                          SizedBox(height: 25),
+                          emailField,
+                          SizedBox(height: 25),
+                          passwordField,
+                          SizedBox(height: 35),
+                          Padding(
+                            padding: EdgeInsets.only(left: width * 0.05),
+                            child: Row(
+                              children: <Widget>[
+                                RichText(
+                                  text: TextSpan(
+                                    text: "මම අලුත් පරිශීලකයෙක්, ",
+                                    style: TextStyle(
+                                        fontSize: 12, color: Colors.black,fontWeight: FontWeight.bold),
+                                    children: <TextSpan>[
+                                      TextSpan(
+                                          text: 'ගිණුමක් සාදන්න',
+
+                                          recognizer: new TapGestureRecognizer()
+                                            ..onTap = () => Navigator.of(context)
+                                                .pushReplacement(MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        SignUpScreen())),
+                                          style: const TextStyle(
+                                              color: Color(0xFF175c4c),
+                                              decoration: TextDecoration.underline,
+                                              height: 1.2)),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          SizedBox(height: 20),
+                          loginButton,
+                          SizedBox(height: 10),
+                        ],
                       ),
-                      SizedBox(height: 20),
-                      loginButton,
-                      SizedBox(height: 10),
-                    ],
-                  ),
+                    ),
+                    const SizedBox(
+                      height: 35,
+                    ),
+                    // Image.asset(
+                    //   "assets/divider_or.png",
+                    // ),
+                    const SizedBox(
+                      height: 230,
+                    ),
+                  ],
                 ),
-                const SizedBox(
-                  height: 35,
-                ),
-                // Image.asset(
-                //   "assets/divider_or.png",
-                // ),
-                const SizedBox(
-                  height: 30,
-                ),
-              ],
+              ),
             ),
           ),
         ),

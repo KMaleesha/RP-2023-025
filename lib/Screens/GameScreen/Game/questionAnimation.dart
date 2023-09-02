@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:io';
+import 'package:Katha/Screens/GameScreen/Game/winnerScreen.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -7,8 +8,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:kathaappa/Screens/GameScreen/Game/selection_screen.dart';
-import 'package:kathaappa/Screens/GameScreen/Game/winnerScreen.dart';
+
 import 'package:lottie/lottie.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:record/record.dart';
@@ -75,7 +75,8 @@ class _QuestionAnimationScreenState extends State<QuestionAnimationScreen>
 
     //initialize head/face image
     _headImage = Image.network(url.text);
-    Timer(Duration(seconds: 15), () {
+    Timer(Duration(seconds: 3), () {
+      print(" Timer seconds: 3 ssetAudio(); ");
       setAudio();
     });
     //initialize audio
@@ -102,8 +103,9 @@ class _QuestionAnimationScreenState extends State<QuestionAnimationScreen>
       _controller.forward();
     });
     //startvoice recorder
-    Timer(Duration(seconds: 20), () {
+    Timer(Duration(seconds: 5), () {
       _handleTap();
+      print(" Timer seconds: 5 _handleTap(); ");
     });
   }
 
@@ -128,9 +130,9 @@ class _QuestionAnimationScreenState extends State<QuestionAnimationScreen>
   Future setAudio() async {
     audioPlayer.setReleaseMode(ReleaseMode.loop);
 
-    final player = AudioCache(prefix: "assets/screenTestAssets/VoiceOver/");
+    final player = AudioCache(prefix: "assets/gameAssets/songs/");
     //load song from assets
-    final url = await player.load("sc1.wav");
+    final url = await player.load("questionPage.mp3");
     audioPlayer.setSourceUrl(url.path);
   }
 
@@ -330,14 +332,18 @@ class _QuestionAnimationScreenState extends State<QuestionAnimationScreen>
 
   // Function to handle tap on the screen
   void _handleTap() {
-    Timer(Duration(seconds: 15), () {
+    Timer(Duration(seconds: 26), () {
       askQuestion();
+      print(" Timer seconds: 31  askQuestion(); ");
     });
     audioPlayer.resume();
-
-    setState(() {
-      askQ = true;
+    Timer(Duration(seconds: 19), () {
+      setState(() {
+        print(" Timer  seconds:24 askQ = true; ");
+        askQ = true;
+      });
     });
+
   }
 
   //ask question
@@ -345,18 +351,18 @@ class _QuestionAnimationScreenState extends State<QuestionAnimationScreen>
     print(" askQuestion ");
     _controller.stop();
     audioPlayer.pause();
-    print(" startRecording seconds 15 ");
+    print(" startRecording seconds 31 ");
     startRecording();
 
-    Timer(Duration(seconds: 20), () {
-      print(" Timer stopRecording seconds: 20");
+    Timer(Duration(seconds: 10), () {
+      print(" Timer stopRecording seconds: 41");
       stopRecording();
       setState(() {
         isUpload = true;
       });
     });
-    Timer(Duration(seconds: 25), () async {
-      print(" Timer addnewvoice seconds: 25");
+    Timer(Duration(seconds: 12), () async {
+      print(" Timer  seconds:43 addnewvoice(); ");
 
       await addnewvoice();
 
@@ -457,27 +463,32 @@ class _QuestionAnimationScreenState extends State<QuestionAnimationScreen>
       final firestore = FirebaseFirestore.instance;
       await firestore
           .collection('therapeuticGamesQuestionAudio')
-          .doc(user?.uid)
+          .doc('${user?.uid}')
+          .collection('hawa')
+          .doc()
           .set({
         'uid': user?.uid,
         'date': '${DateTime.now().toIso8601String()}',
         'url': audioUrl,
       });
       await firestore
-          .collection('users')
+          .collection("users")
           .doc(user?.uid)
-          .collection('therapeuticGamesQuestion')
-          .doc()
+          .collection('therapeuticGamesQuestionAudio')
+          .doc('hawa')
           .set({
         'uid': user?.uid,
         'date': '${DateTime.now().toIso8601String()}',
         'url': audioUrl,
-      }).whenComplete(() => ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      }).whenComplete(() =>
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
               content: Text(
-                  'Audio uploaded to firestore and firebase storage successfully.'))));
+                  'හූරේ....'))
+
+          ));
       setState(() {
         isLoading = false;
-        resultAPI = true;
+        resultAPI = false;
         isUpload = false;
       });
       if (resultAPI == true) {
