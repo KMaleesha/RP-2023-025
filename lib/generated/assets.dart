@@ -399,6 +399,7 @@ class Assets {
   static const String assetsGameAssetsBalla = 'assets/gameAssets/balla.gif';
   static const String assetsGameAssetsChild = 'assets/gameAssets/child.gif';
   static const String assetsGameAssetsChildface = 'assets/gameAssets/childface.png';
+  static const String assetsGameAssetsClick = 'assets/gameAssets/click.json';
   static const String assetsGameAssetsEluwa = 'assets/gameAssets/eluwa.gif';
   static const String assetsGameAssetsGemba = 'assets/gameAssets/gemba.gif';
   static const String assetsGameAssetsHawa = 'assets/gameAssets/hawa.gif';
@@ -411,6 +412,7 @@ class Assets {
   static const String assetsGameAssetsSelectionPage = 'assets/gameAssets/selectionPage.png';
   static const String assetsGameAssetsThoughtBubble = 'assets/gameAssets/thoughtBubble.json';
   static const String assetsGameAssetsWalking1 = 'assets/gameAssets/walking1.gif';
+  static const String assetsLoginImage = 'assets/loginImage.jpg';
   static const String assetsLogo = 'assets/logo.jpg';
   static const String assetsLogoGif = 'assets/logoGif.gif';
   static const String assetsScreenTestAssetsCorrect = 'assets/screenTestAssets/correct.jpg';
@@ -444,6 +446,10 @@ class Assets {
   static const String gameAssetsRocketg = 'assets/gameAssets/rocketg.json';
   static const String gameAssetsSamanalaya = 'assets/gameAssets/samanalaya.gif';
   static const String gameAssetsSelectionPage = 'assets/gameAssets/selectionPage.png';
+  static const String gameAssetsSongsLoseAudio = 'assets/gameAssets/songs/loseAudio.mp3';
+  static const String gameAssetsSongsQuestionPage = 'assets/gameAssets/songs/questionPage.mp3';
+  static const String gameAssetsSongsSelectionAudio = 'assets/gameAssets/songs/selectionAudio.mp3';
+  static const String gameAssetsSongsWinAudio = 'assets/gameAssets/songs/winAudio.mp3';
   static const String gameAssetsSpritesheet = 'assets/gameAssets/spritesheet.png';
   static const String gameAssetsThoughtBubble = 'assets/gameAssets/thoughtBubble.json';
   static const String gameAssetsWalking1 = 'assets/gameAssets/walking1.gif';
@@ -469,6 +475,7 @@ class Assets {
   static const String imagesOtherStars2 = 'assets/gameAssets/images/other/stars2.json';
   static const String kathaappAssetsAddImage = 'assets/addImage.png';
   static const String kathaappAssetsBackground2 = 'assets/background2.png';
+  static const String kathaappAssetsLoginImage = 'assets/loginImage.jpg';
   static const String kathaappAssetsLogo = 'assets/logo.jpg';
   static const String kathaappAssetsLogoGif = 'assets/logoGif.gif';
   static const String libFirebaseOptions = 'lib/firebase_options.dart';
@@ -528,10 +535,14 @@ class Assets {
   static const String screensPositionalErrorDetection = 'lib/Screens/PositionalValueDetection/Screens/PositionalErrorDetection.dart';
   static const String screensSignUpScreen = 'lib/Screens/Users/screens/signUpScreen.dart';
   static const String screensTherapistDashboard = 'lib/Screens/TherapistManagement/screens/therapist_dashboard.dart';
+  static const String songsLoseAudio = 'assets/gameAssets/songs/loseAudio.mp3';
+  static const String songsQuestionPage = 'assets/gameAssets/songs/questionPage.mp3';
   static const String songsQuestionWordsHariiii = 'assets/gameAssets/songs/questionWords/Hariiii.wav';
   static const String songsQuestionWordsHawa = 'assets/gameAssets/songs/questionWords/hawa.wav';
   static const String songsQuestionWordsUthsahakarankooo = 'assets/gameAssets/songs/questionWords/uthsahakarankooo.wav';
+  static const String songsSelectionAudio = 'assets/gameAssets/songs/selectionAudio.mp3';
   static const String songsSong = 'assets/gameAssets/songs/song.mp3';
+  static const String songsWinAudio = 'assets/gameAssets/songs/winAudio.mp3';
   static const String spriteImages1 = 'assets/gameAssets/images/sprite_images/1.png';
   static const String spriteImages10 = 'assets/gameAssets/images/sprite_images/10.png';
   static const String spriteImages2 = 'assets/gameAssets/images/sprite_images/2.png';

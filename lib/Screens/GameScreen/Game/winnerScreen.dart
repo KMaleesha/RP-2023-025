@@ -45,9 +45,9 @@ class _WinnerScreenState extends State<WinnerScreen> with SingleTickerProviderSt
   Future setAudio() async {
     audioPlayer.setReleaseMode(ReleaseMode.loop);
 
-    final player = AudioCache(prefix: "assets/gameAssets/songs/questionWords/");
+    final player = AudioCache(prefix: "assets/gameAssets/songs/");
     //load song from assets
-    final url = await player.load("Hariiii.wav");
+    final url = await player.load("winAudio.mp3");
     audioPlayer.setSourceUrl(url.path);
   }
 

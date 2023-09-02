@@ -108,6 +108,10 @@ flutter:
     - assets/gameAssets/click.json
     - assets/gameAssets/rabbit.json
     - assets/gameAssets/bAnimation.gif
+    - assets/gameAssets/songs/winAudio.mp3
+    - assets/gameAssets/songs/selectionAudio.mp3
+    - assets/gameAssets/songs/questionPage.mp3
+    - assets/gameAssets/songs/loseAudio.mp3
     - assets/gameAssets/songs/questionWords/hawa.wav
     - assets/logoGif.gif
     - assets/screenTestAssets/incorrect.jpg

@@ -25,11 +25,13 @@ class _SelectionScreenState extends State<SelectionScreen> {
     super.initState();
     SystemChrome.setPreferredOrientations([DeviceOrientation.landscapeLeft]);
     Timer(Duration(seconds: 1), () {
+      print(" setAudio(); milliseconds: 200");
       setAudio();
     });
 
     //startvoice play
     Timer(Duration(seconds: 2), () {
+      print("  _handleTap(); milliseconds: 400");
       _handleTap();
     });
 
@@ -44,11 +46,11 @@ class _SelectionScreenState extends State<SelectionScreen> {
   }
   //function to initialize audio
   Future setAudio() async {
-    audioPlayer.setReleaseMode(ReleaseMode.release);
+    audioPlayer.setReleaseMode(ReleaseMode.loop);
 
-    final player = AudioCache(prefix: "assets/gameAssets/songs/questionWords/");
+    final player = AudioCache(prefix: "assets/gameAssets/songs/");
     //load song from assets
-    final url = await player.load("Hariiii.wav");
+    final url = await player.load("selectionAudio.mp3");
     audioPlayer.setSourceUrl(url.path);
   }
 
@@ -109,11 +111,18 @@ class _SelectionScreenState extends State<SelectionScreen> {
                   Padding(
                     padding:  EdgeInsets.only(left: 8 ,top: height *0.6),
                     child: GestureDetector(
-                        onTap: () => Navigator.push(
+                      onTap: (){
+                        Navigator.push(
                           context,
                           MaterialPageRoute(builder: (context) => AnimationSpriteAnimationScreen()),
-                        ),
-                        child: Image.asset(Configt.app_hawa,height: 150,width: 150,)),
+                        );
+                        audioPlayer.pause();
+                      },
+
+
+                        child: Image.asset(Configt.app_hawa,height: 150,width: 150,),
+
+                    ),
                   ),
                   Padding(
                     padding:  EdgeInsets.only(left: 130 , right:400,top: height * 0.4),

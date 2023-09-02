@@ -41,6 +41,9 @@ class Configt {
   static const bAnimation = 'assets/gameAssets/bAnimation.gif';
   static const clickTAP = 'assets/gameAssets/click.json';
   static const loginImage = 'assets/loginImage.jpg';
+
+
+
   //audios
   static const hariiii = 'assets/gameAssets/songs/questionWords/Hariiii.wav';
   static const uthsahakarankooo = 'assets/gameAssets/songs/questionWords/uthsahakarankooo.wav';
