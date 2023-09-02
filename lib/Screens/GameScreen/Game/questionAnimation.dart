@@ -80,7 +80,7 @@ class _QuestionAnimationScreenState extends State<QuestionAnimationScreen>
     });
     //initialize audio
 
-    WidgetsBinding.instance!.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       final double width = MediaQuery.of(context).size.width;
       _stopPosition = width * 0.1;
       _stopPosition2 = width * 0.2;
@@ -278,7 +278,7 @@ class _QuestionAnimationScreenState extends State<QuestionAnimationScreen>
                           children: [
                             Padding(
                               padding: EdgeInsets.only(
-                                  left: width * 0.223, top: height * 0.27),
+                                  left: 170, top:100),
                               child: SizedBox(
                                 height: 80,
                                 width: 80,
@@ -295,7 +295,7 @@ class _QuestionAnimationScreenState extends State<QuestionAnimationScreen>
                           children: [
                             Padding(
                               padding: EdgeInsets.only(
-                                  left: width * 0.46, top: height * 0.48),
+                                  left: 380, top:  170),
                               child: SizedBox(
                                 height: 80,
                                 width: 80,

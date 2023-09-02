@@ -105,6 +105,7 @@ flutter:
     - assets/gameAssets/images/girl.png
     - assets/gameAssets/rocketg.json
     - assets/gameAssets/baby.json
+    - assets/gameAssets/click.json
     - assets/gameAssets/rabbit.json
     - assets/gameAssets/bAnimation.gif
     - assets/gameAssets/songs/questionWords/hawa.wav
