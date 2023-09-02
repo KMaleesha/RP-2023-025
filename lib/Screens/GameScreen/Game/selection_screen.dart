@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -16,13 +19,50 @@ class SelectionScreen extends StatefulWidget {
 }
 
 class _SelectionScreenState extends State<SelectionScreen> {
-
+  final audioPlayer = AudioPlayer();
   @override
   void initState() {
     super.initState();
     SystemChrome.setPreferredOrientations([DeviceOrientation.landscapeLeft]);
+    Timer(Duration(seconds: 1), () {
+      setAudio();
+    });
+
+    //startvoice play
+    Timer(Duration(seconds: 2), () {
+      _handleTap();
+    });
+
+
   }
 
+  void _handleTap() {
+    Timer(Duration(seconds:15), () {
+
+    });
+    audioPlayer.resume();
+  }
+  //function to initialize audio
+  Future setAudio() async {
+    audioPlayer.setReleaseMode(ReleaseMode.release);
+
+    final player = AudioCache(prefix: "assets/gameAssets/songs/questionWords/");
+    //load song from assets
+    final url = await player.load("Hariiii.wav");
+    audioPlayer.setSourceUrl(url.path);
+  }
+
+  @override
+  void dispose() {
+    // if (_controller != null && _controller.isAnimating) {
+    //   _controller.stop();
+    // }
+    // _controller.dispose();
+
+    audioPlayer.dispose();
+    audioPlayer.pause();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {

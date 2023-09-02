@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:io';
+import 'package:Katha/Screens/GameScreen/Game/winnerScreen.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -7,8 +8,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:kathaappa/Screens/GameScreen/Game/selection_screen.dart';
-import 'package:kathaappa/Screens/GameScreen/Game/winnerScreen.dart';
+
 import 'package:lottie/lottie.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:record/record.dart';
@@ -457,17 +457,19 @@ class _QuestionAnimationScreenState extends State<QuestionAnimationScreen>
       final firestore = FirebaseFirestore.instance;
       await firestore
           .collection('therapeuticGamesQuestionAudio')
-          .doc(user?.uid)
+          .doc('${user?.uid}')
+          .collection('hawa')
+          .doc()
           .set({
         'uid': user?.uid,
         'date': '${DateTime.now().toIso8601String()}',
         'url': audioUrl,
       });
       await firestore
-          .collection('users')
+          .collection("users")
           .doc(user?.uid)
-          .collection('therapeuticGamesQuestion')
-          .doc()
+          .collection('therapeuticGamesQuestionAudio')
+          .doc('hawa')
           .set({
         'uid': user?.uid,
         'date': '${DateTime.now().toIso8601String()}',
