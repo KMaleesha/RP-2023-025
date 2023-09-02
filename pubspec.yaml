@@ -103,16 +103,18 @@ flutter:
     - assets/gameAssets/images/other/stars2.json
     - assets/gameAssets/images/boy.png
     - assets/gameAssets/images/girl.png
+    - assets/gameAssets/rocketg.json
+    - assets/gameAssets/baby.json
+    - assets/gameAssets/click.json
+    - assets/gameAssets/rabbit.json
+    - assets/gameAssets/bAnimation.gif
     - assets/gameAssets/songs/questionWords/hawa.wav
     - assets/logoGif.gif
     - assets/screenTestAssets/incorrect.jpg
     - assets/screenTestAssets/correct.jpg
     - assets/screenTestAssets/HowTo.jpg
-    - assets/screenTestAssets/g1.gif
-    - assets/screenTestAssets/g2.gif
-    - assets/screenTestAssets/g3.gif
-    - assets/screenTestAssets/tears.gif
-    - assets/screenTestAssets/VoiceOver/S1.wav
+    - assets/screenTestAssets/VoiceOver/sc1.wav
     - assets/screenTestAssets/VoiceOver/
+
 
 

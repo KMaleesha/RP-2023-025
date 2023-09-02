@@ -121,6 +121,7 @@ class _WinnerScreenState extends State<WinnerScreen> with SingleTickerProviderSt
               Center(
                 child: GestureDetector(
                   onTap: (){
+                    audioPlayer.pause();
                     Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(builder: (context) => SelectionScreen()),
