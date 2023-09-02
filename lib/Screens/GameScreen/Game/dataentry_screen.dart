@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:Katha/Screens/GameScreen/Game/selection_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -9,7 +10,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:image_cropper/image_cropper.dart';
-import 'package:kathaappa/Screens/GameScreen/Game/selection_screen.dart';
+
+import 'package:lottie/lottie.dart';
 
 import '../../../utils/configt.dart';
 import '../../Users/screens/homeScreen.dart';
@@ -83,19 +85,20 @@ class _DataEntryScreenState extends State<DataEntryScreen> {
       if (pickedFile != null) {
         final croppedFile = await _imageCropper.cropImage(
           sourcePath: pickedFile.path,
-          aspectRatio: const CropAspectRatio(ratioX: 4.0, ratioY: 3.0),
-          cropStyle: CropStyle.rectangle,  // This will allow freeform rectangular cropping
-          androidUiSettings: const AndroidUiSettings(
+          aspectRatio: CropAspectRatio(ratioX: 1.0, ratioY: 1.0),  // For oval, it's generally a 1:1 ratio
+          cropStyle: CropStyle.circle,  // For oval shape
+          androidUiSettings: AndroidUiSettings(
             toolbarTitle: 'Crop Image',
             toolbarColor: Colors.deepOrange,
             toolbarWidgetColor: Colors.white,
-            hideBottomControls: false,  // This shows the control for aspect ratio
-            showCropGrid: false,  // This hides the grid
-            initAspectRatio: CropAspectRatioPreset.ratio4x3,
+            hideBottomControls: false,
+            showCropGrid: false,
+            initAspectRatio: CropAspectRatioPreset.original,
+            lockAspectRatio: false,
           ),
-          iosUiSettings: const IOSUiSettings(
+          iosUiSettings: IOSUiSettings(
             title: 'Crop Image',
-            minimumAspectRatio: 1.0,  // This allows a more freeform crop on iOS
+            minimumAspectRatio: 1.0,
           ),
         );
 
@@ -137,11 +140,19 @@ class _DataEntryScreenState extends State<DataEntryScreen> {
     Scaffold(
         backgroundColor: Colors.white,
         body: Container(
-
+            decoration: const BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage(Configt.app_background2),
+                fit: BoxFit.cover,
+              ), ),
           child: Container(
             color: Colors.white10,
             child: Center(
-              child: Image.asset(Configt.appLogo),
+              child: Lottie.asset(Configt.baby,
+                      height: 300,
+
+              ),
+
             ),
           ),
         )

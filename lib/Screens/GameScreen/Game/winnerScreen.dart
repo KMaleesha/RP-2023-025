@@ -1,12 +1,11 @@
 import 'dart:async';
 
+import 'package:Katha/Screens/GameScreen/Game/selection_screen.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hexcolor/hexcolor.dart';
-import 'package:kathaappa/Screens/GameScreen/Game/selection_screen.dart';
-import 'package:kathaappa/Screens/ScreenTest/HomeScreen.dart';
 import 'package:lottie/lottie.dart';
 import 'package:material_dialogs/dialogs.dart';
 
@@ -46,9 +45,9 @@ class _WinnerScreenState extends State<WinnerScreen> with SingleTickerProviderSt
   Future setAudio() async {
     audioPlayer.setReleaseMode(ReleaseMode.loop);
 
-    final player = AudioCache(prefix: "assets/gameAssets/songs/questionWords/");
+    final player = AudioCache(prefix: "assets/gameAssets/songs/");
     //load song from assets
-    final url = await player.load("Hariiii.wav");
+    final url = await player.load("winAudio.mp3");
     audioPlayer.setSourceUrl(url.path);
   }
 
@@ -61,7 +60,7 @@ class _WinnerScreenState extends State<WinnerScreen> with SingleTickerProviderSt
       setAudio();
     });
 
-    //startvoice recorder
+    //startvoice play
     Timer(Duration(seconds: 2), () {
       _handleTap();
     });
@@ -121,6 +120,7 @@ class _WinnerScreenState extends State<WinnerScreen> with SingleTickerProviderSt
               Center(
                 child: GestureDetector(
                   onTap: (){
+                    audioPlayer.pause();
                     Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(builder: (context) => SelectionScreen()),

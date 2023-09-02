@@ -55,7 +55,7 @@ class _InCorrectState extends State<InCorrect> {
   @override
   void dispose() {
 
-    audioPlayer.dispose();
+    audioPlayer.dispose();  audioPlayer.pause();
     audioPlayer.pause();
     super.dispose();
   }
@@ -100,8 +100,8 @@ class _InCorrectState extends State<InCorrect> {
                             height: 30 * fem,
                             child: ElevatedButton(
                               onPressed: () {
-                                audioPlayer.dispose();
                                 audioPlayer.pause();
+                                audioPlayer.dispose();  audioPlayer.pause();
                                 Navigator.of(context).push(MaterialPageRoute(
                                   builder: (context) => HomeScreenAll(),
                                 ));
@@ -127,8 +127,8 @@ class _InCorrectState extends State<InCorrect> {
                                 height: 32 * fem,
                                 child: ElevatedButton(
                                   onPressed: () {
-                                    audioPlayer.dispose();
                                     audioPlayer.pause();
+                                    audioPlayer.dispose();  audioPlayer.pause();
                                     Navigator.of(context).push(MaterialPageRoute(
                                       builder: (context) => HowToSpeak(),
                                     ));
@@ -193,19 +193,19 @@ class _InCorrectState extends State<InCorrect> {
               ),
 //
       Positioned(
-        left: 46 * fem,
+        left: 86 * fem,
         top: 646.991394043 * fem,
         child: GestureDetector(
           onTap: () {
-            audioPlayer.dispose();
             audioPlayer.pause();
+            audioPlayer.dispose();  audioPlayer.pause();
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => ListWords()),
+              MaterialPageRoute(builder: (context) => HowToSpeak()),
             );
           },
           child: AnimatedContainer(
-            width: 300 * fem,
+            width: 200 * fem,
             height: 43.73 * fem,
             duration: Duration(milliseconds: 300),
             curve: Curves.easeInOut,
@@ -230,7 +230,7 @@ class _InCorrectState extends State<InCorrect> {
             ),
             child: Center(  // Centering text here
               child: Text(
-                'නැවත වටයකදි දිනමු',
+                'උත්සහ කරන්න',
                 style: TextStyle(
                   fontFamily: 'Noto Sans Sinhala',
                   fontSize: 17 * ffem,
