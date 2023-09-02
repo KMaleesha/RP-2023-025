@@ -10,14 +10,14 @@ import 'HowToSpeak.dart';
 import 'ListWords.dart';
 
 
-class InCorrect extends StatefulWidget {
-  const InCorrect({Key? key}) : super(key: key);
+class InCorrectFinal extends StatefulWidget {
+  const InCorrectFinal({Key? key}) : super(key: key);
 
   @override
-  State<InCorrect> createState() => _InCorrectState();
+  State<InCorrectFinal> createState() => _InCorrectFinalState();
 }
 
-class _InCorrectState extends State<InCorrect> {
+class _InCorrectFinalState extends State<InCorrectFinal> {
   //1
   final audioPlayer = AudioPlayer();
   @override
@@ -49,13 +49,13 @@ class _InCorrectState extends State<InCorrect> {
 
     final player = AudioCache(prefix: "assets/screenTestAssets/VoiceOver/");
     //load song from assets
-    final url = await player.load("S3_3.wav");
+    final url = await player.load("S5.wav");
     audioPlayer.setSourceUrl(url.path);
   }
   @override
   void dispose() {
 
-    audioPlayer.dispose();  audioPlayer.pause();
+    audioPlayer.dispose();  audioPlayer.pause();audioPlayer.pause();
     audioPlayer.pause();
     super.dispose();
   }
@@ -100,7 +100,6 @@ class _InCorrectState extends State<InCorrect> {
                             height: 30 * fem,
                             child: ElevatedButton(
                               onPressed: () {
-                                audioPlayer.pause();
                                 audioPlayer.dispose();  audioPlayer.pause();
                                 Navigator.of(context).push(MaterialPageRoute(
                                   builder: (context) => HomeScreenAll(),
@@ -127,7 +126,6 @@ class _InCorrectState extends State<InCorrect> {
                                 height: 32 * fem,
                                 child: ElevatedButton(
                                   onPressed: () {
-                                    audioPlayer.pause();
                                     audioPlayer.dispose();  audioPlayer.pause();
                                     Navigator.of(context).push(MaterialPageRoute(
                                       builder: (context) => HowToSpeak(),
@@ -184,65 +182,139 @@ class _InCorrectState extends State<InCorrect> {
                     width: 500,
                     height: 700,
                     child: Image.asset(
-                      'assets/screenTestAssets/incorrect.jpg',
+                      'assets/screenTestAssets/incorrectFinal.jpg',
                       fit: BoxFit.cover,
 
                     ),
                   ),
                 ),
               ),
-//
-      Positioned(
-        left: 86 * fem,
-        top: 646.991394043 * fem,
-        child: GestureDetector(
-          onTap: () {
-            audioPlayer.pause();
-            audioPlayer.dispose();  audioPlayer.pause();
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => HowToSpeak()),
-            );
-          },
-          child: AnimatedContainer(
-            width: 200 * fem,
-            height: 43.73 * fem,
-            duration: Duration(milliseconds: 300),
-            curve: Curves.easeInOut,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20 * fem),
-              gradient: LinearGradient(
-                begin: Alignment(0.407, -1),
-                end: Alignment(-0.407, 1),
-                colors: <Color>[
-                  Color(0xfff9ff00),
-                  Color(0xffff4c00),
-                ],
-                stops: <double>[0, 1],
-              ),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.yellow.withOpacity(0.7),
-                  blurRadius: 20.0,
-                  spreadRadius: 2.0,
-                ),
-              ],
-            ),
-            child: Center(  // Centering text here
-              child: Text(
-                'උත්සහ කරන්න',
-                style: TextStyle(
-                  fontFamily: 'Noto Sans Sinhala',
-                  fontSize: 17 * ffem,
-                  fontWeight: FontWeight.w700,
-                  height: 1.3025 * ffem / fem,
-                  color: Color(0xff591010),
+              Positioned(
+                left: 198 * fem,
+                top: 646.991394043 * fem,
+                child: Align(
+                  child: SizedBox(
+                    width: 141 * fem,
+                    height: 60.73 * fem,
+                    child: GestureDetector(
+                      onTap: () {
+                        /*Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => HowToDoScreen(),
+                          ),
+                        );*/
+                      },
+                      child: AnimatedContainer(
+                        duration: Duration(milliseconds: 300),
+                        curve: Curves.easeInOut,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20 * fem),
+                          gradient: LinearGradient(
+                            begin: Alignment(0.407, -1),
+                            end: Alignment(-0.407, 1),
+                            colors: <Color>[
+                              Color(0xff00ffff),
+                              Color(0xff242bc9),
+                            ],
+                            stops: <double>[0, 1],
+                          ),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.blue.withOpacity(0.7),
+                              blurRadius: 20.0,
+                              spreadRadius: 2.0,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
                 ),
               ),
-            ),
-          ),
-        ),
-      ),
+              Positioned(
+                left: 46 * fem,
+                top: 646.991394043 * fem,
+                child: Align(
+                  child: SizedBox(
+                    width: 141 * fem,
+                    height: 60.73 * fem,
+                    child: GestureDetector(
+                      onTap: () {
+                        audioPlayer.dispose();  audioPlayer.pause();
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => ListWords()),
+                        );
+                      },
+                      child: AnimatedContainer(
+                        duration: Duration(milliseconds: 300),
+                        curve: Curves.easeInOut,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20 * fem),
+                          gradient: LinearGradient(
+                            begin: Alignment(0.407, -1),
+                            end: Alignment(-0.407, 1),
+                            colors: <Color>[
+                              Color(0xFFFF69B4),
+                              Color(0xFFC71585),
+                            ],
+                            stops: <double>[0, 1],
+                          ),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.yellow.withOpacity(0.7),
+                              blurRadius: 20.0,
+                              spreadRadius: 2.0,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+
+              Positioned(
+                left: 90 * fem,
+                top: 656.9298095703 * fem,
+                child: Align(
+                  child: SizedBox(
+                    width: 75 * fem,
+                    height: 100 * fem,
+                    child: Text(
+                      'වෙනත් වචනයක්',
+                      style: TextStyle(
+                        fontFamily: 'Noto Sans Sinhala',
+                        fontSize: 13 * ffem,
+                        fontWeight: FontWeight.w700,
+                        height: 1.3025 * ffem / fem,
+                        color: Color(0xff591010),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              Positioned(
+                left: 248 * fem,
+                top: 656.9298095703 * fem,
+                child: Align(
+                  child: SizedBox(
+                    width: 73 * fem,
+                    height: 100 * fem,
+                    child: Text(
+                      'ප්‍රධාන මෙනුව',
+                      style: TextStyle(
+                        fontFamily: 'Noto Sans Sinhala',
+                        fontSize: 13 * ffem,
+                        fontWeight: FontWeight.w700,
+                        height: 1.3025 * ffem / fem,
+                        color: Color(0xff591010),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
             ],
           ),
         ),

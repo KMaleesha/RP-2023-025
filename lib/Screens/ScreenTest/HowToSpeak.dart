@@ -2,11 +2,12 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_sound/flutter_sound.dart';
+import 'package:kathaappa/Screens/ScreenTest/RecordScreen.dart';
 import 'dart:ui';
-
+import 'package:kathaappa/Screens/Users/screens/homeScreen.dart';
 import 'package:audioplayers/audioplayers.dart';
 
-import '../Users/screens/homeScreen.dart';
 import 'ListWords.dart';
 
 
@@ -55,7 +56,7 @@ class _HowToSpeakState extends State<HowToSpeak> {
   @override
   void dispose() {
 
-    audioPlayer.dispose();
+    audioPlayer.dispose();  audioPlayer.pause();
     audioPlayer.pause();
     super.dispose();
   }
@@ -100,8 +101,7 @@ class _HowToSpeakState extends State<HowToSpeak> {
                             height: 30 * fem,
                             child: ElevatedButton(
                               onPressed: () {
-                                audioPlayer.dispose();
-                                audioPlayer.pause();
+                                audioPlayer.dispose();  audioPlayer.pause();
                                 Navigator.of(context).push(MaterialPageRoute(
                                   builder: (context) => HomeScreenAll(),
                                 ));
@@ -193,11 +193,11 @@ class _HowToSpeakState extends State<HowToSpeak> {
                 top: 646.991394043 * fem,
                 child: GestureDetector(
                   onTap: () {
-                    audioPlayer.dispose();
+                    audioPlayer.dispose();  audioPlayer.pause();
                     audioPlayer.pause();
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => ListWords()),
+                      MaterialPageRoute(builder: (context) => RecordScreen()),
                     );
                   },
                   child: AnimatedContainer(
