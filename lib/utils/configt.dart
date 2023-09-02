@@ -39,6 +39,11 @@ class Configt {
   static const baby = 'assets/gameAssets/baby.json';
   static const rabbit = 'assets/gameAssets/rabbit.json';
   static const bAnimation = 'assets/gameAssets/bAnimation.gif';
+  static const clickTAP = 'assets/gameAssets/click.json';
+  static const loginImage = 'assets/loginImage.jpg';
+
+
+
   //audios
   static const hariiii = 'assets/gameAssets/songs/questionWords/Hariiii.wav';
   static const uthsahakarankooo = 'assets/gameAssets/songs/questionWords/uthsahakarankooo.wav';

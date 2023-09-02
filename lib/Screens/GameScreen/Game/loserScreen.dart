@@ -1,10 +1,10 @@
 import 'dart:async';
 
+import 'package:Katha/Screens/GameScreen/Game/selection_screen.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:kathaappa/Screens/GameScreen/Game/selection_screen.dart';
 
 import '../../../utils/configt.dart';
 
@@ -39,9 +39,9 @@ class _LoserScreenState extends State<LoserScreen> with SingleTickerProviderStat
   Future setAudio() async {
     audioPlayer.setReleaseMode(ReleaseMode.loop);
 
-    final player = AudioCache(prefix: "assets/gameAssets/songs/questionWords/");
+    final player = AudioCache(prefix: "assets/gameAssets/songs/");
     //load song from assets assets/gameAssets/songs/questionWords/uthsahakarankooo.wav
-    final url = await player.load("uthsahakarankooo.wav");
+    final url = await player.load("loseAudio.mp3");
     audioPlayer.setSourceUrl(url.path);
   }
   @override
@@ -91,47 +91,58 @@ class _LoserScreenState extends State<LoserScreen> with SingleTickerProviderStat
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Container(
-          width: MediaQuery.of(context).size.width, // To make it landscape left
-          height: MediaQuery.of(context).size.height, // To make it landscape left
-          child: Stack(
-            children: [
-              Image.asset(
-                'assets/gameAssets/selectionPage.png',
-                fit: BoxFit.cover,
-              ),
-              Center(
-                child: GestureDetector(
-                 onTap: (){
-                   audioPlayer.pause();
-              Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (context) => SelectionScreen()),
-              );
-              },
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(20),
-                    child: Container(
-                      width: _containerWidth,
-                      height: _containerHeight,
-                      color: Colors.white,
-                      child: Column(
-                        children: [
-                          Center(
-                            child: Image.asset(
-                              Configt.appcryface,
-                              height: _imageHeight,
-                              width: _imageWidth,
+      body: Container(
+
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image:AssetImage(
+              'assets/gameAssets/selectionPage.png',
+
+            ),fit: BoxFit.cover,
+
+          ),
+        ),
+        child: Center(
+          child: Container(
+            width: MediaQuery.of(context).size.width, // To make it landscape left
+            height: MediaQuery.of(context).size.height, // To make it landscape left
+            child: Stack(
+              children: [
+
+                Center(
+                  child: GestureDetector(
+                   onTap: (){
+                     audioPlayer.pause();
+                Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => SelectionScreen()),
+                );
+                },
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(20),
+                      child: Container(
+                        width: _containerWidth,
+                        height: _containerHeight,
+                        color: Colors.white,
+                        child: Column(
+                          children: [
+                            Center(
+                              child: Image.asset(
+                                Configt.appcryface,
+                                height: _imageHeight,
+                                width: _imageWidth,
+                              ),
                             ),
-                          ),
-                        ],
+
+                          ],
+                        ),
                       ),
                     ),
                   ),
                 ),
-              ),
-            ],
+
+              ],
+            ),
           ),
         ),
       ),

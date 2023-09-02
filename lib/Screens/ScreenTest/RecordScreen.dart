@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'dart:ui';
-import 'package:kathaappa/Screens/ScreenTest/ListWords.dart';
-import 'package:kathaappa/Screens/ScreenTest/HomeScreen.dart';
+
+import 'ListWords.dart';
+
 
 class RecordScreen extends StatelessWidget {
   @override

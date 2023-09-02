@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -16,13 +19,52 @@ class SelectionScreen extends StatefulWidget {
 }
 
 class _SelectionScreenState extends State<SelectionScreen> {
-
+  final audioPlayer = AudioPlayer();
   @override
   void initState() {
     super.initState();
     SystemChrome.setPreferredOrientations([DeviceOrientation.landscapeLeft]);
+    Timer(Duration(seconds: 1), () {
+      print(" setAudio(); milliseconds: 200");
+      setAudio();
+    });
+
+    //startvoice play
+    Timer(Duration(seconds: 2), () {
+      print("  _handleTap(); milliseconds: 400");
+      _handleTap();
+    });
+
+
   }
 
+  void _handleTap() {
+    Timer(Duration(seconds:15), () {
+
+    });
+    audioPlayer.resume();
+  }
+  //function to initialize audio
+  Future setAudio() async {
+    audioPlayer.setReleaseMode(ReleaseMode.loop);
+
+    final player = AudioCache(prefix: "assets/gameAssets/songs/");
+    //load song from assets
+    final url = await player.load("selectionAudio.mp3");
+    audioPlayer.setSourceUrl(url.path);
+  }
+
+  @override
+  void dispose() {
+    // if (_controller != null && _controller.isAnimating) {
+    //   _controller.stop();
+    // }
+    // _controller.dispose();
+
+    audioPlayer.dispose();
+    audioPlayer.pause();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -69,11 +111,18 @@ class _SelectionScreenState extends State<SelectionScreen> {
                   Padding(
                     padding:  EdgeInsets.only(left: 8 ,top: height *0.6),
                     child: GestureDetector(
-                        onTap: () => Navigator.push(
+                      onTap: (){
+                        Navigator.push(
                           context,
                           MaterialPageRoute(builder: (context) => AnimationSpriteAnimationScreen()),
-                        ),
-                        child: Image.asset(Configt.app_hawa,height: 150,width: 150,)),
+                        );
+                        audioPlayer.pause();
+                      },
+
+
+                        child: Image.asset(Configt.app_hawa,height: 150,width: 150,),
+
+                    ),
                   ),
                   Padding(
                     padding:  EdgeInsets.only(left: 130 , right:400,top: height * 0.4),

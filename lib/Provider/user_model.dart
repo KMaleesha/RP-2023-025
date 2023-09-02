@@ -2,10 +2,12 @@ class UserModel {
   String? uid;
   String? email;
   String? isSignedIn;
+  int? role;
 
   UserModel({
     this.uid,
     this.email,
+    this.role,
   });
 
   //receiving data from server
@@ -13,6 +15,7 @@ class UserModel {
     return UserModel(
       uid: map['uid'],
       email: map['email'],
+      role: map['role'],
     );
   }
 
@@ -22,6 +25,7 @@ class UserModel {
     return {
       'uid': uid,
       'email': email,
+      'role': role,
     };
   }
 }
