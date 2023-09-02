@@ -1,99 +1,306 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
-import 'dart:ui'; // For ImageFilter
+import 'package:flutter/services.dart';
+import 'dart:ui';
+import 'package:kathaappa/Screens/Users/screens/homeScreen.dart';
+import 'package:audioplayers/audioplayers.dart';
+
+import 'ListWords.dart';
+
 
 class Correct extends StatefulWidget {
+  const Correct({Key? key}) : super(key: key);
+
   @override
-  _CorrectState createState() => _CorrectState();
+  State<Correct> createState() => _CorrectState();
 }
 
 class _CorrectState extends State<Correct> {
+  //1
+  final audioPlayer = AudioPlayer();
+  @override
+  void initState() {
+    super.initState();
+    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+//2
+    Timer(Duration(seconds: 1), () {
+      setAudio();
+    });
+
+    //startvoice recorder
+    Timer(Duration(seconds: 2), () {
+      _handleTap();
+    });
+    /////////////////2
+  }
+  /////////////////3
+  // Function to handle tap on the screen
+  void _handleTap() {
+    Timer(Duration(seconds:15), () {
+
+    });
+    audioPlayer.resume();
+  }
+  //function to initialize audio
+  Future setAudio() async {
+    audioPlayer.setReleaseMode(ReleaseMode.loop);
+
+    final player = AudioCache(prefix: "assets/screenTestAssets/VoiceOver/");
+    //load song from assets
+    final url = await player.load("S3_2.wav");
+    audioPlayer.setSourceUrl(url.path);
+  }
+  @override
+  void dispose() {
+
+    audioPlayer.dispose();
+    audioPlayer.pause();
+    super.dispose();
+  }
+  /////////////////3
   @override
   Widget build(BuildContext context) {
-    // Constants for scaling. Assumed to be defined somewhere in your code.
-    double fem = 1.0;
-    double ffem = 1.0;
+    double fem = 1.0; // Your factor value
+    double ffem = 1.0; // Your factor value
 
-    return Container(
-      width: double.infinity,
-      decoration: BoxDecoration(color: Color(0xffffffff)),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          ClipRect(
-            child: BackdropFilter(
-              filter: ImageFilter.blur(
-                sigmaX: 13.5914087296 * fem,
-                sigmaY: 13.5914087296 * fem,
-              ),
-              child: Container(
-                margin: EdgeInsets.fromLTRB(0 * fem, 0 * fem, 0 * fem, 16 * fem),
-                padding: EdgeInsets.fromLTRB(36.33 * fem, 14 * fem, 14.67 * fem, 20 * fem),
-                width: double.infinity,
-                height: 54 * fem,
-                decoration: BoxDecoration(color: Color(0xffffffff)),
-                child: Container(
-                  width: double.infinity,
-                  height: double.infinity,
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Container(
-                        margin: EdgeInsets.fromLTRB(0 * fem, 0 * fem, 233.33 * fem, 0 * fem),
-                        child: Text(
-                          '9:27',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontFamily: 'Acme',
-                            fontSize: 15 * ffem,
-                            fontWeight: FontWeight.w400,
-                            height: 1.2675 * ffem / fem,
-                            letterSpacing: -0.3333333433 * fem,
-                            color: Color(0xff000000),
+    return SafeArea(
+      child: Scaffold(
+        body: Container(
+
+          width: double.infinity,
+          height: 807 * fem,
+          child: Stack(
+            children: [
+              ClipRect(
+                child: BackdropFilter(
+                  filter: ImageFilter.blur(
+                    sigmaX: 13.5914087296 * fem,
+                    sigmaY: 13.5914087296 * fem,
+                  ),
+                  child: Container(
+                    margin: EdgeInsets.fromLTRB(0 * fem, 0 * fem, 0 * fem, 16 * fem),
+                    padding: EdgeInsets.fromLTRB(36.33 * fem, 14 * fem, 14.67 * fem, 0 * fem),
+                    width: double.infinity,
+                    height: 54 * fem,
+                    decoration: BoxDecoration(
+                      color: const Color(0xffffffff),
+                    ),
+                    child: Container(
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        color: const Color(0xffffffff),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Container(
+                            width: 50 * fem,
+                            height: 30 * fem,
+                            child: ElevatedButton(
+                              onPressed: () {
+                                audioPlayer.dispose();
+                                audioPlayer.pause();
+                                Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) => HomeScreenAll(),
+                                ));
+
+                              },
+                              child: Image.asset(
+                                'assets/screenTestAssets/icon-back.png',
+                                width: 50 * fem,
+                                height: 30 * fem,
+                              ),
+                              style: ElevatedButton.styleFrom(
+                                padding: EdgeInsets.zero,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20.0),
+                                ),
+                              ),
+                            ),
                           ),
-                        ),
+                          Row(
+                            children: [
+                              Container(
+                                width: 45 * fem,
+                                height: 32 * fem,
+                                child: ElevatedButton(
+                                  onPressed: () {
+                                    // Profile button pressed action
+                                  },
+                                  child: Image.asset(
+                                    'assets/screenTestAssets/icon-profile.png',
+                                    width: 50 * fem,
+                                    height: 27 * fem,
+                                  ),
+                                  style: ElevatedButton.styleFrom(
+                                    padding: EdgeInsets.zero,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(20.0),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              SizedBox(width: 16 * fem), // Add necessary spacing
+                              Container(
+                                width: 43 * fem,
+                                height: 32 * fem,
+                                child: ElevatedButton(
+                                  onPressed: () {
+                                    // Home button pressed action
+                                  },
+                                  child: Image.asset(
+                                    'assets/screenTestAssets/icon-home.png',
+                                    width: 50 * fem,
+                                    height: 27 * fem,
+                                  ),
+                                  style: ElevatedButton.styleFrom(
+                                    padding: EdgeInsets.zero,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(20.0),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
                       ),
-                      Container(
-                        margin: EdgeInsets.fromLTRB(0 * fem, 3.33 * fem, 0 * fem, 5.33 * fem),
-                        height: double.infinity,
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Container(
-                              margin: EdgeInsets.all(0),
-                              width: 17 * fem,
-                              height: 10.67 * fem,
-                              child: Image.asset('assets/screenTestAssets/correct.jpg',
-                                  width: 17 * fem, height: 10.67 * fem),
-                            ),
-                            SizedBox(width: 5 * fem),
-                            Container(
-                              margin: EdgeInsets.all(0),
-                              width: 15.33 * fem,
-                              height: 11 * fem,
-                              child: Image.asset('assets/screenTestAssets/correct.jpg',
-                                  width: 15.33 * fem, height: 11 * fem),
-                            ),
-                            SizedBox(width: 5 * fem),
-                            Container(
-                              width: 24.33 * fem,
-                              height: 11.33 * fem,
-                              child: Image.asset('assets/screenTestAssets/correct.jpg',
-                                  width: 24.33 * fem, height: 11.33 * fem),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
+                    ),
                   ),
                 ),
               ),
-            ),
+              Positioned(
+                left: 0,
+                right: 0,
+                top: 80,
+                child: Align(
+                  child: SizedBox(
+                    width: 500,
+                    height: 700,
+                    child: Stack(
+                      children: [
+                        // First image (bottom layer)
+                        Image.asset(
+                          'assets/screenTestAssets/correct.jpg',
+                          fit: BoxFit.cover,
+                          width: 500,
+                          height: 700,
+                        ),
+                        // Second image (top layer)
+                    Positioned(
+                      left: 0,
+                      right: 0,
+                      bottom: 250,
+                      child: Align(
+                        alignment: Alignment.topCenter,
+                        child: Image.asset(
+                          'assets/screenTestAssets/g3.gif',  // Replace this with your actual asset path
+                          fit: BoxFit.contain,
+                        ),
+                      ),
+                    ),
+                        Positioned(
+                          left: 0,
+                          right: 0,
+                          bottom: 0, // Move it further down relative to the bottom edge
+                          child: Align(
+                            alignment: Alignment.bottomCenter,
+                            child: Padding(
+                              padding: const EdgeInsets.only(bottom: 20), // 20 pixels padding at the bottom
+                              child: Image.asset(
+                                'assets/screenTestAssets/g1.gif',  // Replace this with your actual asset path
+                                fit: BoxFit.contain,
+                              ),
+                            ),
+                          ),
+                        ),
+
+                        Positioned(
+                          left: 0,
+                          right: 0,
+                          bottom: -100, // Move it further down relative to the bottom edge
+                          child: Align(
+                            alignment: Alignment.bottomCenter,
+                            child: Padding(
+                              padding: const EdgeInsets.only(bottom: 20), // 20 pixels padding at the bottom
+                              child: Image.asset(
+                                'assets/screenTestAssets/g2.gif',  // Replace this with your actual asset path
+                                fit: BoxFit.contain,
+                              ),
+                            ),
+                          ),
+                        ),
+
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+
+              ///
+              Positioned(
+                top: 646.991394043 * fem, // keep the same vertical position
+                left: 0,
+                right: 0,
+                child: Center( // Centers child horizontally within the Positioned widget
+                  child: GestureDetector(
+                    onTap: () {
+                      audioPlayer.dispose();
+                      audioPlayer.pause();
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => ListWords()),
+                      );
+                    },
+                    child: AnimatedContainer(
+                      width: 100 * fem,
+                      height: 43.73 * fem,
+                      duration: Duration(milliseconds: 300),
+                      curve: Curves.easeInOut,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20 * fem),
+                        gradient: LinearGradient(
+                          begin: Alignment(0.407, -1),
+                          end: Alignment(-0.407, 1),
+                          colors: <Color>[
+                            Color(0xfff9ff00),
+                            Color(0xffff4c00),
+                          ],
+                          stops: <double>[0, 1],
+                        ),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.yellow.withOpacity(0.7),
+                            blurRadius: 20.0,
+                            spreadRadius: 2.0,
+                          ),
+                        ],
+                      ),
+                      child: Center(
+                        child: Text(
+                          'දිනුම්',
+                          style: TextStyle(
+                            fontFamily: 'Noto Sans Sinhala',
+                            fontSize: 17 * ffem,
+                            fontWeight: FontWeight.w700,
+                            height: 1.3025 * ffem / fem,
+                            color: Color(0xff591010),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+
+            ],
           ),
-          // ... Continue with the rest of your widgets using Image.asset('assets/screenTestAssets/correct.jpg') wherever you had [Image url]...
-        ],
+        ),
       ),
     );
   }
-}
 
-void main() => runApp(MaterialApp(home: Correct()));
+
+
+}
