@@ -7,9 +7,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:kathaappa/Screens/GameScreen/Game/questionAnimation.dart';
-import 'package:kathaappa/Screens/GameScreen/Game/selection_screen.dart';
-import 'package:kathaappa/Screens/GameScreen/Game/winnerScreen.dart';
+
 import 'package:path_provider/path_provider.dart';
 import 'package:record/record.dart';
 import '../../../../utils/configt.dart';
@@ -17,6 +15,9 @@ import '../../../ScreenTest/HomeScreen.dart';
 import '../loserScreen.dart';
 import '../model/childImage.dart';
 import 'package:flutter_sound/flutter_sound.dart';
+
+import '../selection_screen.dart';
+import '../winnerScreen.dart';
 class QuestionPageScreen extends StatefulWidget {
   const QuestionPageScreen({super.key});
 

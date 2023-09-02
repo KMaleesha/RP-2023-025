@@ -1,6 +1,7 @@
+import 'package:Katha/Screens/TherapistManagement/screens/therapist_dashboard.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart'; // Import Firestore
-import 'package:kathaappa/Screens/TherapistManagement/screens/therapist_dashboard.dart';
+
 import '../../../../utils/configt.dart';
 import '../model/patient_model.dart';
 import '../model/audio_model.dart'; // Import your AudioModel

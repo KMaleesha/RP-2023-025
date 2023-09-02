@@ -1,7 +1,9 @@
 import 'dart:ui';
-import 'package:kathaappa/Screens/ScreenTest/Homescreen.dart';
-import 'package:kathaappa/Screens/ScreenTest/RecordScreen.dart';
+
 import 'package:flutter/material.dart';
+
+import 'HomeScreen.dart';
+import 'RecordScreen.dart';
 
 class ListWords extends StatelessWidget {
   @override
