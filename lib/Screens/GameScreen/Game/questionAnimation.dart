@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:kathaappa/Screens/GameScreen/Game/selection_screen.dart';
 import 'package:kathaappa/Screens/GameScreen/Game/winnerScreen.dart';
+import 'package:lottie/lottie.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:record/record.dart';
 import '../../../utils/configt.dart';
@@ -17,18 +18,15 @@ import 'loserScreen.dart';
 import 'model/childImage.dart';
 import 'package:flutter_sound/flutter_sound.dart';
 
-
 class QuestionAnimationScreen extends StatefulWidget {
   const QuestionAnimationScreen({super.key});
 
   @override
-  State<QuestionAnimationScreen> createState() => _QuestionAnimationScreenState();
+  State<QuestionAnimationScreen> createState() =>
+      _QuestionAnimationScreenState();
 }
 
 class _QuestionAnimationScreenState extends State<QuestionAnimationScreen>
-
-
-
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   Animation<double>? _animation;
@@ -44,22 +42,29 @@ class _QuestionAnimationScreenState extends State<QuestionAnimationScreen>
   final audioPlayer = AudioPlayer();
   bool isPlaying = false;
   TextEditingController url = TextEditingController();
-  bool result = true;
+  bool resultAPI = true;
   double _leftPadding = 0.0;
   double _stopPosition = 0.0;
   double _leftPadding2 = 0.0;
   double _stopPosition2 = 0.0;
-
+  bool askQ = false;
+  bool askA = false;
+  bool isLoading = true;
+  bool isUpload = false;
 
   @override
   void initState() {
     super.initState();
     SystemChrome.setPreferredOrientations([DeviceOrientation.landscapeLeft]);
+    Future.delayed(Duration(seconds: 3), () {
+      setState(() {
+        isLoading = false; // Content is now loaded
+      });
+    });
     getData();
     _player = FlutterSoundPlayer();
     _player?.openAudioSession();
     //add sprite images to list
-
 
     _controller = AnimationController(
       duration: const Duration(seconds: 20),
@@ -75,24 +80,19 @@ class _QuestionAnimationScreenState extends State<QuestionAnimationScreen>
     });
     //initialize audio
 
-
     WidgetsBinding.instance!.addPostFrameCallback((_) {
-      final double width = MediaQuery
-          .of(context)
-          .size
-          .width;
+      final double width = MediaQuery.of(context).size.width;
       _stopPosition = width * 0.1;
       _stopPosition2 = width * 0.2;
       _animation = Tween<double>(
-        begin:0.0,
+        begin: 0.0,
         end: _stopPosition,
       ).animate(
         CurvedAnimation(
           parent: _controller,
           curve: Curves.linear,
         ),
-      )
-        ..addListener(() {
+      )..addListener(() {
           setState(() {
             _leftPadding = _animation!.value;
             _leftPadding2 = _animation!.value;
@@ -113,11 +113,11 @@ class _QuestionAnimationScreenState extends State<QuestionAnimationScreen>
     final reference = FirebaseFirestore.instance
         .collection("users")
         .doc(user?.uid)
-        .collection("child")
+        .collection("therapeuticGamesChildFace")
         .doc(user?.uid);
     final snapshot = await reference.get();
     final result =
-    snapshot.data() == null ? null : ChildImage.fromJson(snapshot.data()!);
+        snapshot.data() == null ? null : ChildImage.fromJson(snapshot.data()!);
 
     setState(() {
       url.text = result?.url ?? '';
@@ -128,91 +128,192 @@ class _QuestionAnimationScreenState extends State<QuestionAnimationScreen>
   Future setAudio() async {
     audioPlayer.setReleaseMode(ReleaseMode.loop);
 
-    final player = AudioCache(prefix: "assets/songs/questionWords/");
+    final player = AudioCache(prefix: "assets/screenTestAssets/VoiceOver/");
     //load song from assets
-    final url = await player.load("hawa.wav");
+    final url = await player.load("sc1.wav");
     audioPlayer.setSourceUrl(url.path);
   }
 
   @override
   void dispose() {
-    _controller.dispose();
+    // if (_controller != null && _controller.isAnimating) {
+    //   _controller.stop();
+    // }
+    // _controller.dispose();
+    _controller.stop();
     audioPlayer.dispose();
     audioPlayer.pause();
     super.dispose();
   }
 
+  // Add a state variable to track whether the content is loading
+
+  late double width, height;
+
   @override
   Widget build(BuildContext context) {
-    double height = MediaQuery.of(context).size.height;
-    double widthall = MediaQuery.of(context).size.width;
-    return Scaffold(
-      body: SafeArea(
-        child:Container(
-          decoration: const BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage(Configt.app_SelectionPageBackground1),
-              fit: BoxFit.cover,
-            ),
-          ),
-          child: SafeArea(
-            child: Column(
-              children: [
-                Stack(
-                  children: [
-                    Row(
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.only(
-                              top: height * 0.3, left: _leftPadding2),
-                          child: Column(
+    width = MediaQuery.of(context).size.width;
+    height = MediaQuery.of(context).size.height;
+
+    // Delay for 3 seconds to simulate loading
+
+    return (isLoading)
+        ? Scaffold(
+
+            body: Container(
+              decoration: const BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage(Configt.bAnimation),
+                  fit: BoxFit.cover,
+                ),
+              ),
+              child: Container(
+                color: Colors.white10,
+                child: Center(
+                  child: Lottie.asset(Configt.rabbit,
+                    fit: BoxFit.fill,
+
+                  ),
+                ),
+              ),
+            ))
+        : Scaffold(
+            body: SafeArea(
+              child: Container(
+                decoration: const BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage(Configt.app_SelectionPageBackground1),
+                    fit: BoxFit.cover,
+                  ),
+                ),
+                child: SafeArea(
+                  child: Stack(
+                    children: [
+                      Stack(
+                        children: [
+                          Row(
                             children: [
                               Padding(
-                                padding: const EdgeInsets.only(left: 13),
-                                child:  url.text.isNotEmpty
-                                    ? Image.network(url.text,height: 65,
-                                  width: 65,)
-                                    : Image.asset(Configt.app_childface,
-                                  height: 50,
-                                  width: 100,),
-                              ),
-                              Image.asset(
-                                Configt.app_child,
-                                width: 150,
-                                height: 120,
+                                  padding: EdgeInsets.only(
+                                      top: height * 0.34, left: _leftPadding2),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    // align at the start
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    // align children horizontally at the start
+                                    children: [
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(left: 42),
+                                        child: url.text.isNotEmpty
+                                            ? Container(
+                                                height: 80,
+                                                width:
+                                                    60, // Adjust dimensions as needed
+                                                child: ClipOval(
+                                                  child: Image.network(
+                                                    url.text, // Your image URL here
+                                                    fit: BoxFit.cover,
+                                                  ),
+                                                ),
+                                              )
+                                            : Container(
+                                                color:
+                                                    Colors.blue, // Debug color
+                                                child: Image.asset(
+                                                  Configt.app_childface,
+                                                  height: 50,
+                                                  width: 100,
+                                                  fit: BoxFit
+                                                      .fitHeight, // To make sure it fits as intended
+                                                ),
+                                              ),
+                                      ),
+                                      Container(
+                                        child: Image.asset(
+                                          Configt.app_child,
+                                          width: 133,
+                                          height: 120,
+                                          fit: BoxFit
+                                              .cover, // To make sure it fits as intended
+                                        ),
+                                      ),
+                                    ],
+                                  )),
+                              Padding(
+                                padding: EdgeInsets.only(
+                                    top: height * 0.50, left: _leftPadding),
+                                child: Image.asset(Configt.app_walkingchild,
+                                    width: 150, height: 150),
                               ),
                             ],
                           ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(
-                              top: height * 0.48, left:   _leftPadding),
-                          child: Image.asset(
-                              Configt.app_walkingchild, width: 150, height: 150),
-                        ),
-                      ],
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(
-                          left: widthall * 0.7, top: height * 0.4),
-                      child: Container(
-                        width: 150,
-                        height: 150,
-                        alignment: Alignment.topLeft,
-                        child: Image.asset(Configt.app_hawa),
+                          Padding(
+                            padding: EdgeInsets.only(
+                                left: width * 0.7, top: height * 0.4),
+                            child: Container(
+                              width: 150,
+                              height: 150,
+                              alignment: Alignment.topLeft,
+                              child: Image.asset(Configt.app_hawa),
+                            ),
+                          ),
+                        ],
                       ),
-                    ),
-                  ],
+                      if (isUpload)
+                        Stack(
+                          children: [
+                            SizedBox(
+                              width: width * 1,
+                              child: Lottie.asset(
+                                Configt.rocketg,
+                                fit: BoxFit.fill,
+                              ),
+                            ),
+                          ],
+                        ),
+                      if (askA)
+                        Stack(
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.only(
+                                  left: width * 0.223, top: height * 0.27),
+                              child: SizedBox(
+                                height: 80,
+                                width: 80,
+                                child: Lottie.asset(
+                                  Configt.thoughtBubble,
+                                  fit: BoxFit.contain,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      if (askQ)
+                        Stack(
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.only(
+                                  left: width * 0.46, top: height * 0.48),
+                              child: SizedBox(
+                                height: 80,
+                                width: 80,
+                                child: Lottie.asset(
+                                  Configt.thoughtBubble,
+                                  fit: BoxFit.contain,
+                                ),
+                              ),
+                            ),
+                          ],
+                        )
+                    ],
+                  ),
                 ),
-              ],
+              ),
             ),
-          ),
-        ),
-
-      ),
-    );
+          );
   }
-
 
   //function to show snackbar
   void _showStartDancingSnackbar() {
@@ -229,83 +330,110 @@ class _QuestionAnimationScreenState extends State<QuestionAnimationScreen>
 
   // Function to handle tap on the screen
   void _handleTap() {
-    Timer(Duration(seconds:15), () {
+    Timer(Duration(seconds: 15), () {
       askQuestion();
     });
     audioPlayer.resume();
+
+    setState(() {
+      askQ = true;
+    });
   }
+
   //ask question
-  askQuestion(){
+  askQuestion() {
     print(" askQuestion ");
     _controller.stop();
     audioPlayer.pause();
-    startRecording;
-    Timer(Duration(seconds: 15), () {
-      print(" Timer stopRecording ");
+    print(" startRecording seconds 15 ");
+    startRecording();
+
+    Timer(Duration(seconds: 20), () {
+      print(" Timer stopRecording seconds: 20");
       stopRecording();
-    });
-    Timer(Duration(seconds: 20), () async {
-      print(" Timer addnewvoice ");
-      await addnewvoice();
-      startPlayback();
-      Timer(Duration(seconds: 5), () {
-        print(" stopPlayback");
-        stopPlayback();
+      setState(() {
+        isUpload = true;
       });
     });
+    Timer(Duration(seconds: 25), () async {
+      print(" Timer addnewvoice seconds: 25");
+
+      await addnewvoice();
+
+      // startPlayback();
+      // Timer(Duration(seconds: 5), () {
+      //   print(" stopPlayback");
+      //   // stopPlayback();
+      // });
+    });
   }
+
   Future<void> startRecording() async {
-    print(" startRecording ");
+    print("Start Recording - Entry");
     try {
       Record record = Record();
       if (await record.hasPermission()) {
+        print("startRecording() hasPermission ");
         Directory tempDir = await getTemporaryDirectory();
-        String tempPath = tempDir.path + '/audio.mp3';
+        String tempPath = tempDir.path + '/audio.wav';
         await record.start(path: tempPath);
         setState(() {
-          _isRecording = true;
+          askQ = false;
+          askA = true;
+
+          // _isRecording = true;
           _audioPath = tempPath;
+          print("tempPath $tempPath");
         });
+        print("Start Recording - _audioPath: $_audioPath");
       }
     } catch (e) {
+      print("startRecording() has no Permission");
       print(e);
     }
   }
+
   Future<void> stopRecording() async {
     print(" stopRecording ");
+    print("Stop Recording - Entry");
     try {
       Record record = Record();
       String? path = await record.stop();
       if (path != null) {
         setState(() {
-          _isRecording = false;
+          askQ = false;
+          askA = false;
+          // _isRecording = false;
           _audioPath = path;
-        });// Call the upload method here
+          print(" path $path");
+        }); // Call the upload method here
+        print("Stop Recording - _audioPath: $_audioPath");
       }
     } catch (e) {
       print(e);
     }
   }
-  Future<void> startPlayback() async {
-    print(" startPlayback startPlayback ");
-    try {
-      if (_audioPath.isNotEmpty ) {
-        await _player!.startPlayer(fromURI: _audioPath );
 
-        setState(() {
-          isPlaying = true;
-        });
-      }
-    } catch (e) {
-      print(e);
-    }
-  }
-  Future<void> stopPlayback() async {
-    await _player!.stopPlayer();
-    setState(() {
-      _isPlaying = false;
-    });
-  }
+  // Future<void> startPlayback() async {
+  //   print(" startPlayback startPlayback ");
+  //   try {
+  //     if (_audioPath.isNotEmpty ) {
+  //       await _player!.startPlayer(fromURI: _audioPath );
+  //
+  //       setState(() {
+  //         isPlaying = true;
+  //       });
+  //     }
+  //   } catch (e) {
+  //     print(e);
+  //   }
+  // }
+  // Future<void> stopPlayback() async {
+  //   await _player!.stopPlayer();
+  //   setState(() {
+  //     _isPlaying = false;
+  //   });
+  // }
   Future<void> addnewvoice() async {
     print(" addnewvoice");
     print(" _audioPath $_audioPath");
@@ -315,8 +443,8 @@ class _QuestionAnimationScreenState extends State<QuestionAnimationScreen>
 
       // Get a reference to the Firebase Storage bucket
       final storage = FirebaseStorage.instance;
-      final audioStorageRef = storage.ref().child(
-          'audio/${DateTime.now().toIso8601String()}.wav');
+      final audioStorageRef =
+          storage.ref().child('audio/${DateTime.now().toIso8601String()}.wav');
 
       // Upload the audio file to Firebase Storage
       final uploadTask = audioStorageRef.putFile(audioFile);
@@ -327,36 +455,50 @@ class _QuestionAnimationScreenState extends State<QuestionAnimationScreen>
       print(" uploading added voice");
       // Save the audio URL and title to Firestore
       final firestore = FirebaseFirestore.instance;
-      await firestore.collection('audio').add({
+      await firestore
+          .collection('therapeuticGamesQuestionAudio')
+          .doc(user?.uid)
+          .set({
         'uid': user?.uid,
+        'date': '${DateTime.now().toIso8601String()}',
         'url': audioUrl,
-      }).whenComplete(() => Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => QuestionAnimationScreen()),
-      ));
-      // Display a success message
-      ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Audio uploaded successfully.')));
-
-      if( result == true){
+      });
+      await firestore
+          .collection('users')
+          .doc(user?.uid)
+          .collection('therapeuticGamesQuestion')
+          .doc()
+          .set({
+        'uid': user?.uid,
+        'date': '${DateTime.now().toIso8601String()}',
+        'url': audioUrl,
+      }).whenComplete(() => ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              content: Text(
+                  'Audio uploaded to firestore and firebase storage successfully.'))));
+      setState(() {
+        isLoading = false;
+        resultAPI = true;
+        isUpload = false;
+      });
+      if (resultAPI == true) {
         Navigator.pushReplacement(
             context, MaterialPageRoute(builder: (context) => WinnerScreen()));
-      }else{
-        Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) => LoserScreen()));
-      }
-
-
-    } else {
-      if( result == true){
-        Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) => WinnerScreen()));
-      }else{
+      } else {
         Navigator.pushReplacement(
             context, MaterialPageRoute(builder: (context) => LoserScreen()));
       }
 
       print("not added voice");
     }
+    // Display a success message
+
+    //API Call
+
+    /*Future<void> askQuestion() {
+      url = 'http://'
+
+      }
+
+     */
   }
 }
