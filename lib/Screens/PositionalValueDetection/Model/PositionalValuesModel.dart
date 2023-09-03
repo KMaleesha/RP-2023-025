@@ -7,10 +7,10 @@ class PositionalValueModel{
   int? letterCount;
 
   PositionalValueModel({
-    this.word = "KATHA",
-    this.initialValue = "KA",
-    this.middleValue = "THA",
-    this.endValue = "",
+    this.word,
+    this.initialValue,
+    this.middleValue,
+    this.endValue,
     this.letters,
     this.letterCount,
   });
