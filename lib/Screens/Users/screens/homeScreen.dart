@@ -72,44 +72,56 @@ class _HomeScreenAllState extends State<HomeScreenAll> {
             } else if (snapshot.hasData && snapshot.data != null) {
               int role = snapshot.data!;
               return Container(
-                // decoration: BoxDecoration(
-                //   image: DecorationImage(
-                //       image: AssetImage(Config.app_background2), fit: BoxFit.fill),
-                // ),
-                Expanded(
-                  child: GridView.count(
-                    crossAxisCount: 2, // Number of columns in the grid
-                    mainAxisSpacing: 16.0, // Vertical spacing between items
-                    crossAxisSpacing: 16.0, // Horizontal spacing between items
-                    padding: EdgeInsets.all(16.0), // Padding around the grid
-                    children: <Widget>[
-                      //maleesha's pages
-                      ElevatedButton(
-                        onPressed: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => PositionalErrorDetector(),
-                          ));
-                        },
-                        style: ElevatedButton.styleFrom(
-                          primary: Colors.purple.shade400,
-                          padding: EdgeInsets.all(16.0),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(16.0),
-                          ),
-                        ),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                      image: AssetImage(Configt.app_background2), fit: BoxFit.fill),
+                ),
+                child: SafeArea(
+                  child: Column(
+                    children: [
+
+                      Expanded(
+                        child: GridView.count(
+                          crossAxisCount: 2, // Number of columns in the grid
+                          mainAxisSpacing:
+                          16.0, // Vertical spacing between items
+                          crossAxisSpacing:
+                          16.0, // Horizontal spacing between items
+                          padding:
+                          EdgeInsets.all(16.0), // Padding around the grid
                           children: <Widget>[
-                            Icon(Icons.record_voice_over, size: 60.0, color: Colors.white),
-                            SizedBox(height: 16.0),
-                            Text(
-                              'Letter Error Identifier',
-                              style: TextStyle(
-                                fontSize: 24.0,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white,
+                            //maleesha's pages
+                            ElevatedButton(
+                              onPressed: () {
+                                Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) => PositionalErrorDetector(),
+                                ));
+                              },
+                              style: ElevatedButton.styleFrom(
+                                primary: Colors.purple.shade400,
+                                padding: EdgeInsets.all(16.0),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(16.0),
+                                ),
+                              ),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: const <Widget>[
+                                  Icon(Icons.record_voice_over,
+                                      size: 60.0, color: Colors.white),
+                                  SizedBox(height: 16.0),
+                                  Text(
+                                    'අකුරු වැරදි ',
+                                    style: TextStyle(
+                                      fontSize: 20.0,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
+
                             //rashmi's pages
                             ElevatedButton(
                               onPressed: () {
@@ -126,12 +138,12 @@ class _HomeScreenAllState extends State<HomeScreenAll> {
                               ),
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
-                                children: <Widget>[
+                                children: const <Widget>[
                                   Icon(Icons.healing,
                                       size: 60.0, color: Colors.white),
                                   SizedBox(height: 16.0),
                                   Text(
-                                    'HomeScreen',
+                                    'පැවරුම්',
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
                                       fontSize: 24.0,
@@ -142,37 +154,7 @@ class _HomeScreenAllState extends State<HomeScreenAll> {
                                 ],
                               ),
                             ),
-                            ElevatedButton(
-                              onPressed: () {
-                                Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (context) => ListWords(),
-                                ));
-                              },
-                              style: ElevatedButton.styleFrom(
-                                primary: Colors.pink.shade400,
-                                padding: EdgeInsets.all(16.0),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(16.0),
-                                ),
-                              ),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: <Widget>[
-                                  Icon(Icons.notes,
-                                      size: 60.0, color: Colors.white),
-                                  SizedBox(height: 16.0),
-                                  Text(
-                                    'ListWords',
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      fontSize: 24.0,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
+
 
 //Tharindu's part
                             SizedBox(
