@@ -1,6 +1,7 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
-
+import '../Screens/PositionalErrorDetection.dart';
+import '../../Users/screens/homeScreen.dart';
 
 import 'letterErrorDetails.dart';class LetterErrorDetector extends StatefulWidget {
   const LetterErrorDetector({Key? key}) : super(key: key);
@@ -10,7 +11,10 @@ import 'letterErrorDetails.dart';class LetterErrorDetector extends StatefulWidge
 }
 class _LetterErrorDetector extends State<LetterErrorDetector> {
   late double height, width;
-  late String word = 'KATHA';
+  late String word = 'වදුරා';
+  late int correctLetterCount = 5;
+  late int letterCount = word.length;
+  late int incorrectLetterCount = word.length - correctLetterCount;
 
   @override
   Widget build(BuildContext context) {
@@ -18,24 +22,43 @@ class _LetterErrorDetector extends State<LetterErrorDetector> {
     width = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          elevation:0.0,
-          centerTitle: true,
-          leading: IconButton(
-            icon: Icon(
-                Icons.arrow_back,
-                color: Colors.black
-            ), onPressed: () {
+        backgroundColor: Colors.transparent,
+        elevation: 0.0,
+        centerTitle: true,
+        leading: IconButton(
+          icon: Icon(
+            Icons.arrow_back,
+            color: Colors.black,
+          ),
+          onPressed: () {
             Navigator.of(context).pop();
           },
-          )
+        ),
+        // Add the home icon here
+        actions: [
+          IconButton(
+            icon: Icon(
+              Icons.home,
+              color: Colors.black,
+            ),
+            onPressed: () {
+              // Add the action you want to perform when the home icon is pressed
+              // For example, navigate to the home screen.
+              Navigator.of(context).pushReplacement(
+                MaterialPageRoute(
+                  builder: (context) => HomeScreenAll(), // Replace with your home screen widget
+                ),
+              );
+            },
+          ),
+        ],
       ),
       body: Stack(
           children:[
             Container(
               decoration: const BoxDecoration(
                 image: DecorationImage(
-                  image: AssetImage('assets/background_image.jpg'), // Replace with your image path
+                  image: AssetImage('assets/phonologicalAssets/background_image2.jpg'), // Replace with your image path
                   fit: BoxFit.cover,
                 ),
               ),
@@ -103,33 +126,42 @@ class _LetterErrorDetector extends State<LetterErrorDetector> {
                                   width: 3,
                                 ),
                               ),
+                              child: Center(
+                                child: Text(
+                                  word[index],  // This will display the character at the current index
+                                  style: TextStyle(
+                                    fontSize: 24,
+                                    color: Colors.black,
+                                  ),
+                                ),
+                              ),
                             );
                           }),
                         ),
                         Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: List.generate(word.length, (index) {
-                        return Container(
-                          child: const Icon(
-                            Icons.check_circle_rounded,
-                            size: 40, // Replace with the desired icon size
-                            color: Colors.green, // Replace with the desired icon color
-                          ),
-                            // Other container properties here
-                          // child: initialPositionIsCorrect
-                          //     ? Icon(
-                          //   Icons.check_circle_rounded,
-                          //   size: 40,
-                          //   color: Colors.green,
-                          // )
-                          //     : Icon(
-                          //   Icons.highlight_off_rounded,
-                          //   size: 40,
-                          //   color: Colors.red,
-                          // ),
-                        );
-                      }),
-                    ),
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: List.generate(word.length, (index) {
+                            return Container(
+                              child: const Icon(
+                                Icons.check_circle_rounded,
+                                size: 40, // Replace with the desired icon size
+                                color: Colors.green, // Replace with the desired icon color
+                              ),
+                              // Other container properties here
+                              // child: initialPositionIsCorrect
+                              //     ? Icon(
+                              //   Icons.check_circle_rounded,
+                              //   size: 40,
+                              //   color: Colors.green,
+                              // )
+                              //     : Icon(
+                              //   Icons.highlight_off_rounded,
+                              //   size: 40,
+                              //   color: Colors.red,
+                              // ),
+                            );
+                          }),
+                        ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
@@ -145,15 +177,26 @@ class _LetterErrorDetector extends State<LetterErrorDetector> {
                                 ),
                               ),
                               child: Center(
-                                child: Text(
-                                  '',
-                                  style: TextStyle(
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.black,
+                                child: RichText(
+                                  text: TextSpan(
+                                    children: [
+                                      TextSpan(
+                                        text: correctLetterCount > incorrectLetterCount
+                                            ? '$correctLetterCount තවත් හොදට කියමු'
+                                            : '$incorrectLetterCount වැරදි හදාගෙන අයෙත් කියමු',
+                                        style: TextStyle(
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.bold,
+                                          color: correctLetterCount > incorrectLetterCount
+                                              ? Colors.green // Green for correct
+                                              : Colors.red, // Red for incorrect
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ),
                               ),
+
                             )
                           ],
                         ),
@@ -172,9 +215,10 @@ class _LetterErrorDetector extends State<LetterErrorDetector> {
                         );
                       },
                       style: ElevatedButton.styleFrom(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30),
-                        ),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30),
+                          ),
+                          backgroundColor: Colors.pink
                       ),
                       child: const Text(
                         'ඉදිරියට',

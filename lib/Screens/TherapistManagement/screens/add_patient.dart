@@ -19,10 +19,12 @@ class _AddPatientState extends State<AddPatient> {
   TextEditingController searchController = TextEditingController();
   List<Map<String, dynamic>> filteredPatients = [];
 
+  late Future<void> dataFuture;
+
   @override
   void initState() {
     super.initState();
-    _getDoctorPatients();
+    dataFuture = _getDoctorPatients();
     searchController.addListener(filterPatients);
   }
 
@@ -33,7 +35,7 @@ class _AddPatientState extends State<AddPatient> {
   }
 
   Future<void> _getDoctorPatients() async {
-    currentPatients.clear();  // Clear the list
+    currentPatients.clear(); 
     QuerySnapshot querySnapshot = await FirebaseFirestore.instance
         .collection('users')
         .doc(doctorUser?.uid)
@@ -43,11 +45,11 @@ class _AddPatientState extends State<AddPatient> {
     for (var doc in querySnapshot.docs) {
       currentPatients.add(doc.id);
     }
-    _getAvailablePatients();
+    await _getAvailablePatients();
   }
 
   Future<void> _getAvailablePatients() async {
-    availablePatients.clear();  // Clear the list
+    availablePatients.clear();
     QuerySnapshot querySnapshot = await FirebaseFirestore.instance
         .collection('users')
         .where('role', isEqualTo: 0)
@@ -76,7 +78,7 @@ class _AddPatientState extends State<AddPatient> {
     if (widget.onPatientAdded != null) {
       widget.onPatientAdded!();
     }
-    
+
     Navigator.pop(context);
   }
 
@@ -90,62 +92,90 @@ class _AddPatientState extends State<AddPatient> {
     });
   }
 
-void onTapPatient(Map<String, dynamic> patientData) async {
-  int age = 0;
-  String mobile = "";
+  void onTapPatient(Map<String, dynamic> patientData) async {
+    int age = 0;
+    String name = "";
+    String mobile = "";
 
-  await showDialog(
-    context: context,
-    builder: (context) {
-      return AlertDialog(
-        title: Text('Add Patient Details'),
-        content: SingleChildScrollView(
-          child: Container(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                TextFormField(
-                  decoration: InputDecoration(labelText: 'Age'),
-                  keyboardType: TextInputType.number,
-                  onChanged: (value) {
-                    age = int.parse(value);
-                  },
-                ),
-                TextFormField(
-                  decoration: InputDecoration(labelText: 'Mobile No'),
-                  keyboardType: TextInputType.phone,
-                  onChanged: (value) {
-                    mobile = value;
-                  },
-                ),
-              ],
+    GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+    await showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text('Add Patient Details'),
+          content: SingleChildScrollView(
+            child: Form(
+              key: _formKey,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  TextFormField(
+                    decoration: InputDecoration(labelText: 'Name'),
+                    onChanged: (value) {
+                      name = value;
+                    },
+                  ),
+                  TextFormField(
+                    decoration: InputDecoration(labelText: 'Age'),
+                    keyboardType: TextInputType.number,
+                    validator: (value) {
+                      if (value == null ||
+                          value.isEmpty ||
+                          !RegExp(r'^\d+$').hasMatch(value)) {
+                        return 'Please enter a valid age';
+                      }
+                      return null;
+                    },
+                    onChanged: (value) {
+                      age = int.parse(value);
+                    },
+                  ),
+                  TextFormField(
+                    decoration: InputDecoration(labelText: 'Mobile No'),
+                    keyboardType: TextInputType.phone,
+                    validator: (value) {
+                      if (value == null ||
+                          value.isEmpty ||
+                          !RegExp(r'^\d{10}$').hasMatch(value)) {
+                        return 'Please enter a valid 10 digit mobile number';
+                      }
+                      return null;
+                    },
+                    onChanged: (value) {
+                      mobile = value;
+                    },
+                  ),
+                ],
+              ),
             ),
           ),
-        ),
-        actions: [
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: ElevatedButton(
-              child: Text('Add'),
-              onPressed: () async {
-                Patient newPatient = Patient(
-                    uid: patientData['uid'],
-                    age: age,
-                    mobile: mobile);
-                await _addPatientToDatabase(newPatient);
-                Navigator.pop(context);
+          actions: [
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: ElevatedButton(
+                child: Text('Add'),
+                onPressed: () async {
+                  if (_formKey.currentState!.validate()) {
+                    Patient newPatient = Patient(
+                        uid: patientData['uid'],
+                        name: name,
+                        age: age,
+                        mobile: mobile);
+                    await _addPatientToDatabase(newPatient);
+                    Navigator.pop(context);
 
-                // Explicitly reload the patients after adding.
-                await _getDoctorPatients();
-              },
+                    // Explicitly reloading the patients after adding.
+                    await _getDoctorPatients();
+                  }
+                },
+              ),
             ),
-          ),
-        ],
-      );
-    },
-  );
-}
-
+          ],
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -153,52 +183,64 @@ void onTapPatient(Map<String, dynamic> patientData) async {
       appBar: AppBar(
         title: Text('Add Patient'),
       ),
-      body: Container(
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage(Configt.app_background2),
-            fit: BoxFit.fill,
-          ),
-        ),
-        child: Column(
-          children: [
-            Card(
-              margin: EdgeInsets.all(16),
-              child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16),
-                child: TextField(
-                  controller: searchController,
-                  decoration: InputDecoration(
-                    hintText: 'Search available patients...',
-                    border: InputBorder.none,
-                  ),
-                  onChanged: (value) {
-                    filterPatients();
-                  },
+      body: FutureBuilder<void>(
+        future: dataFuture,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasError) {
+            return Center(child: Text('Error: ${snapshot.error}'));
+          } else {
+            return Container(
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage(Configt.app_background2),
+                  fit: BoxFit.fill,
                 ),
               ),
-            ),
-            Expanded(
-              child: ListView.builder(
-                itemCount: filteredPatients.length,
-                itemBuilder: (context, index) {
-                  return GestureDetector(
-                    onTap: () {
-                      onTapPatient(filteredPatients[index]);
-                    },
-                    child: Card(
-                      elevation: 2,
-                      margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                      child: ListTile(
-                        title: Text(filteredPatients[index]['email']),
+              child: Column(
+                children: [
+                  Card(
+                    margin: EdgeInsets.all(16),
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 16),
+                      child: TextField(
+                        controller: searchController,
+                        decoration: InputDecoration(
+                          hintText: 'Search Available Patients...',
+                          border: InputBorder.none,
+                        ),
+                        onChanged: (value) {
+                          filterPatients();
+                        },
                       ),
                     ),
-                  );
-                },
+                  ),
+                  Expanded(
+                    child: ListView.builder(
+                      itemCount: filteredPatients.length,
+                      itemBuilder: (context, index) {
+                        return GestureDetector(
+                          onTap: () {
+                            onTapPatient(filteredPatients[index]);
+                          },
+                          child: Card(
+                            elevation: 2,
+                            margin: EdgeInsets.symmetric(
+                                horizontal: 16, vertical: 8),
+                            child: ListTile(
+                              title: Text(filteredPatients[index]['email']),
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                ],
               ),
-            ),
-          ],
-        ),
+            );
+          }
+        },
       ),
     );
   }
