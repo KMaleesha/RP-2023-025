@@ -57,24 +57,36 @@ class _RecordScreenState extends State<RecordScreen> {
   }
   Future<void> _startRecording() async {
     try {
-      Record record = Record();
-      if (await record.hasPermission()) {
-        print("startRecording() hasPermission ");
-        Directory tempDir = await getTemporaryDirectory();
-        String tempPath = tempDir.path + '/audio.wav';
-        await record.start(path: tempPath);
+      if (await FlutterSoundRecorder().isRecording) {
+        await _recorder!.stopRecorder();
         setState(() {
-          _isRecording = true;
-          _audioPath = tempPath;
-          print("tempPath $tempPath");
+          _isRecording = false;
         });
-        print("Start Recording - _audioPath: $_audioPath");
+        return;
       }
+
+      Directory tempDir = await getTemporaryDirectory();
+      String tempPath = '${tempDir.path}/audio.wav';
+
+      await _recorder!.openAudioSession(
+          focus: AudioFocus.requestFocusAndDuckOthers,
+          category: SessionCategory.playAndRecord);
+      await _recorder!.startRecorder(
+        toFile: tempPath,
+        codec: Codec.pcm16WAV,  // Specifies WAV format
+        numChannels: 1,  // For mono recording
+        sampleRate: 16000,  // 48KHz sample rate for higher quality
+        bitRate: 256000,  // 256 kbps bit rate to match training data
+      );
+      setState(() {
+        _isRecording = true;
+        _audioPath = tempPath;
+      });
     } catch (e) {
-      print("startRecording() has no Permission");
-      print(e);
+      print('Error occurred while starting recording: $e');
     }
   }
+
 
   Future<void> _stopRecording() async {
     try {
@@ -131,11 +143,13 @@ class _RecordScreenState extends State<RecordScreen> {
   }
   @override
   void dispose() {
-
-    audioPlayer.dispose();  audioPlayer.pause();
+    _recorder!.closeAudioSession();
+    audioPlayer.dispose();
     audioPlayer.pause();
     super.dispose();
   }
+
+
   @override
   Widget build(BuildContext context) {
     double fem = 1.0;
