@@ -487,7 +487,6 @@ class Assets {
   static const String modelMarkCalculationModel = 'lib/Screens/PositionalValueDetection/Model/MarkCalculationModel.dart';
   static const String modelPatientModel = 'lib/Screens/TherapistManagement/model/patient_model.dart';
   static const String modelPositionalValuesModel = 'lib/Screens/PositionalValueDetection/Model/PositionalValuesModel.dart';
-  static const String modelUserModel = 'lib/Screens/Users/model/userModel.dart';
   static const String otherBack = 'assets/gameAssets/images/other/back.png';
   static const String otherChildRobot = 'assets/gameAssets/images/other/childRobot.json';
   static const String otherCryGirl = 'assets/gameAssets/images/other/cryGirl.json';

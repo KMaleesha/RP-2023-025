@@ -3,17 +3,17 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_sound/flutter_sound.dart';
 import 'dart:ui';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:record/record.dart';
+import 'Correct.dart';
+import 'InCorrect.dart';
 import 'ListWords.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/services.dart';
-import 'package:kathaappa/Screens/ScreenTest/Correct.dart';
-import 'package:kathaappa/Screens/ScreenTest/Incorrect.dart';
 class RecordScreen extends StatefulWidget {
   @override
   _RecordScreenState createState() => _RecordScreenState();
