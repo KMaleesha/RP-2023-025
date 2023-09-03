@@ -173,7 +173,7 @@ class _AnimationSpriteAnimationScreenState extends State<AnimationSpriteAnimatio
                               top: (orientation == Orientation.portrait) ? 160 : 260,
                               left: (orientation == Orientation.portrait) ? 110 : 700,
                               child: SizedBox(
-                                width: (orientation == Orientation.landscape) ? 100 : 200,
+                                width: (orientation == Orientation.landscape) ? 80 : 200,
                                 child:    GestureDetector(
                                   child:  Image.asset(Configt.appiconnext,
 
