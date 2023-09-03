@@ -1,30 +1,31 @@
 class Patient {
   final String uid;
+  final String? name; 
   final int? age;
   final String? mobile;
 
   Patient({
     required this.uid,
+    required this.name, 
     required this.age,
     required this.mobile,
   });
-
-  // Convert a Patient object into a Map
+  
   Map<String, dynamic> toMap() {
     return {
       'uid': uid,
+      'name': name,
       'age': age,
       'mobile': mobile,
     };
   }
 
-  // Create a Patient object from a Map
   static Patient fromMap(Map<String, dynamic> map) {
     return Patient(
       uid: map['uid'] ?? '',
-      age: map['age'] ?? null,  // Handle null value
+      name: map['name'] ?? '', 
+      age: map['age'] ?? null,  
       mobile: map['mobile'] ?? '',
     );
   }
 }
-

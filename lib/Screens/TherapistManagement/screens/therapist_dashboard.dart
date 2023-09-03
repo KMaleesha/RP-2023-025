@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'add_patient.dart';
+import './add_patient.dart';
+import './patient_profile.dart';
 import '../model/patient_model.dart';
-import 'patient_profile.dart';
 import '../../../../utils/configt.dart';
 
 class TherapistDashboard extends StatefulWidget {
@@ -14,6 +14,7 @@ class TherapistDashboard extends StatefulWidget {
 }
 
 class TherapistDashboardState extends State<TherapistDashboard> {
+  List<Patient> originalPatients = []; 
   List<Patient> filteredPatients = [];
   late double width, height;
   TextEditingController searchController = TextEditingController();
@@ -21,7 +22,6 @@ class TherapistDashboardState extends State<TherapistDashboard> {
   @override
   void initState() {
     super.initState();
-    _fetchPatientsFromDatabase();
     searchController.addListener(filterPatients);
   }
 
@@ -31,7 +31,7 @@ class TherapistDashboardState extends State<TherapistDashboard> {
     super.dispose();
   }
 
-  Future<void> _fetchPatientsFromDatabase() async {
+  Future<List<Patient>> _fetchPatientsFromDatabase() async {
     QuerySnapshot querySnapshot = await FirebaseFirestore.instance
         .collection('users')
         .doc(FirebaseAuth.instance.currentUser?.uid)
@@ -45,23 +45,17 @@ class TherapistDashboardState extends State<TherapistDashboard> {
       }
     }
 
-    setState(() {
-      filteredPatients = tempPatients;
-    });
+    return tempPatients;
   }
 
   void filterPatients() {
     String query = searchController.text.toLowerCase();
     setState(() {
-      filteredPatients = filteredPatients.where((patient) {
-        final uidLower = patient.uid?.toLowerCase() ?? ""; // null check here
-        final ageLower =
-            patient.age?.toString().toLowerCase() ?? ""; // null check here
-        final mobileLower =
-            patient.mobile?.toLowerCase() ?? ""; // null check here
-        return uidLower.contains(query) ||
-            ageLower.contains(query) ||
-            mobileLower.contains(query);
+      filteredPatients = originalPatients.where((patient) {
+        // Filter based on original list
+        final nameLower = patient.name?.toLowerCase(); 
+        final ageLower = patient.age?.toString().toLowerCase() ?? "";
+        return nameLower!.contains(query) || ageLower.contains(query);
       }).toList();
     });
   }
@@ -84,54 +78,71 @@ class TherapistDashboardState extends State<TherapistDashboard> {
       appBar: AppBar(
         title: Text('Therapist Dashboard'),
       ),
-      body: Container(
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage(Configt.app_background2),
-            fit: BoxFit.fill,
-          ),
-        ),
-        child: Column(
-          children: [
-            Card(
-              margin: EdgeInsets.all(16),
-              child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16),
-                child: TextField(
-                  controller: searchController,
-                  decoration: InputDecoration(
-                    hintText: 'Search patients...',
-                    border: InputBorder.none,
-                  ),
-                  onChanged: (value) {
-                    filterPatients();
-                  },
-                ),
+      body: FutureBuilder<List<Patient>>(
+        future: _fetchPatientsFromDatabase(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
+          }
+
+          if (snapshot.hasError) {
+            return Center(child: Text('Error: ${snapshot.error}'));
+          }
+
+          originalPatients = snapshot.data!;
+          filteredPatients = List.from(originalPatients);
+
+          return Container(
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage(Configt.app_background2),
+                fit: BoxFit.fill,
               ),
             ),
-            Expanded(
-              child: ListView.builder(
-                itemCount: filteredPatients.length,
-                itemBuilder: (context, index) {
-                  return GestureDetector(
-                    onTap: () {
-                      navigateToPatientProfile(filteredPatients[index]);
-                    },
-                    child: Card(
-                      elevation: 2,
-                      margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                      child: ListTile(
-                        title: Text(filteredPatients[index].uid),
-                        subtitle: Text(
-                            'Age: ${filteredPatients[index].age} \nMobile: ${filteredPatients[index].mobile}'),
+            child: Column(
+              children: [
+                Card(
+                  margin: EdgeInsets.all(16),
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 16),
+                    child: TextField(
+                      controller: searchController,
+                      decoration: InputDecoration(
+                        hintText: 'Search Patients...',
+                        border: InputBorder.none,
                       ),
+                      onChanged: (value) {
+                        filterPatients();
+                      },
                     ),
-                  );
-                },
-              ),
+                  ),
+                ),
+                Expanded(
+                  child: ListView.builder(
+                    itemCount: filteredPatients.length,
+                    itemBuilder: (context, index) {
+                      return GestureDetector(
+                        onTap: () {
+                          navigateToPatientProfile(filteredPatients[index]);
+                        },
+                        child: Card(
+                          elevation: 2,
+                          margin: EdgeInsets.symmetric(
+                              horizontal: 16, vertical: 8),
+                          child: ListTile(
+                            title: Text(filteredPatients[index].name ?? ''),
+                            subtitle:
+                                Text('Age: ${filteredPatients[index].age}'),
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              ],
             ),
-          ],
-        ),
+          );
+        },
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
@@ -140,7 +151,7 @@ class TherapistDashboardState extends State<TherapistDashboard> {
             MaterialPageRoute(
               builder: (context) => AddPatient(
                 onPatientAdded: () {
-                  _fetchPatientsFromDatabase();
+                  setState(() {}); // Trigger a rebuild
                 },
               ),
             ),
