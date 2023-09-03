@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -32,6 +34,19 @@ class _HomeScreenAllState extends State<HomeScreenAll> {
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   }
 
+  Future<int> fetchUserRole() async {
+    User? currentUser = FirebaseAuth.instance.currentUser;
+    if (currentUser != null) {
+      DocumentSnapshot userDoc = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(currentUser.uid)
+          .get();
+      return userDoc.get('role') ?? 0;
+    } else {
+      return 0;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -39,7 +54,6 @@ class _HomeScreenAllState extends State<HomeScreenAll> {
       child: Scaffold(
         appBar: AppBar(
           actions: [
-
             IconButton(
               icon: Icon(Icons.logout),
               onPressed: () {
@@ -48,36 +62,19 @@ class _HomeScreenAllState extends State<HomeScreenAll> {
                 ));
               },
             ),
-
           ],
         ),
-        body: Container(
-          // decoration: BoxDecoration(
-          //   image: DecorationImage(
-          //       image: AssetImage(Config.app_background2), fit: BoxFit.fill),
-          // ),
-          child: SafeArea(
-            child: Column(
-              children: [
-                // Container(
-                //   width: 300.0,
-                //   padding: EdgeInsets.symmetric(vertical: 16.0),
-                //   decoration: BoxDecoration(
-                //     color: Color(0x80FFFFFF),
-                //     borderRadius: BorderRadius.vertical(
-                //       bottom: Radius.circular(16.0),
-                //     ),
-                //   ),
-                //   child: Text(
-                //     // 'චිකිත්සක උපකරණ පුවරුව',
-                //     'Therapist Dashboard',
-                //     style: TextStyle(
-                //       fontSize: 24.0,
-                //       fontWeight: FontWeight.bold,
-                //       color: Colors.black,
-                //     ),
-                //     textAlign: TextAlign.center,
-                //   ),
+        body: FutureBuilder<int>(
+          future: fetchUserRole(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Center(child: CircularProgressIndicator());
+            } else if (snapshot.hasData && snapshot.data != null) {
+              int role = snapshot.data!;
+              return Container(
+                // decoration: BoxDecoration(
+                //   image: DecorationImage(
+                //       image: AssetImage(Config.app_background2), fit: BoxFit.fill),
                 // ),
                 Expanded(
                   child: GridView.count(
@@ -113,152 +110,154 @@ class _HomeScreenAllState extends State<HomeScreenAll> {
                                 color: Colors.white,
                               ),
                             ),
-                          ],
-                        ),
-                      ),
-                      //rashmi's pages
-                      ElevatedButton(
-                        onPressed: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => HomeScreen(),
-                          ));
-                        },
-                        style: ElevatedButton.styleFrom(
-                          primary: Colors.teal.shade400,
-                          padding: EdgeInsets.all(16.0),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(16.0),
-                          ),
-                        ),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            Icon(Icons.healing, size: 60.0, color: Colors.white),
-                            SizedBox(height: 16.0),
-                            Text(
-                              'HomeScreen',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontSize: 24.0,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white,
+                            //rashmi's pages
+                            ElevatedButton(
+                              onPressed: () {
+                                Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) => HomeScreen(),
+                                ));
+                              },
+                              style: ElevatedButton.styleFrom(
+                                primary: Colors.teal.shade400,
+                                padding: EdgeInsets.all(16.0),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(16.0),
+                                ),
                               ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      ElevatedButton(
-                        onPressed: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => ListWords(),
-                          ));
-                        },
-                        style: ElevatedButton.styleFrom(
-                          primary: Colors.pink.shade400,
-                          padding: EdgeInsets.all(16.0),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(16.0),
-                          ),
-                        ),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            Icon(Icons.notes, size: 60.0, color: Colors.white),
-                            SizedBox(height: 16.0),
-                            Text(
-                              'ListWords',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontSize: 24.0,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-
-
-//Tharindu's part
-                      SizedBox(
-                        width: 100,
-                        child: Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(20),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.grey.withOpacity(0.5),
-                                spreadRadius: 2,
-                                blurRadius: 5,
-                                offset: Offset(0, 3), // changes position of shadow
-                              ),
-                            ],
-                          ),
-                          child: GestureDetector(
-                            onTap: (){
-                              Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => DataEntryScreen(),
-                              ));
-                            },
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(20),
-                              child: Stack(
-                                alignment: Alignment.center,
-                                children: [
-                                  Lottie.asset(
-                                    Configt.childRobot,
-
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: <Widget>[
+                                  Icon(Icons.healing,
+                                      size: 60.0, color: Colors.white),
+                                  SizedBox(height: 16.0),
+                                  Text(
+                                    'HomeScreen',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      fontSize: 24.0,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white,
+                                    ),
                                   ),
-
                                 ],
                               ),
                             ),
-                          ),
-                        ),
-                      ),
-
-//bathiya's screens
-
-
-                      ElevatedButton(
-                        onPressed: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => TherapistDashboard(),
-                          ));
-                        },
-                        style: ElevatedButton.styleFrom(
-                          primary: Colors.teal.shade400,
-                          padding: EdgeInsets.all(16.0),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(16.0),
-                          ),
-                        ),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: const <Widget>[
-                            Icon(Icons.healing, size: 60.0, color: Colors.white),
-                            SizedBox(height: 16.0),
-                            Text(
-                              'Therapist Dashboard',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontSize: 24.0,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white,
+                            ElevatedButton(
+                              onPressed: () {
+                                Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) => ListWords(),
+                                ));
+                              },
+                              style: ElevatedButton.styleFrom(
+                                primary: Colors.pink.shade400,
+                                padding: EdgeInsets.all(16.0),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(16.0),
+                                ),
+                              ),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: <Widget>[
+                                  Icon(Icons.notes,
+                                      size: 60.0, color: Colors.white),
+                                  SizedBox(height: 16.0),
+                                  Text(
+                                    'ListWords',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      fontSize: 24.0,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
+
+//Tharindu's part
+                            SizedBox(
+                              width: 100,
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(20),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.grey.withOpacity(0.5),
+                                      spreadRadius: 2,
+                                      blurRadius: 5,
+                                      offset: Offset(
+                                          0, 3), // changes position of shadow
+                                    ),
+                                  ],
+                                ),
+                                child: GestureDetector(
+                                  onTap: () {
+                                    Navigator.of(context)
+                                        .push(MaterialPageRoute(
+                                      builder: (context) => DataEntryScreen(),
+                                    ));
+                                  },
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(20),
+                                    child: Stack(
+                                      alignment: Alignment.center,
+                                      children: [
+                                        Lottie.asset(
+                                          Configt.childRobot,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+
+//bathiya's screens
+                            if (role == 2)
+                              ElevatedButton(
+                                onPressed: () {
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (context) => TherapistDashboard(),
+                                  ));
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  primary: Colors.teal.shade400,
+                                  padding: EdgeInsets.all(16.0),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(16.0),
+                                  ),
+                                ),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: const <Widget>[
+                                    Icon(Icons.healing,
+                                        size: 60.0, color: Colors.white),
+                                    SizedBox(height: 16.0),
+                                    Text(
+                                      'Therapist Dashboard',
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        fontSize: 24.0,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
                           ],
                         ),
                       ),
-
                     ],
                   ),
                 ),
-
-
-              ],
-            ),
-          ),
+              );
+            } else if (snapshot.hasError) {
+              return Text('An error occurred: ${snapshot.error}');
+            } else {
+              return Text('Unknown state');
+            }
+          },
         ),
       ),
     );

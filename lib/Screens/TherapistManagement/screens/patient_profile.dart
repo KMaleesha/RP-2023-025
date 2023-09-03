@@ -1,10 +1,10 @@
-import 'package:Katha/Screens/TherapistManagement/screens/therapist_dashboard.dart';
 import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart'; // Import Firestore
-
-import '../../../../utils/configt.dart';
+import 'package:cloud_firestore/cloud_firestore.dart'; 
+import 'package:intl/intl.dart';
 import '../model/patient_model.dart';
-import '../model/audio_model.dart'; // Import your AudioModel
+import '../model/audio_model.dart'; 
+import '../../../../utils/configt.dart';
+import 'patient_audio.dart';
 
 class PatientProfileScreen extends StatelessWidget {
   final Patient patient;
@@ -33,14 +33,6 @@ class PatientProfileScreen extends StatelessWidget {
       body: FutureBuilder<List<AudioModel>>(
         future: getAudios(patient.uid),
         builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
-          }
-
-          if (snapshot.hasError) {
-            return Center(child: Text('Error: ${snapshot.error}'));
-          }
-
           return Container(
             decoration: BoxDecoration(
               image: DecorationImage(
@@ -57,64 +49,121 @@ class PatientProfileScreen extends StatelessWidget {
                   child: Padding(
                     padding: EdgeInsets.all(16),
                     child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                      crossAxisAlignment:
+                          CrossAxisAlignment.stretch, 
                       children: [
                         Padding(
                           padding: EdgeInsets.symmetric(vertical: 8),
-                          child: Text(
-                            'Patient UID: ${patient.uid}',
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 18,
-                            ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'Name:',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 18,
+                                ),
+                              ),
+                              Text(
+                                '${patient.name ?? "Not specified"}',
+                                style: TextStyle(
+                                  fontSize: 18,
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                         Padding(
                           padding: EdgeInsets.symmetric(vertical: 8),
-                          child: Text(
-                            'Age: ${patient.age ?? "Not specified"}',
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 18,
-                            ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'Age:',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 18,
+                                ),
+                              ),
+                              Text(
+                                '${patient.age ?? "Not specified"}',
+                                style: TextStyle(
+                                  fontSize: 18,
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                         Padding(
                           padding: EdgeInsets.symmetric(vertical: 8),
-                          child: Text(
-                            'Mobile: ${patient.mobile ?? "Not specified"}',
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 18,
-                            ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'Mobile:',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 18,
+                                ),
+                              ),
+                              Text(
+                                '${patient.mobile ?? "Not specified"}',
+                                style: TextStyle(
+                                  fontSize: 18,
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                       ],
                     ),
                   ),
                 ),
-                Expanded(
-                  child: ListView.builder(
-                    itemCount: snapshot.data!.length,
-                    itemBuilder: (context, index) {
-                      final audio = snapshot.data![index];
-                      return ListTile(
-                        title: Text('${audio.word}'),
-                        subtitle: Text('${audio.date}'),
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => TherapistDashboard(
-                                // documentId: audio.id,
-                              ),
-                            ),
-                          );
-                        },
-                      );
-                    },
+                if (snapshot.connectionState == ConnectionState.waiting)
+                  Expanded(
+                    child: Center(child: CircularProgressIndicator()),
+                  )
+                else if (snapshot.hasError)
+                  Expanded(
+                    child: Center(child: Text('Error: ${snapshot.error}')),
+                  )
+                else if (snapshot.data!.isEmpty)
+                  Expanded(
+                    child: Center(child: Text('No Audios to Display')),
+                  )
+                else
+                  Expanded(
+                    child: ListView.builder(
+                      itemCount: snapshot.data!.length,
+                      itemBuilder: (context, index) {
+                        final audio = snapshot.data![index];
+                        final formattedDate = audio.date != null
+                            ? DateFormat('yyyy-MM-dd hh:mm a')
+                                .format(audio.date!)
+                            : "Unknown date";
+                        return Card(
+                          elevation: 2,
+                          margin:
+                              EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                          child: ListTile(
+                            title: Text('${audio.word ?? "Unknown word"}'),
+                            trailing: Text(formattedDate),
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => WordDetailScreen(
+                                    patientUid: patient.uid,
+                                    documentId: audio.id,
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+                        );
+                      },
+                    ),
                   ),
-                ),
               ],
             ),
           );
