@@ -1,11 +1,13 @@
 import 'dart:async';
 import 'dart:ui';
-import 'package:kathaappa/Screens/ScreenTest/Homescreen.dart';
-import 'package:kathaappa/Screens/ScreenTest/RecordScreen.dart';
+
 import 'package:flutter/material.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/services.dart';
 import 'dart:ui';
+
+import 'HomeScreen.dart';
+import 'RecordScreen.dart';
 
 class ListWords extends StatefulWidget {
   const ListWords({Key? key}) : super(key: key);
