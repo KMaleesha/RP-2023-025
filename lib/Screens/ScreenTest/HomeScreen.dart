@@ -3,8 +3,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'dart:ui';
+import 'package:kathaappa/Screens/Users/screens/homeScreen.dart';
 import 'package:audioplayers/audioplayers.dart';
-import '../Users/screens/homeScreen.dart';
 import 'InCorrect.dart';
 import 'Correct.dart';
 import 'ListWords.dart';
@@ -55,7 +55,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void dispose() {
 
-    audioPlayer.dispose();
+    audioPlayer.dispose();  audioPlayer.pause();  audioPlayer.pause();
     audioPlayer.pause();
     super.dispose();
   }
@@ -100,8 +100,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             height: 30 * fem,
                             child: ElevatedButton(
                               onPressed: () {
-                                audioPlayer.dispose();
-                                audioPlayer.pause();
+                                audioPlayer.dispose();  audioPlayer.pause();
                                 Navigator.of(context).push(MaterialPageRoute(
                                   builder: (context) => HomeScreenAll(),
                                 ));
@@ -127,8 +126,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 height: 32 * fem,
                                 child: ElevatedButton(
                                   onPressed: () {
-                                    audioPlayer.dispose();
-                                    audioPlayer.pause();
+                                    audioPlayer.dispose();  audioPlayer.pause();
                                     Navigator.of(context).push(MaterialPageRoute(
                                       builder: (context) => InCorrect(),
                                     ));
@@ -153,8 +151,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 height: 32 * fem,
                                 child: ElevatedButton(
                                   onPressed: () {
-                                    audioPlayer.dispose();
-                                    audioPlayer.pause();
+                                    audioPlayer.dispose();  audioPlayer.pause();
                                     Navigator.of(context).push(MaterialPageRoute(
                                       builder: (context) => Correct(),
                                     ));
@@ -248,8 +245,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     height: 43.73 * fem,
                     child: GestureDetector(
                       onTap: () {
-                        audioPlayer.dispose();
-                        audioPlayer.pause();
+                        audioPlayer.dispose();  audioPlayer.pause();
                         Navigator.push(
                           context,
                           MaterialPageRoute(builder: (context) => ListWords()),

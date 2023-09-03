@@ -3,9 +3,10 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'dart:ui';
+import 'package:kathaappa/Screens/Users/screens/homeScreen.dart';
+import 'package:kathaappa/Screens/ScreenTest/HomeScreen.dart';
 import 'package:audioplayers/audioplayers.dart';
 
-import '../Users/screens/homeScreen.dart';
 import 'ListWords.dart';
 
 
@@ -29,7 +30,7 @@ class _CorrectState extends State<Correct> {
     });
 
     //startvoice recorder
-    Timer(Duration(seconds: 2), () {
+    Timer(Duration(seconds: 5), () {
       _handleTap();
     });
     /////////////////2
@@ -54,7 +55,7 @@ class _CorrectState extends State<Correct> {
   @override
   void dispose() {
 
-    audioPlayer.dispose();
+    audioPlayer.dispose();  audioPlayer.pause();
     audioPlayer.pause();
     super.dispose();
   }
@@ -99,9 +100,9 @@ class _CorrectState extends State<Correct> {
                             height: 30 * fem,
                             child: ElevatedButton(
                               onPressed: () {
-                                audioPlayer.dispose();
-                                audioPlayer.pause();
+                                audioPlayer.dispose();  audioPlayer.pause();
                                 Navigator.of(context).push(MaterialPageRoute(
+
                                   builder: (context) => HomeScreenAll(),
                                 ));
 
@@ -188,38 +189,11 @@ class _CorrectState extends State<Correct> {
                           height: 700,
                         ),
                         // Second image (top layer)
-                    Positioned(
-                      left: 0,
-                      right: 0,
-                      bottom: 250,
-                      child: Align(
-                        alignment: Alignment.topCenter,
-                        child: Image.asset(
-                          'assets/screenTestAssets/g3.gif',  // Replace this with your actual asset path
-                          fit: BoxFit.contain,
-                        ),
-                      ),
-                    ),
-                        Positioned(
-                          left: 0,
-                          right: 0,
-                          bottom: 0, // Move it further down relative to the bottom edge
-                          child: Align(
-                            alignment: Alignment.bottomCenter,
-                            child: Padding(
-                              padding: const EdgeInsets.only(bottom: 20), // 20 pixels padding at the bottom
-                              child: Image.asset(
-                                'assets/screenTestAssets/g1.gif',  // Replace this with your actual asset path
-                                fit: BoxFit.contain,
-                              ),
-                            ),
-                          ),
-                        ),
 
                         Positioned(
                           left: 0,
                           right: 0,
-                          bottom: -100, // Move it further down relative to the bottom edge
+                          bottom: 0, // Move it further down relative to the bottom edge
                           child: Align(
                             alignment: Alignment.bottomCenter,
                             child: Padding(
@@ -231,6 +205,22 @@ class _CorrectState extends State<Correct> {
                             ),
                           ),
                         ),
+
+                        // Positioned(
+                        //   left: 0,
+                        //   right: 0,
+                        //   bottom: -100, // Move it further down relative to the bottom edge
+                        //   child: Align(
+                        //     alignment: Alignment.bottomCenter,
+                        //     child: Padding(
+                        //       padding: const EdgeInsets.only(bottom: 20), // 20 pixels padding at the bottom
+                        //       child: Image.asset(
+                        //         'assets/screenTestAssets/g1.gif',  // Replace this with your actual asset path
+                        //         fit: BoxFit.contain,
+                        //       ),
+                        //     ),
+                        //   ),
+                        // ),
 
                       ],
                     ),
@@ -246,16 +236,15 @@ class _CorrectState extends State<Correct> {
                 child: Center( // Centers child horizontally within the Positioned widget
                   child: GestureDetector(
                     onTap: () {
-                      audioPlayer.dispose();
-                      audioPlayer.pause();
+                      audioPlayer.dispose();  audioPlayer.pause();
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => ListWords()),
+                        MaterialPageRoute(builder: (context) => HomeScreen()),
                       );
                     },
                     child: AnimatedContainer(
-                      width: 100 * fem,
-                      height: 43.73 * fem,
+                      width: 170 * fem,
+                      height: 53.73 * fem,
                       duration: Duration(milliseconds: 300),
                       curve: Curves.easeInOut,
                       decoration: BoxDecoration(
@@ -264,8 +253,8 @@ class _CorrectState extends State<Correct> {
                           begin: Alignment(0.407, -1),
                           end: Alignment(-0.407, 1),
                           colors: <Color>[
-                            Color(0xfff9ff00),
-                            Color(0xffff4c00),
+                            Color(0xFFFF69B4),
+                            Color(0xFFC71585),
                           ],
                           stops: <double>[0, 1],
                         ),
@@ -279,7 +268,7 @@ class _CorrectState extends State<Correct> {
                       ),
                       child: Center(
                         child: Text(
-                          'දිනුම්',
+                          'ප්‍රධාන මෙනුව',
                           style: TextStyle(
                             fontFamily: 'Noto Sans Sinhala',
                             fontSize: 17 * ffem,
