@@ -1,9 +1,64 @@
+import 'dart:async';
 import 'dart:ui';
-import 'package:kathaappa/Screens/ScreenTest/Homescreen.dart';
-import 'package:kathaappa/Screens/ScreenTest/RecordScreen.dart';
-import 'package:flutter/material.dart';
 
-class ListWords extends StatelessWidget {
+import 'package:flutter/material.dart';
+import 'package:audioplayers/audioplayers.dart';
+import 'package:flutter/services.dart';
+import 'dart:ui';
+
+import 'HomeScreen.dart';
+import 'RecordScreen.dart';
+
+class ListWords extends StatefulWidget {
+  const ListWords({Key? key}) : super(key: key);
+
+  @override
+  State<ListWords> createState() => _ListWordsState();
+}
+
+class _ListWordsState extends State<ListWords> {
+  //1
+  final audioPlayer = AudioPlayer();
+  @override
+  void initState() {
+    super.initState();
+    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+//2
+    Timer(Duration(seconds: 1), () {
+      setAudio();
+    });
+
+    //startvoice recorder
+    Timer(Duration(seconds: 5), () {
+      _handleTap();
+    });
+    /////////////////2
+  }
+  /////////////////3
+  // Function to handle tap on the screen
+  void _handleTap() {
+    Timer(Duration(seconds:15), () {
+
+    });
+    audioPlayer.resume();
+  }
+  //function to initialize audio
+  Future setAudio() async {
+    audioPlayer.setReleaseMode(ReleaseMode.loop);
+
+    final player = AudioCache(prefix: "assets/screenTestAssets/VoiceOver/");
+    //load song from assets
+    final url = await player.load("S2.wav");
+    audioPlayer.setSourceUrl(url.path);
+  }
+  @override
+  void dispose() {
+
+    audioPlayer.dispose();  audioPlayer.pause();
+    audioPlayer.pause();
+    super.dispose();
+  }
+  /////////////////3
   @override
   Widget build(BuildContext context) {
     double fem = 1.0; // Set the value of fem according to your requirements
@@ -46,6 +101,7 @@ class ListWords extends StatelessWidget {
                             height: 30 * fem,
                             child: ElevatedButton(
                               onPressed: () {
+                                audioPlayer.dispose();  audioPlayer.pause();
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
@@ -188,6 +244,7 @@ class ListWords extends StatelessWidget {
                                     height: 170 * fem,
                                     child: ElevatedButton(
                                       onPressed: () {
+                                        audioPlayer.dispose();  audioPlayer.pause();
                                         Navigator.push(
                                           context,
                                           MaterialPageRoute(

@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:hexcolor/hexcolor.dart';
 
 import 'package:provider/provider.dart';
@@ -27,7 +28,7 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     final sp = context.read<SignInProvider>();
     super.initState();
-
+    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
     //create a timer of 2 seconds
 
     Timer(const Duration(seconds: 2), () {
@@ -46,11 +47,11 @@ class _SplashScreenState extends State<SplashScreen> {
     return Scaffold(
         body: Container(
       width: 500,
-      // decoration: BoxDecoration(
-      //   image: DecorationImage(
-      //       image: AssetImage(Config.app_background1),
-      //       fit: BoxFit.fill),
-      // ),
+      decoration: BoxDecoration(
+        image: DecorationImage(
+            image: AssetImage(Configt.app_background2),
+            fit: BoxFit.fill),
+      ),
       child: SafeArea(
         child: Padding(
           padding: const EdgeInsets.only(top: 120, bottom: 60),
@@ -66,7 +67,7 @@ class _SplashScreenState extends State<SplashScreen> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                      Image(
-                      image: AssetImage(Configt.app_icon),
+                      image: AssetImage(Configt.appLogo),
                       height: 256,
                       width: 254,
                       fit: BoxFit.cover,
@@ -83,7 +84,7 @@ class _SplashScreenState extends State<SplashScreen> {
                 ),
               ),
               Text(
-                'කථන ',
+                'කතා',
                 style: TextStyle(
                   fontSize: 40,
                   fontWeight: FontWeight.bold,

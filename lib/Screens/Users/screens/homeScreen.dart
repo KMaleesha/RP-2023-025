@@ -1,7 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:lottie/lottie.dart';
 
 import '../../../utils/configt.dart';
+import '../../GameScreen/Game/animationScreen.dart';
 import '../../GameScreen/Game/dataentry_screen.dart';
 import '../../GameScreen/Game/selection_screen.dart';
 import '../../GameScreen/testing/questionPage.dart';
@@ -9,6 +12,7 @@ import '../../PositionalValueDetection/Screens/PositionalErrorDetection.dart';
 import '../../PositionalValueDetection/Screens/letterErrorDetails.dart';
 import '../../PositionalValueDetection/Screens/letterErrorDetection.dart';
 import '../../PositionalValueDetection/Screens/markCalculation.dart';
+import '../../TherapistManagement/screens/therapist_dashboard.dart';
 import '../../ScreenTest/HomeScreen.dart';
 import '../../ScreenTest/ListWords.dart';
 import '../../ScreenTest/RecordScreen.dart';
@@ -22,6 +26,12 @@ class HomeScreenAll extends StatefulWidget {
 }
 
 class _HomeScreenAllState extends State<HomeScreenAll> {
+  @override
+  void initState() {
+    super.initState();
+    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+  }
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -254,14 +264,57 @@ class _HomeScreenAllState extends State<HomeScreenAll> {
                           ],
                         ),
                       ),
+
+
+//Tharindu's part
+                      SizedBox(
+                        width: 100,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.5),
+                                spreadRadius: 2,
+                                blurRadius: 5,
+                                offset: Offset(0, 3), // changes position of shadow
+                              ),
+                            ],
+                          ),
+                          child: GestureDetector(
+                            onTap: (){
+                              Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => DataEntryScreen(),
+                              ));
+                            },
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(20),
+                              child: Stack(
+                                alignment: Alignment.center,
+                                children: [
+                                  Lottie.asset(
+                                    Configt.childRobot,
+
+                                  ),
+
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+
+//bathiya's screens
+
+
                       ElevatedButton(
                         onPressed: () {
                           Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => RecordScreen(),
+                            builder: (context) => TherapistDashboard(),
                           ));
                         },
                         style: ElevatedButton.styleFrom(
-                          primary: Colors.blue.shade400,
+                          primary: Colors.teal.shade400,
                           padding: EdgeInsets.all(16.0),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(16.0),
@@ -269,11 +322,11 @@ class _HomeScreenAllState extends State<HomeScreenAll> {
                         ),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            Icon(Icons.note_add, size: 60.0, color: Colors.white),
+                          children: const <Widget>[
+                            Icon(Icons.healing, size: 60.0, color: Colors.white),
                             SizedBox(height: 16.0),
                             Text(
-                              'RecordScreen',
+                              'Therapist Dashboard',
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                 fontSize: 24.0,
@@ -285,97 +338,6 @@ class _HomeScreenAllState extends State<HomeScreenAll> {
                         ),
                       ),
 
-                      //tharindu's pages
-                      ElevatedButton(
-                        onPressed: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => QuestionScreen(),
-                          ));
-                        },
-                        style: ElevatedButton.styleFrom(
-                          primary: Colors.teal.shade400,
-                          padding: EdgeInsets.all(16.0),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(16.0),
-                          ),
-                        ),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            Icon(Icons.healing, size: 60.0, color: Colors.white),
-                            SizedBox(height: 16.0),
-                            Text(
-                              'Question Game page',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontSize: 24.0,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      ElevatedButton(
-                        onPressed: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => SelectionScreen(),
-                          ));
-                        },
-                        style: ElevatedButton.styleFrom(
-                          primary: Colors.teal.shade400,
-                          padding: EdgeInsets.all(16.0),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(16.0),
-                          ),
-                        ),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            Icon(Icons.healing, size: 60.0, color: Colors.white),
-                            SizedBox(height: 16.0),
-                            Text(
-                              'SelectionScreen',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontSize: 24.0,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      ElevatedButton(
-                        onPressed: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => DataEntryScreen(),
-                          ));
-                        },
-                        style: ElevatedButton.styleFrom(
-                          primary: Colors.teal.shade400,
-                          padding: EdgeInsets.all(16.0),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(16.0),
-                          ),
-                        ),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            Icon(Icons.healing, size: 60.0, color: Colors.white),
-                            SizedBox(height: 16.0),
-                            Text(
-                              'DataEntryScreen',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontSize: 24.0,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
                     ],
                   ),
                 ),

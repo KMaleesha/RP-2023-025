@@ -1,8 +1,66 @@
-import 'package:flutter/material.dart';
-import 'dart:ui';
-import 'package:kathaappa/Screens/ScreenTest/ListWords.dart';
+import 'dart:async';
 
-class HomeScreen extends StatelessWidget {
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'dart:ui';
+
+import 'package:audioplayers/audioplayers.dart';
+import '../Users/screens/homeScreen.dart';
+import 'InCorrect.dart';
+import 'Correct.dart';
+import 'ListWords.dart';
+
+
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({Key? key}) : super(key: key);
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  //1
+  final audioPlayer = AudioPlayer();
+  @override
+  void initState() {
+    super.initState();
+    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+//2
+    Timer(Duration(seconds: 1), () {
+      setAudio();
+    });
+
+    //startvoice recorder
+    Timer(Duration(seconds: 2), () {
+      _handleTap();
+    });
+    /////////////////2
+  }
+  /////////////////3
+  // Function to handle tap on the screen
+  void _handleTap() {
+    Timer(Duration(seconds:15), () {
+
+    });
+    audioPlayer.resume();
+  }
+  //function to initialize audio
+  Future setAudio() async {
+    audioPlayer.setReleaseMode(ReleaseMode.loop);
+
+    final player = AudioCache(prefix: "assets/screenTestAssets/VoiceOver/");
+    //load song from assets
+    final url = await player.load("S1.wav");
+    audioPlayer.setSourceUrl(url.path);
+  }
+  @override
+  void dispose() {
+
+    audioPlayer.dispose();  audioPlayer.pause();  audioPlayer.pause();
+    audioPlayer.pause();
+    super.dispose();
+  }
+  /////////////////3
   @override
   Widget build(BuildContext context) {
     double fem = 1.0; // Your factor value
@@ -11,6 +69,7 @@ class HomeScreen extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
         body: Container(
+
           width: double.infinity,
           height: 807 * fem,
           child: Stack(
@@ -42,12 +101,11 @@ class HomeScreen extends StatelessWidget {
                             height: 30 * fem,
                             child: ElevatedButton(
                               onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => HomeScreen(),
-                                  ),
-                                );
+                                audioPlayer.dispose();  audioPlayer.pause();
+                                Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) => HomeScreenAll(),
+                                ));
+
                               },
                               child: Image.asset(
                                 'assets/screenTestAssets/icon-back.png',
@@ -69,7 +127,11 @@ class HomeScreen extends StatelessWidget {
                                 height: 32 * fem,
                                 child: ElevatedButton(
                                   onPressed: () {
-                                    // Profile button pressed action
+                                    audioPlayer.dispose();  audioPlayer.pause();
+                                    Navigator.of(context).push(MaterialPageRoute(
+                                      builder: (context) => InCorrect(),
+                                    ));
+
                                   },
                                   child: Image.asset(
                                     'assets/screenTestAssets/icon-profile.png',
@@ -90,7 +152,10 @@ class HomeScreen extends StatelessWidget {
                                 height: 32 * fem,
                                 child: ElevatedButton(
                                   onPressed: () {
-                                    // Home button pressed action
+                                    audioPlayer.dispose();  audioPlayer.pause();
+                                    Navigator.of(context).push(MaterialPageRoute(
+                                      builder: (context) => Correct(),
+                                    ));
                                   },
                                   child: Image.asset(
                                     'assets/screenTestAssets/icon-home.png',
@@ -154,22 +219,24 @@ class HomeScreen extends StatelessWidget {
               ),
 
 
-              Positioned(
-                left: 0,
-                right: 0,
-                top: 140,
-                child: Align(
-                  child: SizedBox(
-                    width: 400,
-                    height: 700,
-                    child: Image.asset(
-                      'assets/screenTestAssets/HomeScreen.gif',
-                      fit: BoxFit.cover,
-
-                    ),
-                  ),
-                ),
+        // ... (rest of the code above)
+        Positioned(
+          left: 0,
+          right: 0,
+          top: 140,
+          child: Align(
+            child: SizedBox(
+              width: 500,  // Increased width from 400 to 500
+              height: 700, // Keep the existing height or adjust as needed
+              child: Image.asset(
+                'assets/screenTestAssets/HomeScreen.gif',
+                fit: BoxFit.cover,
               ),
+            ),
+          ),
+        ),
+// ... (rest of the code below)
+              ///
               Positioned(
                 left: 46 * fem,
                 top: 646.991394043 * fem,
@@ -179,7 +246,7 @@ class HomeScreen extends StatelessWidget {
                     height: 43.73 * fem,
                     child: GestureDetector(
                       onTap: () {
-                        print('Hello, world!');
+                        audioPlayer.dispose();  audioPlayer.pause();
                         Navigator.push(
                           context,
                           MaterialPageRoute(builder: (context) => ListWords()),
@@ -301,4 +368,7 @@ class HomeScreen extends StatelessWidget {
       ),
     );
   }
+
+
+
 }

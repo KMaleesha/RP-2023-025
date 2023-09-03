@@ -12,7 +12,7 @@ class QuestionScreen extends StatefulWidget {
   @override
   State<QuestionScreen> createState() => _QuestionScreenState();
 }
-
+///
 class _QuestionScreenState extends State<QuestionScreen> {
 
 
@@ -44,7 +44,7 @@ class _QuestionScreenState extends State<QuestionScreen> {
                 children: <Widget>[
                   Center(child: Padding(
                     padding: const EdgeInsets.only(right: 700.0,top: 200),
-                    child: Image.asset(Configt.app_man),
+                    child: Image.asset(Configt.app_boy),
                   )),
 
                 ],
