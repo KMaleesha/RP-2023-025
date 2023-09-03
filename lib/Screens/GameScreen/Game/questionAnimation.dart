@@ -488,7 +488,7 @@ class _QuestionAnimationScreenState extends State<QuestionAnimationScreen>
           ));
       setState(() {
         isLoading = false;
-        resultAPI = false;
+        resultAPI = true;
         isUpload = false;
         uploadAudioQuestion(  File(_audioPath), 'balla');
       });
