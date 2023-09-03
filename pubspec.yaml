@@ -1,4 +1,4 @@
-name: kathaappa
+name: Katha
 description: A new Flutter project.
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
@@ -8,13 +8,12 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: '>=2.19.0 <3.0.0'
+  sdk: '>=2.18.2 <3.0.0'
 
 dependencies:
   flutter:
     sdk: flutter
   like_button: ^2.0.5
-
   cupertino_icons: ^1.0.2
   firebase_core: ^2.1.1
   firebase_auth: ^4.1.1
@@ -31,7 +30,15 @@ dependencies:
   path_provider: ^2.0.11
   flame: ^1.7.3
   image_picker: ^0.8.6+1
-  flutter_svg: ^2.0.5
+  image_cropper: ^1.4.1
+  dotted_border: ^2.0.0+3
+  audioplayers: ^4.1.0
+  record: ^4.4.4
+  flutter_sound: ^8.0.1
+  permission_handler: ^8.2.2
+  material_dialogs: ^1.1.4
+  lottie: ^2.3.0
+  flutter_spinkit: ^5.0.0
 
 dev_dependencies:
   flutter_test:
@@ -68,3 +75,62 @@ flutter:
     - assets/screenTestAssets/icon-back.png
     - assets/screenTestAssets/SpiderList.gif
     - assets/screenTestAssets/DogIn.gif
+    - assets/gameAssets/images/sprite_images/
+    - assets/gameAssets/images/
+    - assets/gameAssets/songs/
+    - assets/gameAssets/songs/questionWords/
+    - assets/
+    - assets/gameAssets/child.gif
+    - assets/gameAssets/childface.png
+    - assets/gameAssets/walking1.gif
+    - assets/gameAssets/images/animationframes/
+    - lib/Screens/GameScreen/testing/
+    - assets/gameAssets/images/other/smilingface.json
+    - assets/gameAssets/images/other/smilingface.gif
+    - assets/gameAssets/images/other/cryface.gif
+    - assets/gameAssets/images/other/cryface.json
+    - assets/gameAssets/images/other/childRobot.json
+    - assets/gameAssets/songs/questionWords/Hariiii.wav
+    - assets/gameAssets/songs/questionWords/
+    - assets/gameAssets/songs/questionWords/uthsahakarankooo.wav
+    - assets/gameAssets/thoughtBubble.json
+    - assets/gameAssets/images/other/back.png
+    - assets/gameAssets/images/other/home.png
+    - assets/gameAssets/images/other/next.png
+    - assets/gameAssets/images/other/cryGirl.json
+    - assets/gameAssets/images/other/happyGirl.json
+    - assets/gameAssets/images/other/stars.json
+    - assets/gameAssets/images/other/stars2.json
+    - assets/gameAssets/images/boy.png
+    - assets/gameAssets/images/girl.png
+    - assets/gameAssets/rocketg.json
+    - assets/gameAssets/baby.json
+    - assets/gameAssets/click.json
+    - assets/gameAssets/rabbit.json
+    - assets/gameAssets/bAnimation.gif
+    - assets/gameAssets/songs/winAudio.mp3
+    - assets/gameAssets/songs/selectionAudio.mp3
+    - assets/gameAssets/songs/questionPage.mp3
+    - assets/gameAssets/songs/loseAudio.mp3
+    - assets/gameAssets/songs/questionWords/hawa.wav
+    - assets/logoGif.gif
+    - assets/screenTestAssets/incorrect.jpg
+    - assets/screenTestAssets/correct.jpg
+    - assets/screenTestAssets/HowTo.jpg
+    - assets/screenTestAssets/g2.gif
+    - assets/screenTestAssets/VoiceOver/S1.wav
+    - assets/screenTestAssets/VoiceOver/S2.wav
+    - assets/screenTestAssets/VoiceOver/S3_3.wav
+    - assets/screenTestAssets/VoiceOver/S4_1.wav
+    - assets/screenTestAssets/VoiceOver/S4_2.wav
+    - assets/screenTestAssets/VoiceOver/S5.wav
+    - assets/screenTestAssets/VoiceOver/
+    - assets/loginImage.jpg
+    - assets/screenTestAssets/incorrectFinal.jpg
+    - assets/phonologicalAssets/background_image.jpg
+    - assets/phonologicalAssets/background_image1.jpg
+    - assets/phonologicalAssets/background_image2.jpg
+    - assets/phonologicalAssets/background_image3.jpg
+
+
+
