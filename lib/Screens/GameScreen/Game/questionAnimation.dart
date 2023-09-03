@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
 import 'package:Katha/Screens/GameScreen/Game/winnerScreen.dart';
 import 'package:audioplayers/audioplayers.dart';
@@ -13,11 +14,10 @@ import 'package:lottie/lottie.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:record/record.dart';
 import '../../../utils/configt.dart';
-import '../../ScreenTest/HomeScreen.dart';
 import 'loserScreen.dart';
 import 'model/childImage.dart';
 import 'package:flutter_sound/flutter_sound.dart';
-
+import 'package:http/http.dart' as http;
 class QuestionAnimationScreen extends StatefulWidget {
   const QuestionAnimationScreen({super.key});
 
@@ -490,26 +490,44 @@ class _QuestionAnimationScreenState extends State<QuestionAnimationScreen>
         isLoading = false;
         resultAPI = false;
         isUpload = false;
+        uploadAudioQuestion(  File(_audioPath), 'balla');
       });
-      if (resultAPI == true) {
+
+
+      print("firestore  added voice");
+    }
+
+
+
+
+
+
+  }
+  //API Call
+  Future<void> uploadAudioQuestion(File audioFile, String inputWord) async {
+    var request = http.MultipartRequest('POST', Uri.parse('http://192.168.8.168:5000/predict'));
+    request.fields['input_word'] = inputWord;
+    request.files.add(http.MultipartFile.fromBytes('audio_file', await audioFile.readAsBytes(), filename: 'audio.wav'));
+
+    var response = await request.send();
+
+    if (response.statusCode == 200) {
+      var result = await http.Response.fromStream(response);
+      print('Result: ${result.body}');
+      var parsedJson = json.decode(result.body);
+      if (parsedJson['result'] == "Correct Answer") {
+        audioPlayer.dispose();  audioPlayer.pause();
         Navigator.pushReplacement(
             context, MaterialPageRoute(builder: (context) => WinnerScreen()));
-      } else {
+      }
+      if (parsedJson['result'] == "Wrong Answer") {
+        audioPlayer.dispose();  audioPlayer.pause();
         Navigator.pushReplacement(
             context, MaterialPageRoute(builder: (context) => LoserScreen()));
       }
 
-      print("not added voice");
+    } else {
+      print('Failed to upload audio API');
     }
-    // Display a success message
-
-    //API Call
-
-    /*Future<void> askQuestion() {
-      url = 'http://'
-
-      }
-
-     */
   }
 }
