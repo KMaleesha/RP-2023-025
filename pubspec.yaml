@@ -38,7 +38,7 @@ dependencies:
   permission_handler: ^8.2.2
   material_dialogs: ^1.1.4
   lottie: ^2.3.0
-
+  flutter_spinkit: ^5.0.0
 
 dev_dependencies:
   flutter_test:
@@ -117,9 +117,20 @@ flutter:
     - assets/screenTestAssets/incorrect.jpg
     - assets/screenTestAssets/correct.jpg
     - assets/screenTestAssets/HowTo.jpg
-    - assets/screenTestAssets/VoiceOver/sc1.wav
+    - assets/screenTestAssets/g2.gif
+    - assets/screenTestAssets/VoiceOver/S1.wav
+    - assets/screenTestAssets/VoiceOver/S2.wav
+    - assets/screenTestAssets/VoiceOver/S3_3.wav
+    - assets/screenTestAssets/VoiceOver/S4_1.wav
+    - assets/screenTestAssets/VoiceOver/S4_2.wav
+    - assets/screenTestAssets/VoiceOver/S5.wav
     - assets/screenTestAssets/VoiceOver/
     - assets/loginImage.jpg
+    - assets/screenTestAssets/incorrectFinal.jpg
+    - assets/phonologicalAssets/background_image.jpg
+    - assets/phonologicalAssets/background_image1.jpg
+    - assets/phonologicalAssets/background_image2.jpg
+    - assets/phonologicalAssets/background_image3.jpg
 
 
 

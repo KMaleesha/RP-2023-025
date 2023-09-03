@@ -76,159 +76,38 @@ class _HomeScreenAllState extends State<HomeScreenAll> {
                 //   image: DecorationImage(
                 //       image: AssetImage(Config.app_background2), fit: BoxFit.fill),
                 // ),
-                child: SafeArea(
-                  child: Column(
-                    children: [
-                      // Container(
-                      //   width: 300.0,
-                      //   padding: EdgeInsets.symmetric(vertical: 16.0),
-                      //   decoration: BoxDecoration(
-                      //     color: Color(0x80FFFFFF),
-                      //     borderRadius: BorderRadius.vertical(
-                      //       bottom: Radius.circular(16.0),
-                      //     ),
-                      //   ),
-                      //   child: Text(
-                      //     // 'චිකිත්සක උපකරණ පුවරුව',
-                      //     'Therapist Dashboard',
-                      //     style: TextStyle(
-                      //       fontSize: 24.0,
-                      //       fontWeight: FontWeight.bold,
-                      //       color: Colors.black,
-                      //     ),
-                      //     textAlign: TextAlign.center,
-                      //   ),
-                      // ),
-                      Expanded(
-                        child: GridView.count(
-                          crossAxisCount: 2, // Number of columns in the grid
-                          mainAxisSpacing:
-                              16.0, // Vertical spacing between items
-                          crossAxisSpacing:
-                              16.0, // Horizontal spacing between items
-                          padding:
-                              EdgeInsets.all(16.0), // Padding around the grid
+                Expanded(
+                  child: GridView.count(
+                    crossAxisCount: 2, // Number of columns in the grid
+                    mainAxisSpacing: 16.0, // Vertical spacing between items
+                    crossAxisSpacing: 16.0, // Horizontal spacing between items
+                    padding: EdgeInsets.all(16.0), // Padding around the grid
+                    children: <Widget>[
+                      //maleesha's pages
+                      ElevatedButton(
+                        onPressed: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => PositionalErrorDetector(),
+                          ));
+                        },
+                        style: ElevatedButton.styleFrom(
+                          primary: Colors.purple.shade400,
+                          padding: EdgeInsets.all(16.0),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(16.0),
+                          ),
+                        ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
-                            //maleesha's pages
-                            ElevatedButton(
-                              onPressed: () {
-                                Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (context) => LetterErrorDetails(),
-                                ));
-                              },
-                              style: ElevatedButton.styleFrom(
-                                primary: Colors.purple.shade400,
-                                padding: EdgeInsets.all(16.0),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(16.0),
-                                ),
-                              ),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: <Widget>[
-                                  Icon(Icons.record_voice_over,
-                                      size: 60.0, color: Colors.white),
-                                  SizedBox(height: 16.0),
-                                  Text(
-                                    'LetterErrorDetails',
-                                    style: TextStyle(
-                                      fontSize: 24.0,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            ElevatedButton(
-                              onPressed: () {
-                                Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (context) => LetterErrorDetector(),
-                                ));
-                              },
-                              style: ElevatedButton.styleFrom(
-                                primary: Colors.purple.shade400,
-                                padding: EdgeInsets.all(16.0),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(16.0),
-                                ),
-                              ),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: <Widget>[
-                                  Icon(Icons.record_voice_over,
-                                      size: 60.0, color: Colors.white),
-                                  SizedBox(height: 16.0),
-                                  Text(
-                                    'LetterErrorDetector',
-                                    style: TextStyle(
-                                      fontSize: 24.0,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            ElevatedButton(
-                              onPressed: () {
-                                Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (context) => MarkCalculation(),
-                                ));
-                              },
-                              style: ElevatedButton.styleFrom(
-                                primary: Colors.purple.shade400,
-                                padding: EdgeInsets.all(16.0),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(16.0),
-                                ),
-                              ),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: <Widget>[
-                                  Icon(Icons.record_voice_over,
-                                      size: 60.0, color: Colors.white),
-                                  SizedBox(height: 16.0),
-                                  Text(
-                                    'MarkCalculation',
-                                    style: TextStyle(
-                                      fontSize: 24.0,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            ElevatedButton(
-                              onPressed: () {
-                                Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (context) =>
-                                      PositionalErrorDetector(),
-                                ));
-                              },
-                              style: ElevatedButton.styleFrom(
-                                primary: Colors.purple.shade400,
-                                padding: EdgeInsets.all(16.0),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(16.0),
-                                ),
-                              ),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: <Widget>[
-                                  Icon(Icons.record_voice_over,
-                                      size: 60.0, color: Colors.white),
-                                  SizedBox(height: 16.0),
-                                  Text(
-                                    'PositionalErrorDetector',
-                                    style: TextStyle(
-                                      fontSize: 24.0,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                ],
+                            Icon(Icons.record_voice_over, size: 60.0, color: Colors.white),
+                            SizedBox(height: 16.0),
+                            Text(
+                              'Letter Error Identifier',
+                              style: TextStyle(
+                                fontSize: 24.0,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
                               ),
                             ),
                             //rashmi's pages

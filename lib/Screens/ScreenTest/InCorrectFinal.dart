@@ -3,22 +3,21 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'dart:ui';
-
 import 'package:audioplayers/audioplayers.dart';
 import '../Users/screens/homeScreen.dart';
-import 'InCorrect.dart';
-import 'Correct.dart';
+import 'HowToSpeak.dart';
+
 import 'ListWords.dart';
 
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+class InCorrectFinal extends StatefulWidget {
+  const InCorrectFinal({Key? key}) : super(key: key);
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  State<InCorrectFinal> createState() => _InCorrectFinalState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _InCorrectFinalState extends State<InCorrectFinal> {
   //1
   final audioPlayer = AudioPlayer();
   @override
@@ -50,13 +49,13 @@ class _HomeScreenState extends State<HomeScreen> {
 
     final player = AudioCache(prefix: "assets/screenTestAssets/VoiceOver/");
     //load song from assets
-    final url = await player.load("S1.wav");
+    final url = await player.load("S5.wav");
     audioPlayer.setSourceUrl(url.path);
   }
   @override
   void dispose() {
 
-    audioPlayer.dispose();  audioPlayer.pause();  audioPlayer.pause();
+    audioPlayer.dispose();  audioPlayer.pause();audioPlayer.pause();
     audioPlayer.pause();
     super.dispose();
   }
@@ -129,9 +128,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                   onPressed: () {
                                     audioPlayer.dispose();  audioPlayer.pause();
                                     Navigator.of(context).push(MaterialPageRoute(
-                                      builder: (context) => InCorrect(),
+                                      builder: (context) => HowToSpeak(),
                                     ));
-
                                   },
                                   child: Image.asset(
                                     'assets/screenTestAssets/icon-profile.png',
@@ -152,10 +150,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 height: 32 * fem,
                                 child: ElevatedButton(
                                   onPressed: () {
-                                    audioPlayer.dispose();  audioPlayer.pause();
-                                    Navigator.of(context).push(MaterialPageRoute(
-                                      builder: (context) => Correct(),
-                                    ));
+                                    // Home button pressed action
                                   },
                                   child: Image.asset(
                                     'assets/screenTestAssets/icon-home.png',
@@ -179,102 +174,17 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
               Positioned(
-                top: 70,
                 left: 0,
                 right: 0,
-                child: Container(
-                  padding: EdgeInsets.fromLTRB(44 * fem, 13 * fem, 57 * fem, 11 * fem),
-                  width: double.infinity,
-                  height: 100,
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      begin: Alignment(0.407, -1),
-                      end: Alignment(-0.407, 1),
-                      colors: <Color>[
-                        Color(0xff24d0a7),
-                        Color(0xff24d0a7),
-                      ],
-                      stops: <double>[0, 1],
-                    ),
-                  ),
-                  child: Align(
-                    alignment: Alignment.center,
-                    child: Text(
-                      'වචන සෙල්ලම',
-                      style: TextStyle(
-                        fontSize: 28,
-                        fontWeight: FontWeight.bold,
-                        color: Color(0xff0e510d),
-                        shadows: [
-                          Shadow(
-                            color: Colors.greenAccent,
-                            blurRadius: 2,
-                            offset: Offset(1, 1),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-
-
-        // ... (rest of the code above)
-        Positioned(
-          left: 0,
-          right: 0,
-          top: 140,
-          child: Align(
-            child: SizedBox(
-              width: 500,  // Increased width from 400 to 500
-              height: 700, // Keep the existing height or adjust as needed
-              child: Image.asset(
-                'assets/screenTestAssets/HomeScreen.gif',
-                fit: BoxFit.cover,
-              ),
-            ),
-          ),
-        ),
-// ... (rest of the code below)
-              ///
-              Positioned(
-                left: 46 * fem,
-                top: 646.991394043 * fem,
+                top: 80,
                 child: Align(
                   child: SizedBox(
-                    width: 141 * fem,
-                    height: 43.73 * fem,
-                    child: GestureDetector(
-                      onTap: () {
-                        audioPlayer.dispose();  audioPlayer.pause();
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => ListWords()),
-                        );
-                      },
-                      child: AnimatedContainer(
-                        duration: Duration(milliseconds: 300),
-                        curve: Curves.easeInOut,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20 * fem),
-                          gradient: LinearGradient(
-                            begin: Alignment(0.407, -1),
-                            end: Alignment(-0.407, 1),
-                            colors: <Color>[
-                              Color(0xfff9ff00),
-                              Color(0xffff4c00),
-                            ],
-                            stops: <double>[0, 1],
-                          ),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.yellow.withOpacity(0.7),
-                              blurRadius: 20.0,
-                              spreadRadius: 2.0,
-                            ),
-                          ],
-                        ),
-                      ),
+                    width: 500,
+                    height: 700,
+                    child: Image.asset(
+                      'assets/screenTestAssets/incorrectFinal.jpg',
+                      fit: BoxFit.cover,
+
                     ),
                   ),
                 ),
@@ -285,7 +195,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: Align(
                   child: SizedBox(
                     width: 141 * fem,
-                    height: 43.73 * fem,
+                    height: 60.73 * fem,
                     child: GestureDetector(
                       onTap: () {
                         /*Navigator.push(
@@ -323,17 +233,60 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
               Positioned(
-                left: 85 * fem,
+                left: 46 * fem,
+                top: 646.991394043 * fem,
+                child: Align(
+                  child: SizedBox(
+                    width: 141 * fem,
+                    height: 60.73 * fem,
+                    child: GestureDetector(
+                      onTap: () {
+                        audioPlayer.dispose();  audioPlayer.pause();
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => ListWords()),
+                        );
+                      },
+                      child: AnimatedContainer(
+                        duration: Duration(milliseconds: 300),
+                        curve: Curves.easeInOut,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20 * fem),
+                          gradient: LinearGradient(
+                            begin: Alignment(0.407, -1),
+                            end: Alignment(-0.407, 1),
+                            colors: <Color>[
+                              Color(0xFFFF69B4),
+                              Color(0xFFC71585),
+                            ],
+                            stops: <double>[0, 1],
+                          ),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.yellow.withOpacity(0.7),
+                              blurRadius: 20.0,
+                              spreadRadius: 2.0,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+
+              Positioned(
+                left: 90 * fem,
                 top: 656.9298095703 * fem,
                 child: Align(
                   child: SizedBox(
-                    width: 61 * fem,
-                    height: 27 * fem,
+                    width: 75 * fem,
+                    height: 100 * fem,
                     child: Text(
-                      'අරඹමු',
+                      'වෙනත් වචනයක්',
                       style: TextStyle(
                         fontFamily: 'Noto Sans Sinhala',
-                        fontSize: 17 * ffem,
+                        fontSize: 13 * ffem,
                         fontWeight: FontWeight.w700,
                         height: 1.3025 * ffem / fem,
                         color: Color(0xff591010),
@@ -343,17 +296,17 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
               Positioned(
-                left: 229 * fem,
+                left: 248 * fem,
                 top: 656.9298095703 * fem,
                 child: Align(
                   child: SizedBox(
                     width: 73 * fem,
-                    height: 27 * fem,
+                    height: 100 * fem,
                     child: Text(
-                      'දැනගමු',
+                      'ප්‍රධාන මෙනුව',
                       style: TextStyle(
                         fontFamily: 'Noto Sans Sinhala',
-                        fontSize: 17 * ffem,
+                        fontSize: 13 * ffem,
                         fontWeight: FontWeight.w700,
                         height: 1.3025 * ffem / fem,
                         color: Color(0xff591010),
