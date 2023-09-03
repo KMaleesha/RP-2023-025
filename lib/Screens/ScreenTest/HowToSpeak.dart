@@ -3,12 +3,13 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_sound/flutter_sound.dart';
-import 'package:kathaappa/Screens/ScreenTest/RecordScreen.dart';
 import 'dart:ui';
-import 'package:kathaappa/Screens/Users/screens/homeScreen.dart';
+
 import 'package:audioplayers/audioplayers.dart';
 
+import '../Users/screens/homeScreen.dart';
 import 'ListWords.dart';
+import 'RecordScreen.dart';
 
 
 class HowToSpeak extends StatefulWidget {

@@ -3,10 +3,11 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'dart:ui';
-import 'package:kathaappa/Screens/Users/screens/homeScreen.dart';
-import 'package:kathaappa/Screens/ScreenTest/HomeScreen.dart';
+
 import 'package:audioplayers/audioplayers.dart';
 
+import '../Users/screens/homeScreen.dart';
+import 'HomeScreen.dart';
 import 'ListWords.dart';
 
 
