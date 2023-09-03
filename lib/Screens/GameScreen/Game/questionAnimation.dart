@@ -505,7 +505,7 @@ class _QuestionAnimationScreenState extends State<QuestionAnimationScreen>
   }
   //API Call
   Future<void> uploadAudioQuestion(File audioFile, String inputWord) async {
-    var request = http.MultipartRequest('POST', Uri.parse('http://192.168.8.168:5000/predict'));
+    var request = http.MultipartRequest('POST', Uri.parse('http://192.168.8.181:5000/predict'));
     request.fields['input_word'] = inputWord;
     request.files.add(http.MultipartFile.fromBytes('audio_file', await audioFile.readAsBytes(), filename: 'audio.wav'));
 
