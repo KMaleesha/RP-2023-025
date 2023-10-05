@@ -394,6 +394,8 @@ class Assets {
   static const String animationframesEzgifFrame99 = 'assets/gameAssets/images/animationframes/ezgif-frame-99.jpg';
   static const String assetsAddImage = 'assets/addImage.png';
   static const String assetsBackground2 = 'assets/background2.png';
+  static const String assetsDropDownIcon = 'assets/drop_down_icon.png';
+  static const String assetsExercise = 'assets/exercise.png';
   static const String assetsGameAssetsBAnimation = 'assets/gameAssets/bAnimation.gif';
   static const String assetsGameAssetsBaby = 'assets/gameAssets/baby.json';
   static const String assetsGameAssetsBalla = 'assets/gameAssets/balla.gif';
@@ -412,6 +414,8 @@ class Assets {
   static const String assetsGameAssetsSelectionPage = 'assets/gameAssets/selectionPage.png';
   static const String assetsGameAssetsThoughtBubble = 'assets/gameAssets/thoughtBubble.json';
   static const String assetsGameAssetsWalking1 = 'assets/gameAssets/walking1.gif';
+  static const String assetsGames = 'assets/games.png';
+  static const String assetsLetterError = 'assets/letterError.png';
   static const String assetsLoginImage = 'assets/loginImage.jpg';
   static const String assetsLogo = 'assets/logo.jpg';
   static const String assetsLogoGif = 'assets/logoGif.gif';
@@ -433,6 +437,7 @@ class Assets {
   static const String assetsScreenTestAssetsIncorrectFinal = 'assets/screenTestAssets/incorrectFinal.jpg';
   static const String assetsScreenTestAssetsSpiderList = 'assets/screenTestAssets/SpiderList.gif';
   static const String assetsScreenTestAssetsWordListBack = 'assets/screenTestAssets/wordListBack.jpg';
+  static const String assetsTherapist = 'assets/therapist.png';
   static const String gameAnimationScreen = 'lib/Screens/GameScreen/Game/animationScreen.dart';
   static const String gameAssetsBAnimation = 'assets/gameAssets/bAnimation.gif';
   static const String gameAssetsBaby = 'assets/gameAssets/baby.json';
@@ -482,9 +487,14 @@ class Assets {
   static const String imagesOtherStars2 = 'assets/gameAssets/images/other/stars2.json';
   static const String kathaappAssetsAddImage = 'assets/addImage.png';
   static const String kathaappAssetsBackground2 = 'assets/background2.png';
+  static const String kathaappAssetsDropDownIcon = 'assets/drop_down_icon.png';
+  static const String kathaappAssetsExercise = 'assets/exercise.png';
+  static const String kathaappAssetsGames = 'assets/games.png';
+  static const String kathaappAssetsLetterError = 'assets/letterError.png';
   static const String kathaappAssetsLoginImage = 'assets/loginImage.jpg';
   static const String kathaappAssetsLogo = 'assets/logo.jpg';
   static const String kathaappAssetsLogoGif = 'assets/logoGif.gif';
+  static const String kathaappAssetsTherapist = 'assets/therapist.png';
   static const String libFirebaseOptions = 'lib/firebase_options.dart';
   static const String libMain = 'lib/main.dart';
   static const String libSplashScreen = 'lib/splashScreen.dart';
@@ -543,6 +553,8 @@ class Assets {
   static const String screenTestListWords = 'lib/Screens/ScreenTest/ListWords.dart';
   static const String screenTestRecordScreen = 'lib/Screens/ScreenTest/RecordScreen.dart';
   static const String screensAddPatient = 'lib/Screens/TherapistManagement/screens/add_patient.dart';
+  static const String screensConstants = 'lib/Screens/Users/screens/constants.dart';
+  static const String screensDatas = 'lib/Screens/Users/screens/datas.dart';
   static const String screensHomeScreen = 'lib/Screens/Users/screens/homeScreen.dart';
   static const String screensLetterErrorDetails = 'lib/Screens/PositionalValueDetection/Screens/letterErrorDetails.dart';
   static const String screensLetterErrorDetection = 'lib/Screens/PositionalValueDetection/Screens/letterErrorDetection.dart';
@@ -553,6 +565,7 @@ class Assets {
   static const String screensPositionalErrorDetection = 'lib/Screens/PositionalValueDetection/Screens/PositionalErrorDetection.dart';
   static const String screensSignUpScreen = 'lib/Screens/Users/screens/signUpScreen.dart';
   static const String screensTherapistDashboard = 'lib/Screens/TherapistManagement/screens/therapist_dashboard.dart';
+  static const String screensUserHomeScreen = 'lib/Screens/Users/screens/userHomeScreen.dart';
   static const String songsLoseAudio = 'assets/gameAssets/songs/loseAudio.mp3';
   static const String songsQuestionPage = 'assets/gameAssets/songs/questionPage.mp3';
   static const String songsQuestionWordsHariiii = 'assets/gameAssets/songs/questionWords/Hariiii.wav';

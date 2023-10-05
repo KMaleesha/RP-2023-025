@@ -39,6 +39,7 @@ dependencies:
   material_dialogs: ^1.1.4
   lottie: ^2.3.0
   flutter_spinkit: ^5.0.0
+  flutter_swiper_plus: ^2.0.4
 
 dev_dependencies:
   flutter_test:
@@ -131,6 +132,10 @@ flutter:
     - assets/phonologicalAssets/background_image1.jpg
     - assets/phonologicalAssets/background_image2.jpg
     - assets/phonologicalAssets/background_image3.jpeg
-
+    - assets/drop_down_icon.png
+    - assets/exercise.png
+    - assets/games.png
+    - assets/letterError.png
+    - assets/therapist.png
 
 
