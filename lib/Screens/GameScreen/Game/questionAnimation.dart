@@ -14,6 +14,7 @@ import 'package:lottie/lottie.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:record/record.dart';
 import '../../../utils/configt.dart';
+import 'imageSaveSharedPreferences.dart';
 import 'loserScreen.dart';
 import 'model/childImage.dart';
 import 'package:flutter_sound/flutter_sound.dart';
@@ -55,6 +56,7 @@ class _QuestionAnimationScreenState extends State<QuestionAnimationScreen>
   @override
   void initState() {
     super.initState();
+    loadRetrievedImage();
     SystemChrome.setPreferredOrientations([DeviceOrientation.landscapeLeft]);
     Future.delayed(Duration(seconds: 3), () {
       setState(() {
@@ -82,7 +84,10 @@ class _QuestionAnimationScreenState extends State<QuestionAnimationScreen>
     //initialize audio
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      final double width = MediaQuery.of(context).size.width;
+      final double width = MediaQuery
+          .of(context)
+          .size
+          .width;
       _stopPosition = width * 0.1;
       _stopPosition2 = width * 0.2;
       _animation = Tween<double>(
@@ -93,7 +98,8 @@ class _QuestionAnimationScreenState extends State<QuestionAnimationScreen>
           parent: _controller,
           curve: Curves.linear,
         ),
-      )..addListener(() {
+      )
+        ..addListener(() {
           setState(() {
             _leftPadding = _animation!.value;
             _leftPadding2 = _animation!.value;
@@ -108,7 +114,12 @@ class _QuestionAnimationScreenState extends State<QuestionAnimationScreen>
       print(" Timer seconds: 5 _handleTap(); ");
     });
   }
+  File? _retrievedImage;
 
+  Future<void> loadRetrievedImage() async {
+    _retrievedImage = await retrieveImageFromSharedPreferences();
+    setState(() {}); // To refresh the widget after image is loaded.
+  }
   User? user = FirebaseAuth.instance.currentUser;
 
   Future<void> getData() async {
@@ -119,7 +130,7 @@ class _QuestionAnimationScreenState extends State<QuestionAnimationScreen>
         .doc(user?.uid);
     final snapshot = await reference.get();
     final result =
-        snapshot.data() == null ? null : ChildImage.fromJson(snapshot.data()!);
+    snapshot.data() == null ? null : ChildImage.fromJson(snapshot.data()!);
 
     setState(() {
       url.text = result?.url ?? '';
@@ -154,167 +165,175 @@ class _QuestionAnimationScreenState extends State<QuestionAnimationScreen>
 
   @override
   Widget build(BuildContext context) {
-    width = MediaQuery.of(context).size.width;
-    height = MediaQuery.of(context).size.height;
+    width = MediaQuery
+        .of(context)
+        .size
+        .width;
+    height = MediaQuery
+        .of(context)
+        .size
+        .height;
 
     // Delay for 3 seconds to simulate loading
 
     return (isLoading)
         ? Scaffold(
 
-            body: Container(
-              decoration: const BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage(Configt.bAnimation),
-                  fit: BoxFit.cover,
-                ),
-              ),
-              child: Container(
-                color: Colors.white10,
-                child: Center(
-                  child: Lottie.asset(Configt.rabbit,
-                    fit: BoxFit.fill,
+        body: Container(
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage(Configt.bAnimation),
+              fit: BoxFit.cover,
+            ),
+          ),
+          child: Container(
+            color: Colors.white10,
+            child: Center(
+              child: Lottie.asset(Configt.rabbit,
+                fit: BoxFit.fill,
 
-                  ),
-                ),
               ),
-            ))
+            ),
+          ),
+        ))
         : Scaffold(
-            body: SafeArea(
-              child: Container(
-                decoration: const BoxDecoration(
-                  image: DecorationImage(
-                    image: AssetImage(Configt.app_SelectionPageBackground1),
-                    fit: BoxFit.cover,
-                  ),
-                ),
-                child: SafeArea(
-                  child: Stack(
-                    children: [
-                      Stack(
-                        children: [
-                          Row(
+      body: SafeArea(
+        child: Container(
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage(Configt.app_SelectionPageBackground1),
+              fit: BoxFit.cover,
+            ),
+          ),
+          child: SafeArea(
+            child: Stack(
+              children: [
+                Stack(
+                  children: [
+                    Row(
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.only(top: height * 0.34, left: _leftPadding2),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Padding(
-                                  padding: EdgeInsets.only(
-                                      top: height * 0.34, left: _leftPadding2),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    // align at the start
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    // align children horizontally at the start
-                                    children: [
-                                      Padding(
-                                        padding:
-                                            const EdgeInsets.only(left: 42),
-                                        child: url.text.isNotEmpty
-                                            ? Container(
-                                                height: 80,
-                                                width:
-                                                    60, // Adjust dimensions as needed
-                                                child: ClipOval(
-                                                  child: Image.network(
-                                                    url.text, // Your image URL here
-                                                    fit: BoxFit.cover,
-                                                  ),
-                                                ),
-                                              )
-                                            : Container(
-                                                color:
-                                                    Colors.blue, // Debug color
-                                                child: Image.asset(
-                                                  Configt.app_childface,
-                                                  height: 50,
-                                                  width: 100,
-                                                  fit: BoxFit
-                                                      .fitHeight, // To make sure it fits as intended
-                                                ),
-                                              ),
-                                      ),
-                                      Container(
-                                        child: Image.asset(
-                                          Configt.app_child,
-                                          width: 133,
-                                          height: 120,
-                                          fit: BoxFit
-                                              .cover, // To make sure it fits as intended
-                                        ),
-                                      ),
-                                    ],
-                                  )),
-                              Padding(
-                                padding: EdgeInsets.only(
-                                    top: height * 0.50, left: _leftPadding),
-                                child: Image.asset(Configt.app_walkingchild,
-                                    width: 150, height: 150),
+                                padding: const EdgeInsets.only(left: 42),
+                                child: _retrievedImage != null
+                                    ? Container(
+                                  height: 80,
+                                  width: 60,
+                                  child: ClipOval(
+                                    child: Image.file(
+                                      _retrievedImage!,
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                )
+                                    : url.text.isNotEmpty
+                                    ? Container(
+                                  height: 80,
+                                  width: 60,
+                                  child: ClipOval(
+                                    child: Image.network(
+                                      url.text,
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                )
+                                    : Container(
+                                  color: Colors.blue,
+                                  child: Image.asset(
+                                    Configt.app_childface,
+                                    height: 50,
+                                    width: 100,
+                                    fit: BoxFit.fitHeight,
+                                  ),
+                                ),
+                              ),
+                              Container(
+                                child: Image.asset(
+                                  Configt.app_child,
+                                  width: 133,
+                                  height: 120,
+                                  fit: BoxFit.cover,
+                                ),
                               ),
                             ],
                           ),
-                          Padding(
-                            padding: EdgeInsets.only(
-                                left: width * 0.7, top: height * 0.4),
-                            child: Container(
-                              width: 150,
-                              height: 150,
-                              alignment: Alignment.topLeft,
-                              child: Image.asset(Configt.app_hawa),
-                            ),
-                          ),
-                        ],
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(top: height * 0.50, left: _leftPadding),
+                          child: Image.asset(Configt.app_walkingchild, width: 150, height: 150),
+                        ),
+                      ],
+                    ),
+
+                    Padding(
+                      padding: EdgeInsets.only(
+                          left: width * 0.7, top: height * 0.4),
+                      child: Container(
+                        width: 150,
+                        height: 150,
+                        alignment: Alignment.topLeft,
+                        child: Image.asset(Configt.app_hawa),
                       ),
-                      if (isUpload)
-                        Stack(
-                          children: [
-                            SizedBox(
-                              width: width * 1,
-                              child: Lottie.asset(
-                                Configt.rocketg,
-                                fit: BoxFit.fill,
-                              ),
-                            ),
-                          ],
+                    ),
+                  ],
+                ),
+                if (isUpload)
+                  Stack(
+                    children: [
+                      SizedBox(
+                        width: width * 1,
+                        child: Lottie.asset(
+                          Configt.rocketg,
+                          fit: BoxFit.fill,
                         ),
-                      if (askA)
-                        Stack(
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.only(
-                                  left: 170, top:100),
-                              child: SizedBox(
-                                height: 80,
-                                width: 80,
-                                child: Lottie.asset(
-                                  Configt.thoughtBubble,
-                                  fit: BoxFit.contain,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      if (askQ)
-                        Stack(
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.only(
-                                  left: 380, top:  170),
-                              child: SizedBox(
-                                height: 80,
-                                width: 80,
-                                child: Lottie.asset(
-                                  Configt.thoughtBubble,
-                                  fit: BoxFit.contain,
-                                ),
-                              ),
-                            ),
-                          ],
-                        )
+                      ),
                     ],
                   ),
-                ),
-              ),
+                if (askA)
+                  Stack(
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.only(
+                            left: 170, top: 100),
+                        child: SizedBox(
+                          height: 80,
+                          width: 80,
+                          child: Lottie.asset(
+                            Configt.thoughtBubble,
+                            fit: BoxFit.contain,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                if (askQ)
+                  Stack(
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.only(
+                            left: 380, top: 170),
+                        child: SizedBox(
+                          height: 80,
+                          width: 80,
+                          child: Lottie.asset(
+                            Configt.thoughtBubble,
+                            fit: BoxFit.contain,
+                          ),
+                        ),
+                      ),
+                    ],
+                  )
+              ],
             ),
-          );
+          ),
+        ),
+      ),
+    );
   }
 
   //function to show snackbar
@@ -343,7 +362,6 @@ class _QuestionAnimationScreenState extends State<QuestionAnimationScreen>
         askQ = true;
       });
     });
-
   }
 
   //ask question
@@ -420,26 +438,6 @@ class _QuestionAnimationScreenState extends State<QuestionAnimationScreen>
     }
   }
 
-  // Future<void> startPlayback() async {
-  //   print(" startPlayback startPlayback ");
-  //   try {
-  //     if (_audioPath.isNotEmpty ) {
-  //       await _player!.startPlayer(fromURI: _audioPath );
-  //
-  //       setState(() {
-  //         isPlaying = true;
-  //       });
-  //     }
-  //   } catch (e) {
-  //     print(e);
-  //   }
-  // }
-  // Future<void> stopPlayback() async {
-  //   await _player!.stopPlayer();
-  //   setState(() {
-  //     _isPlaying = false;
-  //   });
-  // }
   Future<void> addnewvoice() async {
     print(" addnewvoice");
     print(" _audioPath $_audioPath");
@@ -450,7 +448,7 @@ class _QuestionAnimationScreenState extends State<QuestionAnimationScreen>
       // Get a reference to the Firebase Storage bucket
       final storage = FirebaseStorage.instance;
       final audioStorageRef =
-          storage.ref().child('audio/${DateTime.now().toIso8601String()}.wav');
+      storage.ref().child('audio/${DateTime.now().toIso8601String()}.wav');
 
       // Upload the audio file to Firebase Storage
       final uploadTask = audioStorageRef.putFile(audioFile);
@@ -490,44 +488,24 @@ class _QuestionAnimationScreenState extends State<QuestionAnimationScreen>
         isLoading = false;
         resultAPI = true;
         isUpload = false;
-        uploadAudioQuestion(  File(_audioPath), 'balla');
       });
-
-
-      print("firestore  added voice");
-    }
-
-
-
-
-
-
-  }
-  //API Call
-  Future<void> uploadAudioQuestion(File audioFile, String inputWord) async {
-    var request = http.MultipartRequest('POST', Uri.parse('http://192.168.8.168:5000/predict'));
-    request.fields['input_word'] = inputWord;
-    request.files.add(http.MultipartFile.fromBytes('audio_file', await audioFile.readAsBytes(), filename: 'audio.wav'));
-
-    var response = await request.send();
-
-    if (response.statusCode == 200) {
-      var result = await http.Response.fromStream(response);
-      print('Result: ${result.body}');
-      var parsedJson = json.decode(result.body);
-      if (parsedJson['result'] == "Correct Answer") {
-        audioPlayer.dispose();  audioPlayer.pause();
+      if (resultAPI == true) {
         Navigator.pushReplacement(
             context, MaterialPageRoute(builder: (context) => WinnerScreen()));
-      }
-      if (parsedJson['result'] == "Wrong Answer") {
-        audioPlayer.dispose();  audioPlayer.pause();
+      } else {
         Navigator.pushReplacement(
             context, MaterialPageRoute(builder: (context) => LoserScreen()));
       }
 
-    } else {
-      print('Failed to upload audio API');
+      print("not added voice");
     }
+    // Display a success message
+
+    //API Call
+
+    /*Future<void> askQuestion() {
+      url = 'http://' */
+
+
   }
 }

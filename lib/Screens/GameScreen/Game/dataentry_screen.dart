@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:Katha/Screens/GameScreen/Game/selection_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -10,11 +11,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:image_cropper/image_cropper.dart';
-
+import 'dart:convert';
+import 'dart:io';
 import 'package:lottie/lottie.dart';
 
 import '../../../utils/configt.dart';
 import '../../Users/screens/homeScreen.dart';
+import 'imageSaveSharedPreferences.dart';
 import 'model/childImage.dart';
 
 class DataEntryScreen extends StatefulWidget {
@@ -87,7 +90,7 @@ class _DataEntryScreenState extends State<DataEntryScreen> {
           sourcePath: pickedFile.path,
           aspectRatio: CropAspectRatio(ratioX: 1.0, ratioY: 1.0),  // For oval, it's generally a 1:1 ratio
           cropStyle: CropStyle.circle,  // For oval shape
-          androidUiSettings: AndroidUiSettings(
+          androidUiSettings: const AndroidUiSettings(
             toolbarTitle: 'Crop Image',
             toolbarColor: Colors.deepOrange,
             toolbarWidgetColor: Colors.white,
@@ -258,8 +261,6 @@ class _DataEntryScreenState extends State<DataEntryScreen> {
     }
   }
   Future<void> Add() async {
-
-
     final postID = DateTime.now().millisecondsSinceEpoch.toString();
     FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
 
@@ -271,6 +272,10 @@ class _DataEntryScreenState extends State<DataEntryScreen> {
       await ref.putFile(_image!);
       downloadURL = await ref.getDownloadURL();
       print("downloadURL: $downloadURL");
+
+      // Convert image to base64 and save in SharedPreferences
+      String base64Image = await convertImageToBase64(_image!);
+      await saveImageToSharedPreferences(base64Image);
     }
 
     // Uploading therapeuticGamesChildFace details to Cloud Firestore
@@ -280,7 +285,7 @@ class _DataEntryScreenState extends State<DataEntryScreen> {
         .collection("therapeuticGamesChildFace")
         .doc(user?.uid)
         .set({
-      'child':true,
+      'child': true,
       'url': downloadURL ?? "", // May be null if image upload failed
     }).then((_) {
       Navigator.of(context).push(MaterialPageRoute(
@@ -294,4 +299,5 @@ class _DataEntryScreenState extends State<DataEntryScreen> {
       showSnackBar("Failed to add Child Image", Duration(seconds: 2));
     });
   }
+
 }

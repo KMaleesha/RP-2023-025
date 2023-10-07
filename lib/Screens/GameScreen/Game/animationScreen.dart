@@ -170,8 +170,8 @@ class _AnimationSpriteAnimationScreenState extends State<AnimationSpriteAnimatio
                               ),
                             ),
                             Positioned(
-                              top: (orientation == Orientation.portrait) ? 160 : 260,
-                              left: (orientation == Orientation.portrait) ? 110 : 700,
+                              top: (orientation == Orientation.portrait) ? 160 : 250,
+                              right: (orientation == Orientation.portrait) ? 5 : 2,
                               child: SizedBox(
                                 width: (orientation == Orientation.landscape) ? 80 : 200,
                                 child:    GestureDetector(
@@ -214,13 +214,21 @@ class _AnimationSpriteAnimationScreenState extends State<AnimationSpriteAnimatio
   }
 
   //function to build sprite images
-  Image _buildSpriteImage(int index) {
+  Image _buildSpriteImage(int index)
+  {
     final AssetImage childImage =
     AssetImage('assets/gameAssets/images/animationframes/ezgif-frame-$index.jpg');
-    final Image child = Image(image: childImage, fit: BoxFit.fill,gaplessPlayback: true,);
+    final Image child = Image(
+
+      image: childImage,
+      fit: BoxFit.fill,
+      gaplessPlayback: true,
+
+    );
 
     return child;
   }
+
 
   //function to show snackbar
   void _showStartDancingSnackbar() {
