@@ -3,17 +3,18 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_sound/flutter_sound.dart';
 import 'dart:ui';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:record/record.dart';
-import 'Correct.dart';
-import 'InCorrect.dart';
 import 'ListWords.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/services.dart';
+import 'Correct.dart';
+import 'Incorrect.dart';
+//
 class RecordScreen extends StatefulWidget {
   @override
   _RecordScreenState createState() => _RecordScreenState();
@@ -57,36 +58,24 @@ class _RecordScreenState extends State<RecordScreen> {
   }
   Future<void> _startRecording() async {
     try {
-      if (await FlutterSoundRecorder().isRecording) {
-        await _recorder!.stopRecorder();
+      Record record = Record();
+      if (await record.hasPermission()) {
+        print("startRecording() hasPermission ");
+        Directory tempDir = await getTemporaryDirectory();
+        String tempPath = tempDir.path + '/audio.wav';
+        await record.start(path: tempPath);
         setState(() {
-          _isRecording = false;
+          _isRecording = true;
+          _audioPath = tempPath;
+          print("tempPath $tempPath");
         });
-        return;
+        print("Start Recording - _audioPath: $_audioPath");
       }
-
-      Directory tempDir = await getTemporaryDirectory();
-      String tempPath = '${tempDir.path}/audio.wav';
-
-      await _recorder!.openAudioSession(
-          focus: AudioFocus.requestFocusAndDuckOthers,
-          category: SessionCategory.playAndRecord);
-      await _recorder!.startRecorder(
-        toFile: tempPath,
-        codec: Codec.pcm16WAV,  // Specifies WAV format
-        numChannels: 1,  // For mono recording
-        sampleRate: 16000,  // 48KHz sample rate for higher quality
-        bitRate: 256000,  // 256 kbps bit rate to match training data
-      );
-      setState(() {
-        _isRecording = true;
-        _audioPath = tempPath;
-      });
     } catch (e) {
-      print('Error occurred while starting recording: $e');
+      print("startRecording() has no Permission");
+      print(e);
     }
   }
-
 
   Future<void> _stopRecording() async {
     try {
@@ -143,13 +132,11 @@ class _RecordScreenState extends State<RecordScreen> {
   }
   @override
   void dispose() {
-    _recorder!.closeAudioSession();
-    audioPlayer.dispose();
+
+    audioPlayer.dispose();  audioPlayer.pause();
     audioPlayer.pause();
     super.dispose();
   }
-
-
   @override
   Widget build(BuildContext context) {
     double fem = 1.0;
