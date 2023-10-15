@@ -278,6 +278,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
               ),
+
               Positioned(
                 left: 198 * fem,
                 top: 646.991394043 * fem,
@@ -325,17 +326,26 @@ class _HomeScreenState extends State<HomeScreen> {
                 left: 85 * fem,
                 top: 656.9298095703 * fem,
                 child: Align(
-                  child: SizedBox(
-                    width: 61 * fem,
-                    height: 27 * fem,
-                    child: Text(
-                      'අරඹමු',
-                      style: TextStyle(
-                        fontFamily: 'Noto Sans Sinhala',
-                        fontSize: 17 * ffem,
-                        fontWeight: FontWeight.w700,
-                        height: 1.3025 * ffem / fem,
-                        color: Color(0xff591010),
+                  child: GestureDetector(
+                    onTap: (){
+                      audioPlayer.dispose();  audioPlayer.pause();
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => ListWords()),
+                      );
+                    },
+                    child: SizedBox(
+                      width: 61 * fem,
+                      height: 27 * fem,
+                      child: Text(
+                        'අරඹමු',
+                        style: TextStyle(
+                          fontFamily: 'Noto Sans Sinhala',
+                          fontSize: 17 * ffem,
+                          fontWeight: FontWeight.w700,
+                          height: 1.3025 * ffem / fem,
+                          color: Color(0xff591010),
+                        ),
                       ),
                     ),
                   ),
