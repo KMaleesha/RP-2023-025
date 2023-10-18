@@ -3,12 +3,10 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'dart:ui';
-
+import '../Users/screens/homeScreen.dart';
+import 'HomeScreen.dart';
 import 'package:audioplayers/audioplayers.dart';
 
-import '../Users/screens/homeScreen.dart';
-import '../Users/screens/userHomeScreen.dart';
-import 'HomeScreen.dart';
 import 'ListWords.dart';
 
 

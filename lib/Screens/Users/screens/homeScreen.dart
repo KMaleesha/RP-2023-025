@@ -36,6 +36,7 @@ class _HomeScreenAllState extends State<HomeScreenAll> {
   void initState() {
     super.initState();
     fetchUserRole();
+    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   }
 
   bool roleCheck = false;
