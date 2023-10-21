@@ -8,13 +8,13 @@ import 'package:flutter_sound/flutter_sound.dart';
 import 'dart:ui';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:record/record.dart';
 import 'ListWords.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/services.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'Correct.dart';
 import 'Incorrect.dart';
-//
+
 class RecordScreen extends StatefulWidget {
   @override
   _RecordScreenState createState() => _RecordScreenState();
@@ -26,115 +26,126 @@ class _RecordScreenState extends State<RecordScreen> {
   String? _path;
   String _audioPath = '';
   final audioPlayer = AudioPlayer();
+
   @override
   void initState() {
     super.initState();
+    print("initState Called");
     _recorder = FlutterSoundRecorder();
+    _recorder!.openAudioSession();
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-//2
+
     Timer(Duration(seconds: 1), () {
+      print("Timer 1 fired");
       setAudio();
     });
 
-    //startvoice recorder
     Timer(Duration(seconds: 2), () {
+      print("Timer 2 fired");
       _handleTap();
     });
   }
-  void _handleTap() {
-    Timer(Duration(seconds:15), () {
 
+  void _handleTap() {
+    print("_handleTap Called");
+    Timer(Duration(seconds:15), () {
+      print("Timer inside _handleTap fired");
     });
     audioPlayer.resume();
   }
-  //function to initialize audio
+
   Future setAudio() async {
+    print("setAudio Called");
     audioPlayer.setReleaseMode(ReleaseMode.loop);
 
     final player = AudioCache(prefix: "assets/screenTestAssets/VoiceOver/");
-    //load song from assets
     final url = await player.load("S3_1.wav");
     audioPlayer.setSourceUrl(url.path);
   }
+//successful recording func 10/21/23 12:39 p.m
   Future<void> _startRecording() async {
+    print("_startRecording Called");
     try {
-      Record record = Record();
-      if (await record.hasPermission()) {
-        print("startRecording() hasPermission ");
+      if (await Permission.microphone.isGranted) { // Correct way to check for microphone permission
         Directory tempDir = await getTemporaryDirectory();
         String tempPath = tempDir.path + '/audio.wav';
-        await record.start(path: tempPath);
+        await _recorder!.startRecorder(toFile: tempPath);
         setState(() {
           _isRecording = true;
           _audioPath = tempPath;
-          print("tempPath $tempPath");
         });
-        print("Start Recording - _audioPath: $_audioPath");
+      } else {
+        print("Permission Denied");
       }
     } catch (e) {
-      print("startRecording() has no Permission");
-      print(e);
+      print("Error in _startRecording: $e");
     }
   }
 
+
   Future<void> _stopRecording() async {
+    print("_stopRecording Called");
     try {
-      Record record = Record();
-      String? path = await record.stop();
-      if (path != null) {
-        setState(() {
-          _isRecording = false;
-          _audioPath = path;
-        }); // Call the upload method here
-        print("Stop Recording - _audioPath: $_audioPath");
-      }
+      await _recorder!.stopRecorder();
+      setState(() {
+        _isRecording = false;
+      });
     } catch (e) {
-      print(e);
+      print("Error in _stopRecording: $e");
     }
+
     Timer(Duration(seconds: 1), () {
+      print("Timer inside _stopRecording fired");
       uploadAudio(File(_audioPath!), 'balla');
     });
   }
 
   Future<void> uploadAudio(File audioFile, String inputWord) async {
-    var request = http.MultipartRequest('POST', Uri.parse('http://192.168.8.181:5000/predict'));
-    request.fields['input_word'] = inputWord;
-    request.files.add(http.MultipartFile.fromBytes('audio_file', await audioFile.readAsBytes(), filename: 'audio.wav'));
+    print("uploadAudio Called");
+    try {
+      var request = http.MultipartRequest('POST', Uri.parse('http://192.168.8.181:5000/predict'));
+      request.fields['input_word'] = inputWord;
+      request.files.add(http.MultipartFile.fromBytes('audio_file', await audioFile.readAsBytes(), filename: 'audio.wav'));
 
-    var response = await request.send();
+      var response = await request.send();
 
-    if (response.statusCode == 200) {
-      var result = await http.Response.fromStream(response);
-      print('Result: ${result.body}');
-      var parsedJson = json.decode(result.body);
-      if (parsedJson['result'] == "Correct Answer") {
-        audioPlayer.dispose();  audioPlayer.pause();
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => Correct(),
-          ),
-        );
+      if (response.statusCode == 200) {
+        var result = await http.Response.fromStream(response);
+        var parsedJson = json.decode(result.body);
+        print('Result: ${parsedJson['result']}');
+        // var parsedJson = json.decode(result.body);
+        // if (parsedJson['result'] == "Correct Answer") {
+        //   audioPlayer.dispose();  audioPlayer.pause();
+        //   Navigator.push(
+        //     context,
+        //     MaterialPageRoute(
+        //       builder: (context) => Correct(),
+        //     ),
+        //   );
+        // }
+        // if (parsedJson['result'] == "Wrong Answer") {
+        //   audioPlayer.dispose();  audioPlayer.pause();
+        //   Navigator.push(
+        //     context,
+        //     MaterialPageRoute(
+        //       builder: (context) => InCorrect(),
+        //     ),
+        //   );
+        // }
+      } else {
+        print("Failed to upload. Status code: ${response.statusCode}");
       }
-      if (parsedJson['result'] == "Wrong Answer") {
-        audioPlayer.dispose();  audioPlayer.pause();
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => InCorrect(),
-          ),
-        );
-      }
-
-    } else {
-      print('Failed to upload audio');
+    } catch (e) {
+      print("Error in uploadAudio: $e");
     }
   }
+
   @override
   void dispose() {
-
-    audioPlayer.dispose();  audioPlayer.pause();
+    print("dispose Called");
+    audioPlayer.dispose();
     audioPlayer.pause();
+    _recorder!.closeAudioSession();
     super.dispose();
   }
   @override
@@ -144,7 +155,7 @@ class _RecordScreenState extends State<RecordScreen> {
     return SafeArea(
       child: Scaffold(
         body: Container(
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             gradient:  LinearGradient(
               begin: Alignment(0.407, -1),
               end: Alignment(-0.407, 1),
