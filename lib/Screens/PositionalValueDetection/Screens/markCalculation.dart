@@ -100,9 +100,13 @@ class _MarkCalculation extends State<MarkCalculation> {
     return MaterialApp(
       home: Scaffold(
           appBar: AppBar(
-            backgroundColor: Colors.transparent,
+            backgroundColor: Colors.lightBlueAccent.shade100,
             elevation: 0.0,
             centerTitle: true,
+            title: Text(
+              'ළකුණු',
+              style: TextStyle(color: Colors.black),
+            ),
             leading: IconButton(
               icon: Icon(
                 Icons.arrow_back,
@@ -149,7 +153,7 @@ class _MarkCalculation extends State<MarkCalculation> {
                         width: 350,
                         height: 450,
                         decoration: BoxDecoration(
-                          color: Colors.blue.shade300,
+                          color: Colors.blue.shade200,
                           borderRadius: BorderRadius.circular(40),
                           boxShadow: [
                             BoxShadow(
@@ -247,10 +251,10 @@ class _MarkCalculation extends State<MarkCalculation> {
                                   width: 300,
                                   height: 70,
                                   decoration: BoxDecoration(
-                                    color: Colors.white,
+                                    color: Colors.blueGrey.shade50,
                                     borderRadius: BorderRadius.circular(30),
                                     border: Border.all(
-                                      color: Colors.white,
+                                      color: Colors.blue,
                                       width: 3,
                                     ),
                                   ),
