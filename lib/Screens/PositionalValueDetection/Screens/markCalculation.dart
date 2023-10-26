@@ -1,17 +1,48 @@
 import 'package:flutter/material.dart';
 import '../../Users/screens/homeScreen.dart';
+import 'api_service.dart';
 
 class MarkCalculation extends StatefulWidget {
-  const MarkCalculation({Key? key}) : super(key: key);
+  final Map<String, dynamic> apiData;
+  const MarkCalculation({Key? key, required this.apiData}) : super(key: key);
 
   @override
   State<MarkCalculation> createState() => _MarkCalculation();
 }
 class _MarkCalculation extends State<MarkCalculation> {
-  late String word = "වදුරා";
-  late int wordLength = word.length;
-  late int correctLetterCount = 5;
+  late String userInput;
+  late String mostMatch;
+  late int wordLength;
+  late String differingLetters;
+  late int numDifferLetter;
+  late int correctLetterCount = wordLength - numDifferLetter;
   late double result = ((100 / wordLength) * correctLetterCount);
+
+  get apiCall => ApiService();
+
+  @override
+  void initState() {
+    super.initState();
+
+    mostMatch = widget.apiData['Most Match'] ?? "";
+    userInput = widget.apiData['User Input'] ?? "";
+    differingLetters = widget.apiData['Differing Letters'] ?? "";
+
+    if (widget.apiData['Position Info'] is List && widget.apiData['Position Info'].length > 1) {
+      var positionInfo = widget.apiData['Position Info'][1].split(':').last;
+      if (positionInfo != null) {
+        numDifferLetter = int.tryParse(positionInfo) ?? 0; // convert string to int
+      }
+    }
+
+    print("API Data in initState: ${widget.apiData}");
+    print("Most Match: $mostMatch");
+    print("User Input: $userInput");
+    print("Differing Letters: $differingLetters");
+
+    wordLength = mostMatch.length;
+
+  }
 
   String getTextBasedOnResult(double result) {
     if (result >= 80) {
@@ -105,7 +136,7 @@ class _MarkCalculation extends State<MarkCalculation> {
                 Container(
                   decoration: const BoxDecoration(
                     image: DecorationImage(
-                      image: AssetImage('assets/phonologicalAssets/background_image3.jpg'), // Replace with your image path
+                      image: AssetImage('assets/phonologicalAssets/background_image3.jpeg'), // Replace with your image path
                       fit: BoxFit.cover,
                     ),
                   ),
