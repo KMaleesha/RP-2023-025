@@ -3,8 +3,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_swiper_plus/flutter_swiper_plus.dart';
 import 'package:lottie/lottie.dart';
 
+import '../../../Provider/user_model.dart';
 import '../../../utils/configt.dart';
 import '../../GameScreen/Game/animationScreen.dart';
 import '../../GameScreen/Game/dataentry_screen.dart';
@@ -18,10 +20,12 @@ import '../../TherapistManagement/screens/therapist_dashboard.dart';
 import '../../ScreenTest/HomeScreen.dart';
 import '../../ScreenTest/ListWords.dart';
 import '../../ScreenTest/RecordScreen.dart';
+import 'constants.dart';
+import 'datas.dart';
 import 'loginScreen.dart';
 
 class HomeScreenAll extends StatefulWidget {
-  const HomeScreenAll({Key? key}) : super(key: key);
+  const HomeScreenAll({super.key});
 
   @override
   State<HomeScreenAll> createState() => _HomeScreenAllState();
@@ -31,216 +35,283 @@ class _HomeScreenAllState extends State<HomeScreenAll> {
   @override
   void initState() {
     super.initState();
+    fetchUserRole();
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   }
 
+  bool roleCheck = false;
+  User? user = FirebaseAuth.instance.currentUser;
+  UserModel loggedInUser = UserModel();
+  int role = 0;
+
   Future<int> fetchUserRole() async {
-    User? currentUser = FirebaseAuth.instance.currentUser;
-    if (currentUser != null) {
-      DocumentSnapshot userDoc = await FirebaseFirestore.instance
-          .collection('users')
-          .doc(currentUser.uid)
-          .get();
-      return userDoc.get('role') ?? 0;
-    } else {
-      return 0;
+    print("fetchUserRole");
+
+    DocumentSnapshot userDoc = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(user?.uid)
+        .get();
+
+    role = userDoc.get('role') ?? 0;
+    print("role $role");
+    if (role == 2) {
+      setState(() {
+        roleCheck = true;
+      });
     }
+
+    return role;
   }
+
+  List<PlanetInfo> get displayPlanets {
+    List<PlanetInfo> planets = [
+      PlanetInfo(1,
+          name: 'අකුරු වැරදි ',
+          iconImage: Configt.letterError,
+          description:
+          ""  ,          images: [
+          ]),
+      PlanetInfo(2,
+          name: 'පැවරුම්',
+          iconImage: Configt.exercise,
+          description:
+          ""  ,          images: [
+          ]),
+      PlanetInfo(3,
+          name: 'ගේම්ස්',
+          iconImage: Configt.games,
+          description: ""  ,
+          images: [
+          ]),
+      if(roleCheck)
+        PlanetInfo(4,
+            name: ' Therapist',
+            iconImage: Configt.therapist,
+            description:
+            ""  ,
+            images: [
+              // 'https://d2pn8kiwq2w21t.cloudfront.net/images/imagesmars20160421PIA00407-16.width-1320.jpg',
+              // 'https://solarsystem.nasa.gov/rails/active_storage/blobs/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBaDRTIiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--57fdc4ee44fe502a585880710f8113dd538c2a08/marspolarcrater_1600.jpg?disposition=attachment',
+              // 'https://solarsystem.nasa.gov/rails/active_storage/blobs/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBcGNSIiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--50b01c602bd1b0830fd2c2727220c4c1558e2ab5/PIA00567.jpg?disposition=attachment',
+              // 'https://www.nasa.gov/sites/default/files/styles/full_width_feature/public/thumbnails/image/pia25450.jpeg',
+              // 'https://www.nasa.gov/sites/default/files/styles/full_width_feature/public/thumbnails/image/pia24420.jpeg',
+            ]),
+
+    ];
+    return planets;
+  }
+
+  late double width, height;
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async => false,
-      child: Scaffold(
-        appBar: AppBar(
-          actions: [
-            IconButton(
-              icon: Icon(Icons.logout),
-              onPressed: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => LoginScreen(),
-                ));
-              },
-            ),
-          ],
-        ),
-        body: FutureBuilder<int>(
-          future: fetchUserRole(),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(child: CircularProgressIndicator());
-            } else if (snapshot.hasData && snapshot.data != null) {
-              int role = snapshot.data!;
-              return Container(
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                      image: AssetImage(Configt.app_background2), fit: BoxFit.fill),
+    width = MediaQuery.of(context).size.width;
+    height = MediaQuery.of(context).size.height;
+    return Scaffold(
+
+      backgroundColor: gradientEndColor,
+      body: Column(
+        children: [
+          Padding(
+            padding: EdgeInsets.only(top: height * 0.05),
+            child: Row(children: <Widget>[
+              Spacer(), // This will push the next widget (IconButton) to the right
+              GestureDetector(
+                onTap: () {
+                  Navigator.pop(context);
+                },
+                child: IconButton(
+                  icon: Icon(Icons.logout),
+                  onPressed: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => LoginScreen(),
+                    ));
+                  },
                 ),
-                child: SafeArea(
+              ),
+            ]),
+          ),
+
+          Container(
+            decoration: BoxDecoration(
+                gradient: LinearGradient(
+                    colors: [gradientStartColor, gradientEndColor],
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter)),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.only(left: 32, right: 32, top: 40),
                   child: Column(
-                    children: [
-
-                      Expanded(
-                        child: GridView.count(
-                          crossAxisCount: 2, // Number of columns in the grid
-                          mainAxisSpacing:
-                          16.0, // Vertical spacing between items
-                          crossAxisSpacing:
-                          16.0, // Horizontal spacing between items
-                          padding:
-                          EdgeInsets.all(16.0), // Padding around the grid
-                          children: <Widget>[
-                            //maleesha's pages
-                            ElevatedButton(
-                              onPressed: () {
-                                Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (context) => PositionalErrorDetector(),
-                                ));
-                              },
-                              style: ElevatedButton.styleFrom(
-                                primary: Colors.purple.shade400,
-                                padding: EdgeInsets.all(16.0),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(16.0),
-                                ),
-                              ),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: const <Widget>[
-                                  Icon(Icons.record_voice_over,
-                                      size: 60.0, color: Colors.white),
-                                  SizedBox(height: 16.0),
-                                  Text(
-                                    'අකුරු වැරදි ',
-                                    style: TextStyle(
-                                      fontSize: 20.0,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-
-                            //rashmi's pages
-                            ElevatedButton(
-                              onPressed: () {
-                                Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (context) => HomeScreen(),
-                                ));
-                              },
-                              style: ElevatedButton.styleFrom(
-                                primary: Colors.teal.shade400,
-                                padding: EdgeInsets.all(16.0),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(16.0),
-                                ),
-                              ),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: const <Widget>[
-                                  Icon(Icons.healing,
-                                      size: 60.0, color: Colors.white),
-                                  SizedBox(height: 16.0),
-                                  Text(
-                                    'පැවරුම්',
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      fontSize: 24.0,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-
-
-//Tharindu's part
-                            SizedBox(
-                              width: 100,
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(20),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.grey.withOpacity(0.5),
-                                      spreadRadius: 2,
-                                      blurRadius: 5,
-                                      offset: Offset(
-                                          0, 3), // changes position of shadow
-                                    ),
-                                  ],
-                                ),
-                                child: GestureDetector(
-                                  onTap: () {
-                                    Navigator.of(context)
-                                        .push(MaterialPageRoute(
-                                      builder: (context) => DataEntryScreen(),
-                                    ));
-                                  },
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(20),
-                                    child: Stack(
-                                      alignment: Alignment.center,
-                                      children: [
-                                        Lottie.asset(
-                                          Configt.childRobot,
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-
-//bathiya's screens
-                            if (role == 2)
-                              ElevatedButton(
-                                onPressed: () {
-                                  Navigator.of(context).push(MaterialPageRoute(
-                                    builder: (context) => TherapistDashboard(),
-                                  ));
-                                },
-                                style: ElevatedButton.styleFrom(
-                                  primary: Colors.teal.shade400,
-                                  padding: EdgeInsets.all(16.0),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(16.0),
-                                  ),
-                                ),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: const <Widget>[
-                                    Icon(Icons.healing,
-                                        size: 60.0, color: Colors.white),
-                                    SizedBox(height: 16.0),
-                                    Text(
-                                      'Therapist Dashboard',
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                        fontSize: 24.0,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.white,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                          ],
-                        ),
+                    children: <Widget>[
+                      Row(
+                        children: [
+                          Text(
+                            'කතා',
+                            style: TextStyle(
+                                fontFamily: 'Avenir',
+                                fontSize: 40,
+                                color: Color(0xffffffff),
+                                fontWeight: FontWeight.w900),
+                            textAlign: TextAlign.left,
+                          ),
+                        ],
                       ),
+                      // Row(
+                      //   children: [
+                      //     DropdownButton(
+                      //       items: const [
+                      //         DropdownMenuItem(
+                      //           child: Text(
+                      //             'Solar System',
+                      //             style: TextStyle(
+                      //                 fontFamily: 'Avenir',
+                      //                 fontSize: 24,
+                      //                 color: Color(0x7cdbf1ff),
+                      //                 fontWeight: FontWeight.w500),
+                      //             textAlign: TextAlign.left,
+                      //           ),
+                      //         )
+                      //       ],
+                      //       onChanged: (value) {},
+                      //       icon: Padding(
+                      //         padding: const EdgeInsets.all(16.0),
+                      //         child: Image.asset("assets/drop_down_icon.png"),
+                      //       ),
+                      //       underline: const SizedBox(),
+                      //     ),
+                      //   ],
+                      // ),
                     ],
                   ),
                 ),
-              );
-            } else if (snapshot.hasError) {
-              return Text('An error occurred: ${snapshot.error}');
-            } else {
-              return Text('Unknown state');
-            }
-          },
-        ),
+                SizedBox(
+                  height: 500,
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 32.0),
+                    child: Swiper(
+                      itemCount: displayPlanets.length,
+                      fade: 0.3,
+                      itemWidth: MediaQuery.of(context).size.width - 2 * 64,
+                      layout: SwiperLayout.STACK,
+                      pagination: SwiperPagination(
+                          builder: DotSwiperPaginationBuilder(
+                              activeSize: 20,
+                              activeColor: Colors.yellow.shade300,
+                              space: 5)),
+                      itemBuilder: (context, index) {
+                        return InkWell(
+                          onTap: () {
+                            if (displayPlanets[index].position == 1) {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => PositionalErrorDetector()),
+                              );
+                            } else if (displayPlanets[index].position == 2) {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => HomeScreen()),
+                              );
+                            }else if (displayPlanets[index].position == 3) {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => DataEntryScreen()),
+                              );
+                            }else if (displayPlanets[index].position == 4) {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => TherapistDashboard()),
+                              );
+                            }
+                            // Add more conditions here for other planets
+                          },
+                          child: Stack(
+                            children: <Widget>[
+                              Column(
+                                children: <Widget>[
+                                  const SizedBox(
+                                    height: 100,
+                                  ),
+                                  Card(
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(32)),
+                                    elevation: 8,
+                                    color: Colors.white,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(32.0),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                        children: <Widget>[
+                                          const SizedBox(
+                                            height: 100,
+                                          ),
+                                          Text(
+                                            displayPlanets[index].name.toString(),
+                                            style: const TextStyle(
+                                                fontSize: 40,
+                                                fontFamily: 'Avenir',
+                                                color: Color(0xff47455f),
+                                                fontWeight: FontWeight.w900),
+                                            textAlign: TextAlign.left,
+                                          ),
+                                          // Text(
+                                          //   "Solar System",
+                                          //   style: TextStyle(
+                                          //       fontSize: 23,
+                                          //       fontFamily: 'Avenir',
+                                          //       color: primaryTextColor,
+                                          //       fontWeight: FontWeight.w400),
+                                          //   textAlign: TextAlign.left,
+                                          // ),
+                                          Padding(
+                                            padding:
+                                            const EdgeInsets.only(top: 32.0),
+                                            child: Row(
+                                              children: [
+                                                Text(
+                                                  "ක්ලික් කරන්න",
+                                                  style: TextStyle(
+                                                      fontSize: 16,
+                                                      fontFamily: 'Avenir',
+                                                      color: secondaryTextColor,
+                                                      fontWeight: FontWeight.w400),
+                                                  textAlign: TextAlign.left,
+                                                ),
+                                                Icon(
+                                                  Icons.arrow_forward_rounded,
+                                                  color: secondaryTextColor,
+                                                  size: 18,
+                                                ),
+                                              ],
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              ),
+                              Hero(
+                                  tag: displayPlanets[index].position,
+                                  child: Image.asset(
+                                      displayPlanets[index].iconImage.toString()))
+                            ],
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                )
+            ],
+            ),
+          ),
+        ],
       ),
     );
   }
