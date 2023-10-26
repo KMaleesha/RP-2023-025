@@ -137,5 +137,7 @@ flutter:
     - assets/games.png
     - assets/letterError.png
     - assets/therapist.png
+    - assets/phonologicalAssets/background_image0.jpg
+    - assets/phonologicalAssets/backgroud1.jpeg
 
 
