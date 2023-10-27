@@ -5,7 +5,7 @@ description: A new Flutter project.
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
 
-version: 1.0.0+1
+version: 1.1.0
 
 environment:
   sdk: '>=2.18.2 <3.0.0'
@@ -128,6 +128,7 @@ flutter:
     - assets/screenTestAssets/VoiceOver/
     - assets/loginImage.jpg
     - assets/screenTestAssets/incorrectFinal.jpg
+    - assets/phonologicalAssets/backgroud1.jpeg.
     - assets/phonologicalAssets/background_image.jpg
     - assets/phonologicalAssets/background_image1.jpg
     - assets/phonologicalAssets/background_image2.jpg
@@ -137,7 +138,4 @@ flutter:
     - assets/games.png
     - assets/letterError.png
     - assets/therapist.png
-    - assets/phonologicalAssets/background_image0.jpg
-    - assets/phonologicalAssets/backgroud1.jpeg
-
 
