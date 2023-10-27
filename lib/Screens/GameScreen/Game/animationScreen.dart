@@ -214,13 +214,21 @@ class _AnimationSpriteAnimationScreenState extends State<AnimationSpriteAnimatio
   }
 
   //function to build sprite images
-  Image _buildSpriteImage(int index) {
+  Image _buildSpriteImage(int index)
+  {
     final AssetImage childImage =
     AssetImage('assets/gameAssets/images/animationframes/ezgif-frame-$index.jpg');
-    final Image child = Image(image: childImage, fit: BoxFit.fill,gaplessPlayback: true,);
+    final Image child = Image(
+
+      image: childImage,
+      fit: BoxFit.fill,
+      gaplessPlayback: true,
+
+    );
 
     return child;
   }
+
 
   //function to show snackbar
   void _showStartDancingSnackbar() {

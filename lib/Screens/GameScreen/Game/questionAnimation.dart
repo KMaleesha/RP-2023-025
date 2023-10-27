@@ -14,6 +14,7 @@ import 'package:lottie/lottie.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:record/record.dart';
 import '../../../utils/configt.dart';
+import 'imageSaveSharedPreferences.dart';
 import 'loserScreen.dart';
 import 'model/childImage.dart';
 import 'package:flutter_sound/flutter_sound.dart';
@@ -55,6 +56,7 @@ class _QuestionAnimationScreenState extends State<QuestionAnimationScreen>
   @override
   void initState() {
     super.initState();
+    loadRetrievedImage();
     SystemChrome.setPreferredOrientations([DeviceOrientation.landscapeLeft]);
     Future.delayed(Duration(seconds: 3), () {
       setState(() {
@@ -112,7 +114,12 @@ class _QuestionAnimationScreenState extends State<QuestionAnimationScreen>
       print(" Timer seconds: 5 _handleTap(); ");
     });
   }
+  File? _retrievedImage;
 
+  Future<void> loadRetrievedImage() async {
+    _retrievedImage = await retrieveImageFromSharedPreferences();
+    setState(() {}); // To refresh the widget after image is loaded.
+  }
   User? user = FirebaseAuth.instance.currentUser;
 
   Future<void> getData() async {
@@ -206,61 +213,63 @@ class _QuestionAnimationScreenState extends State<QuestionAnimationScreen>
                     Row(
                       children: [
                         Padding(
-                            padding: EdgeInsets.only(
-                                top: height * 0.34, left: _leftPadding2),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              // align at the start
-                              crossAxisAlignment:
-                              CrossAxisAlignment.start,
-                              // align children horizontally at the start
-                              children: [
-                                Padding(
-                                  padding:
-                                  const EdgeInsets.only(left: 42),
-                                  child: url.text.isNotEmpty
-                                      ? Container(
-                                    height: 80,
-                                    width:
-                                    60, // Adjust dimensions as needed
-                                    child: ClipOval(
-                                      child: Image.network(
-                                        url.text, // Your image URL here
-                                        fit: BoxFit.cover,
-                                      ),
-                                    ),
-                                  )
-                                      : Container(
-                                    color:
-                                    Colors.blue, // Debug color
-                                    child: Image.asset(
-                                      Configt.app_childface,
-                                      height: 50,
-                                      width: 100,
-                                      fit: BoxFit
-                                          .fitHeight, // To make sure it fits as intended
+                          padding: EdgeInsets.only(top: height * 0.34, left: _leftPadding2),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(left: 42),
+                                child: _retrievedImage != null
+                                    ? Container(
+                                  height: 80,
+                                  width: 60,
+                                  child: ClipOval(
+                                    child: Image.file(
+                                      _retrievedImage!,
+                                      fit: BoxFit.cover,
                                     ),
                                   ),
-                                ),
-                                Container(
+                                )
+                                    : url.text.isNotEmpty
+                                    ? Container(
+                                  height: 80,
+                                  width: 60,
+                                  child: ClipOval(
+                                    child: Image.network(
+                                      url.text,
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                )
+                                    : Container(
+                                  color: Colors.blue,
                                   child: Image.asset(
-                                    Configt.app_child,
-                                    width: 133,
-                                    height: 120,
-                                    fit: BoxFit
-                                        .cover, // To make sure it fits as intended
+                                    Configt.app_childface,
+                                    height: 50,
+                                    width: 100,
+                                    fit: BoxFit.fitHeight,
                                   ),
                                 ),
-                              ],
-                            )),
+                              ),
+                              Container(
+                                child: Image.asset(
+                                  Configt.app_child,
+                                  width: 133,
+                                  height: 120,
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
                         Padding(
-                          padding: EdgeInsets.only(
-                              top: height * 0.50, left: _leftPadding),
-                          child: Image.asset(Configt.app_walkingchild,
-                              width: 150, height: 150),
+                          padding: EdgeInsets.only(top: height * 0.50, left: _leftPadding),
+                          child: Image.asset(Configt.app_walkingchild, width: 150, height: 150),
                         ),
                       ],
                     ),
+
                     Padding(
                       padding: EdgeInsets.only(
                           left: width * 0.7, top: height * 0.4),
