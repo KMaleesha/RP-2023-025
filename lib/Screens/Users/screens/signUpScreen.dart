@@ -1,8 +1,10 @@
+import 'package:Katha/Screens/Users/screens/userHomeScreen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 
 
@@ -134,7 +136,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
             signUp(emailEditingController.text, passwordEditingController.text);
           },
           child: const Text(
-            "SignUp",
+            "ලියාපදිංචි වන්න",
             textAlign: TextAlign.center,
             style: TextStyle(
                 fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),
@@ -148,84 +150,100 @@ class _SignUpScreenState extends State<SignUpScreen> {
       child: Scaffold(
         backgroundColor: Colors.white,
         body: Container(
-          // decoration: BoxDecoration(
-          //   image: DecorationImage(
-          //       image: AssetImage(Config.app_background1), fit: BoxFit.cover),
-          // ),
-          child: SafeArea(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Padding(
-                  padding:
-                      EdgeInsets.only(top: height * 0.05, left: width * 0.05),
-                  child: Row(
-                    children: const <Widget>[
-                      Text(
-                        "Registration",
-                        style: TextStyle(
-                          fontSize: 24.0,
-                          color: Colors.black,
+          decoration: const BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage(Configt.loginImage),
+                fit: BoxFit.fitHeight,)
+          ),
+          child: Container(
+            decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage(Configt.bAnimation),
+                  fit: BoxFit.fill,)
+            ),
+            child: SafeArea(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Padding(
+                    padding:
+                        EdgeInsets.only(top: height * 0.05, left: width * 0.05),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center ,
+                      children: const <Widget>[
+                        Text(
+                          "ලියාපදිංචි කිරීම",
+                          style: TextStyle(
+                            fontSize: 24.0,
+                            color: Colors.black,
 
-                          decorationColor: Colors.redAccent,
-                          // fontStyle: FontStyle.italic,
-                          fontWeight: FontWeight.bold,
+                            decorationColor: Colors.redAccent,
+                            // fontStyle: FontStyle.italic,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Form(
+                    key: _formkey,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        SizedBox(height: 245,
+                          child: Container(
+                            color: Colors.white10,
+                            child: Center(
+                              child: Lottie.asset(Configt.baby,
+                                fit: BoxFit.fitWidth,
+
+                              ),
+                            ),
+                          ), ),
+                        emailField,
+                        SizedBox(height: 20),
+                        passwordField,
+                        SizedBox(height: 20),
+                        confirmPasswordField,
+                        SizedBox(height: 20),
+                        signUpButton,
+                        SizedBox(height: 15),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 35,
+                  ),
+
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment
+                        .center, //Center Row contents horizontally,
+                    crossAxisAlignment: CrossAxisAlignment
+                        .center, //Center Row contents vertically,
+                    children: <Widget>[
+                      RichText(
+                        text: TextSpan(
+                          text: "පැරණි ගිණුමට පිවිසෙන්න , ",
+                          style: TextStyle(fontSize: 12, color: Colors.black,fontWeight: FontWeight.bold),
+                          children: <TextSpan>[
+                            TextSpan(
+                                text: ' ක්ලික් කරන්න',
+                                recognizer: new TapGestureRecognizer()
+                                  ..onTap = () => Navigator.of(context)
+                                      .pushReplacement(MaterialPageRoute(
+                                          builder: (context) => LoginScreen())),
+                                style: const TextStyle(
+                                    color: Color(0xFF175c4c),
+                                    decoration: TextDecoration.underline,
+                                    height: 1.2)),
+                          ],
                         ),
                       ),
                     ],
                   ),
-                ),
-                Form(
-                  key: _formkey,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      SizedBox(height: 45),
-                      emailField,
-                      SizedBox(height: 20),
-                      passwordField,
-                      SizedBox(height: 20),
-                      confirmPasswordField,
-                      SizedBox(height: 20),
-                      signUpButton,
-                      SizedBox(height: 15),
-                    ],
-                  ),
-                ),
-                const SizedBox(
-                  height: 35,
-                ),
-                const SizedBox(
-                  height: 30,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment
-                      .center, //Center Row contents horizontally,
-                  crossAxisAlignment: CrossAxisAlignment
-                      .center, //Center Row contents vertically,
-                  children: <Widget>[
-                    RichText(
-                      text: TextSpan(
-                        text: "Login to old Account ",
-                        style: TextStyle(fontSize: 12, color: Colors.black),
-                        children: <TextSpan>[
-                          TextSpan(
-                              text: 'Click',
-                              recognizer: new TapGestureRecognizer()
-                                ..onTap = () => Navigator.of(context)
-                                    .pushReplacement(MaterialPageRoute(
-                                        builder: (context) => LoginScreen())),
-                              style: const TextStyle(
-                                  color: Color(0xFF175c4c),
-                                  decoration: TextDecoration.underline,
-                                  height: 1.2)),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),
@@ -266,8 +284,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
     if (user != null) {
       //writing all the values
+      userModel.role = 0 ;
       userModel.email = user?.email;
       userModel.uid = user?.uid;
+
 
       await firebaseFirestore
           .collection("users")

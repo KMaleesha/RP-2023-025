@@ -1,9 +1,11 @@
+import 'dart:async';
+
+import 'package:Katha/Screens/GameScreen/Game/selection_screen.dart';
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hexcolor/hexcolor.dart';
-import 'package:kathaappa/Screens/GameScreen/Game/selection_screen.dart';
-import 'package:kathaappa/Screens/ScreenTest/HomeScreen.dart';
 import 'package:lottie/lottie.dart';
 import 'package:material_dialogs/dialogs.dart';
 
@@ -28,12 +30,44 @@ class _WinnerScreenState extends State<WinnerScreen> with SingleTickerProviderSt
   late Animation<double> _sizeAnimation;
   late Animation<double> _imageSizeAnimation;
   late Animation<double> _image2SizeAnimation;
+  //1
+  final audioPlayer = AudioPlayer();
 
+  /////////////////3
+  // Function to handle tap on the screen
+  void _handleTap() {
+    Timer(Duration(seconds:15), () {
+
+    });
+    audioPlayer.resume();
+  }
+  //function to initialize audio
+  Future setAudio() async {
+    audioPlayer.setReleaseMode(ReleaseMode.loop);
+
+    final player = AudioCache(prefix: "assets/gameAssets/songs/");
+    //load song from assets
+    final url = await player.load("winAudio.mp3");
+    audioPlayer.setSourceUrl(url.path);
+  }
+
+  /////////////////3
   @override
   void initState() {
     super.initState();
     SystemChrome.setPreferredOrientations([DeviceOrientation.landscapeLeft]);
+    Timer(Duration(seconds: 1), () {
+      setAudio();
+    });
 
+    //startvoice play
+    Timer(Duration(seconds: 2), () {
+      _handleTap();
+    });
+    Timer(Duration(seconds: 10), () {
+
+      audioPlayer.pause();
+    });
     _controller = AnimationController(vsync: this, duration: Duration(seconds: 5));
     _sizeAnimation = Tween<double>(begin: 100.0, end: 300.0).animate(_controller)
       ..addListener(() {
@@ -64,6 +98,8 @@ class _WinnerScreenState extends State<WinnerScreen> with SingleTickerProviderSt
   void dispose() {
     _controller.dispose();
     super.dispose();
+    audioPlayer.dispose();
+    audioPlayer.pause();
   }
 
   @override
@@ -84,7 +120,8 @@ class _WinnerScreenState extends State<WinnerScreen> with SingleTickerProviderSt
               Center(
                 child: GestureDetector(
                   onTap: (){
-                    Navigator.push(
+                    audioPlayer.pause();
+                    Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(builder: (context) => SelectionScreen()),
                     );

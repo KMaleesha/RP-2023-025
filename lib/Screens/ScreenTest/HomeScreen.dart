@@ -1,9 +1,12 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'dart:ui';
-import 'package:kathaappa/Screens/Users/screens/homeScreen.dart';
+import '../Users/screens/homeScreen.dart';
 import 'package:audioplayers/audioplayers.dart';
-
+import 'InCorrect.dart';
+import 'Correct.dart';
 import 'ListWords.dart';
 
 
@@ -15,16 +18,48 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-
+  //1
+  final audioPlayer = AudioPlayer();
   @override
   void initState() {
     super.initState();
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-    setAudio();
+//2
+    Timer(Duration(seconds: 1), () {
+      setAudio();
+    });
+
+    //startvoice recorder
+    Timer(Duration(seconds: 2), () {
+      _handleTap();
+    });
+    /////////////////2
   }
+  /////////////////3
+  // Function to handle tap on the screen
+  void _handleTap() {
+    Timer(Duration(seconds:15), () {
 
+    });
+    audioPlayer.resume();
+  }
+  //function to initialize audio
+  Future setAudio() async {
+    audioPlayer.setReleaseMode(ReleaseMode.loop);
 
+    final player = AudioCache(prefix: "assets/screenTestAssets/VoiceOver/");
+    //load song from assets
+    final url = await player.load("S1.wav");
+    audioPlayer.setSourceUrl(url.path);
+  }
+  @override
+  void dispose() {
 
+    audioPlayer.dispose();  audioPlayer.pause();  audioPlayer.pause();
+    audioPlayer.pause();
+    super.dispose();
+  }
+  /////////////////3
   @override
   Widget build(BuildContext context) {
     double fem = 1.0; // Your factor value
@@ -65,6 +100,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             height: 30 * fem,
                             child: ElevatedButton(
                               onPressed: () {
+                                audioPlayer.dispose();  audioPlayer.pause();
                                 Navigator.of(context).push(MaterialPageRoute(
                                   builder: (context) => HomeScreenAll(),
                                 ));
@@ -90,7 +126,11 @@ class _HomeScreenState extends State<HomeScreen> {
                                 height: 32 * fem,
                                 child: ElevatedButton(
                                   onPressed: () {
-                                    // Profile button pressed action
+                                    audioPlayer.dispose();  audioPlayer.pause();
+                                    Navigator.of(context).push(MaterialPageRoute(
+                                      builder: (context) => InCorrect(),
+                                    ));
+
                                   },
                                   child: Image.asset(
                                     'assets/screenTestAssets/icon-profile.png',
@@ -111,7 +151,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                 height: 32 * fem,
                                 child: ElevatedButton(
                                   onPressed: () {
-                                    // Home button pressed action
+                                    audioPlayer.dispose();  audioPlayer.pause();
+                                    Navigator.of(context).push(MaterialPageRoute(
+                                      builder: (context) => Correct(),
+                                    ));
                                   },
                                   child: Image.asset(
                                     'assets/screenTestAssets/icon-home.png',
@@ -175,22 +218,24 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
 
 
-              Positioned(
-                left: 0,
-                right: 0,
-                top: 140,
-                child: Align(
-                  child: SizedBox(
-                    width: 400,
-                    height: 700,
-                    child: Image.asset(
-                      'assets/screenTestAssets/HomeScreen.gif',
-                      fit: BoxFit.cover,
-
-                    ),
-                  ),
-                ),
+        // ... (rest of the code above)
+        Positioned(
+          left: 0,
+          right: 0,
+          top: 140,
+          child: Align(
+            child: SizedBox(
+              width: 500,  // Increased width from 400 to 500
+              height: 700, // Keep the existing height or adjust as needed
+              child: Image.asset(
+                'assets/screenTestAssets/HomeScreen.gif',
+                fit: BoxFit.cover,
               ),
+            ),
+          ),
+        ),
+// ... (rest of the code below)
+              ///
               Positioned(
                 left: 46 * fem,
                 top: 646.991394043 * fem,
@@ -200,7 +245,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     height: 43.73 * fem,
                     child: GestureDetector(
                       onTap: () {
-                        print('Hello, world!');
+                        audioPlayer.dispose();  audioPlayer.pause();
                         Navigator.push(
                           context,
                           MaterialPageRoute(builder: (context) => ListWords()),
@@ -233,6 +278,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
               ),
+
               Positioned(
                 left: 198 * fem,
                 top: 646.991394043 * fem,
@@ -280,17 +326,26 @@ class _HomeScreenState extends State<HomeScreen> {
                 left: 85 * fem,
                 top: 656.9298095703 * fem,
                 child: Align(
-                  child: SizedBox(
-                    width: 61 * fem,
-                    height: 27 * fem,
-                    child: Text(
-                      'අරඹමු',
-                      style: TextStyle(
-                        fontFamily: 'Noto Sans Sinhala',
-                        fontSize: 17 * ffem,
-                        fontWeight: FontWeight.w700,
-                        height: 1.3025 * ffem / fem,
-                        color: Color(0xff591010),
+                  child: GestureDetector(
+                    onTap: (){
+                      audioPlayer.dispose();  audioPlayer.pause();
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => ListWords()),
+                      );
+                    },
+                    child: SizedBox(
+                      width: 61 * fem,
+                      height: 27 * fem,
+                      child: Text(
+                        'අරඹමු',
+                        style: TextStyle(
+                          fontFamily: 'Noto Sans Sinhala',
+                          fontSize: 17 * ffem,
+                          fontWeight: FontWeight.w700,
+                          height: 1.3025 * ffem / fem,
+                          color: Color(0xff591010),
+                        ),
                       ),
                     ),
                   ),
@@ -322,20 +377,7 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
-  final audioPlayer = AudioPlayer();
-  Future setAudio() async {
-    audioPlayer.setReleaseMode(ReleaseMode.loop);
 
-    final player = AudioCache(prefix: "assets/screenTestAssets/voiceOver/sc1.wav");
-    //load song from assets
-    final url = await player.load("Sc1.wav");
-    audioPlayer.setSourceUrl(url.path);
-  }
 
-  @override
-  void dispose() {
-    audioPlayer.dispose();
-    audioPlayer.pause();
-    super.dispose();
-  }
+
 }

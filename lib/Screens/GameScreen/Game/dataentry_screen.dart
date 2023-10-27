@@ -1,17 +1,23 @@
 import 'dart:io';
+import 'package:shared_preferences/shared_preferences.dart';
 
+import 'package:Katha/Screens/GameScreen/Game/selection_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:image_cropper/image_cropper.dart';
-import 'package:kathaappa/Screens/GameScreen/Game/selection_screen.dart';
+import 'dart:convert';
+import 'dart:io';
+import 'package:lottie/lottie.dart';
 
 import '../../../utils/configt.dart';
 import '../../Users/screens/homeScreen.dart';
+import 'imageSaveSharedPreferences.dart';
 import 'model/childImage.dart';
 
 class DataEntryScreen extends StatefulWidget {
@@ -29,6 +35,7 @@ class _DataEntryScreenState extends State<DataEntryScreen> {
   final ImageCropper _imageCropper = ImageCropper();
   User? user = FirebaseAuth.instance.currentUser;
   TextEditingController url = TextEditingController();
+
   // Snackbar for showing error
   void showSnackBar(String snackText, Duration duration) {
     ScaffoldMessenger.of(context).showSnackBar(
@@ -52,7 +59,7 @@ class _DataEntryScreenState extends State<DataEntryScreen> {
     final reference = FirebaseFirestore.instance
         .collection("users")
         .doc(user?.uid)
-        .collection("child")
+        .collection("therapeuticGamesChildFace")
         .doc(user?.uid);
     final snapshot = await reference.get();
     final result =
@@ -67,7 +74,7 @@ class _DataEntryScreenState extends State<DataEntryScreen> {
     if (child) {
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => SelectionScreen()),
+        MaterialPageRoute(builder: (context) => const SelectionScreen()),
       );
     }
   }
@@ -81,19 +88,20 @@ class _DataEntryScreenState extends State<DataEntryScreen> {
       if (pickedFile != null) {
         final croppedFile = await _imageCropper.cropImage(
           sourcePath: pickedFile.path,
-          aspectRatio: CropAspectRatio(ratioX: 4.0, ratioY: 3.0),
-          cropStyle: CropStyle.rectangle,  // This will allow freeform rectangular cropping
-          androidUiSettings: AndroidUiSettings(
+          aspectRatio: CropAspectRatio(ratioX: 1.0, ratioY: 1.0),  // For oval, it's generally a 1:1 ratio
+          cropStyle: CropStyle.circle,  // For oval shape
+          androidUiSettings: const AndroidUiSettings(
             toolbarTitle: 'Crop Image',
             toolbarColor: Colors.deepOrange,
             toolbarWidgetColor: Colors.white,
-            hideBottomControls: false,  // This shows the control for aspect ratio
-            showCropGrid: false,  // This hides the grid
-            initAspectRatio: CropAspectRatioPreset.ratio4x3,
+            hideBottomControls: false,
+            showCropGrid: false,
+            initAspectRatio: CropAspectRatioPreset.original,
+            lockAspectRatio: false,
           ),
-          iosUiSettings: const IOSUiSettings(
+          iosUiSettings: IOSUiSettings(
             title: 'Crop Image',
-            minimumAspectRatio: 1.0,  // This allows a more freeform crop on iOS
+            minimumAspectRatio: 1.0,
           ),
         );
 
@@ -126,7 +134,7 @@ class _DataEntryScreenState extends State<DataEntryScreen> {
 
 
     // Delay for 3 seconds to simulate loading
-    Future.delayed(Duration(seconds: 3), () {
+    Future.delayed(const Duration(seconds: 3), () {
       setState(() {
         isLoading = false; // Content is now loaded
       });
@@ -135,11 +143,19 @@ class _DataEntryScreenState extends State<DataEntryScreen> {
     Scaffold(
         backgroundColor: Colors.white,
         body: Container(
-
+            decoration: const BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage(Configt.app_background2),
+                fit: BoxFit.cover,
+              ), ),
           child: Container(
             color: Colors.white10,
             child: Center(
-              child: Image.asset(Configt.appLogo),
+              child: Lottie.asset(Configt.baby,
+                      height: 300,
+
+              ),
+
             ),
           ),
         )
@@ -150,7 +166,7 @@ class _DataEntryScreenState extends State<DataEntryScreen> {
       body: Stack(
         children: [
           Container(
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               image: DecorationImage(
                 image: AssetImage(Configt.app_background2),
                 fit: BoxFit.cover,
@@ -178,9 +194,9 @@ class _DataEntryScreenState extends State<DataEntryScreen> {
                       ),
                       Padding(
                         padding: EdgeInsets.only(left: width * 0.29),
-                        child: Text(
+                        child: const Text(
                           Configt.app_dataentrytitle,
-                          style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w800),
+                          style: TextStyle(fontSize: 20, fontWeight: FontWeight.w800),
                         ),
                       ),
                     ],
@@ -195,7 +211,7 @@ class _DataEntryScreenState extends State<DataEntryScreen> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           ClipRRect(
-                            borderRadius: BorderRadius.all(Radius.circular(5)),
+                            borderRadius: const BorderRadius.all(Radius.circular(5)),
                             child: Container(
                               decoration: BoxDecoration(
                                 shape: BoxShape.rectangle,
@@ -245,8 +261,6 @@ class _DataEntryScreenState extends State<DataEntryScreen> {
     }
   }
   Future<void> Add() async {
-
-
     final postID = DateTime.now().millisecondsSinceEpoch.toString();
     FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
 
@@ -254,20 +268,24 @@ class _DataEntryScreenState extends State<DataEntryScreen> {
     String? downloadURL;
     if (_image != null) {
       Reference ref =
-      FirebaseStorage.instance.ref().child("pets").child("post_$postID");
+      FirebaseStorage.instance.ref().child("therapeuticGamesChildFace").child("post_$postID");
       await ref.putFile(_image!);
       downloadURL = await ref.getDownloadURL();
       print("downloadURL: $downloadURL");
+
+      // Convert image to base64 and save in SharedPreferences
+      String base64Image = await convertImageToBase64(_image!);
+      await saveImageToSharedPreferences(base64Image);
     }
 
-    // Uploading pet details to Cloud Firestore
+    // Uploading therapeuticGamesChildFace details to Cloud Firestore
     await firebaseFirestore
         .collection("users")
         .doc(user?.uid)
-        .collection("child")
+        .collection("therapeuticGamesChildFace")
         .doc(user?.uid)
         .set({
-      'child':true,
+      'child': true,
       'url': downloadURL ?? "", // May be null if image upload failed
     }).then((_) {
       Navigator.of(context).push(MaterialPageRoute(
@@ -275,8 +293,11 @@ class _DataEntryScreenState extends State<DataEntryScreen> {
       ));
       showSnackBar("Child Image Added successfully", Duration(seconds: 2));
     }).catchError((error) {
-      print("Error adding pet: $error");
+      if (kDebugMode) {
+        print("Error adding therapeuticGamesChildFace: $error");
+      }
       showSnackBar("Failed to add Child Image", Duration(seconds: 2));
     });
   }
+
 }

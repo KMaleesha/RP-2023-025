@@ -33,7 +33,25 @@ class Configt {
   static const stars = 'assets/gameAssets/images/other/stars.json';
   static const stars2 = 'assets/gameAssets/images/other/stars2.json';
   static const appLogo = 'assets/logoGif.gif';
+  static const rocketg = 'assets/gameAssets/rocketg.json';
+  static const thoughtBubble = 'assets/gameAssets/thoughtBubble.json';
+  static const childRobot = 'assets/gameAssets/images/other/childRobot.json';
+  static const baby = 'assets/gameAssets/baby.json';
+  static const rabbit = 'assets/gameAssets/rabbit.json';
+  static const bAnimation = 'assets/gameAssets/bAnimation.gif';
+  static const clickTAP = 'assets/gameAssets/click.json';
+  static const loginImage = 'assets/loginImage.jpg';
+  static const drop_down_icon = 'assets/drop_down_icon.png';
+  static const exercise = 'assets/exercise.png';
+  static const games = 'assets/games.png';
+  static const letterError = 'assets/letterError.png';
+  static const therapist = 'assets/therapist.png';
 
+
+
+  //audios
+  static const hariiii = 'assets/gameAssets/songs/questionWords/Hariiii.wav';
+  static const uthsahakarankooo = 'assets/gameAssets/songs/questionWords/uthsahakarankooo.wav';
   //texts
   static const app_dataentrytitle = "දරුවාගේ පින්තූරයක් ";
   static const app_upload = "ඇතුළත් කරන්න";

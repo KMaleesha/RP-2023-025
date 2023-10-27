@@ -1,11 +1,15 @@
+import 'dart:async';
+
+import 'package:Katha/Screens/GameScreen/Game/questionAnimation.dart';
+import 'package:Katha/Screens/GameScreen/Game/selection_screen.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:kathaappa/Screens/GameScreen/Game/questionAnimation.dart';
-import 'package:kathaappa/Screens/GameScreen/Game/selection_screen.dart';
+
+import 'package:lottie/lottie.dart';
 import '../../../utils/configt.dart';
 import 'model/childImage.dart';
 
@@ -23,14 +27,20 @@ class _AnimationSpriteAnimationScreenState extends State<AnimationSpriteAnimatio
   final List<Image> _spriteImages = [];
 
   late Image _headImage;
-
+//
   final audioPlayer = AudioPlayer();
   bool isPlaying = false;
   TextEditingController url = TextEditingController();
+  bool showLottieAnimation = true;
 
   @override
   void initState() {
     super.initState();
+    Timer(Duration(seconds: 3), () {
+   setState(() {
+     showLottieAnimation = false;
+   });
+    });
     SystemChrome.setPreferredOrientations([DeviceOrientation.landscapeLeft]);
     // getData();
     //add sprite images to list
@@ -54,9 +64,10 @@ class _AnimationSpriteAnimationScreenState extends State<AnimationSpriteAnimatio
     //initialize audio
     setAudio();
 
-    //show snackbar
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      _showStartDancingSnackbar();
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
+      setState(() {
+        showLottieAnimation = true;
+      });
     });
   }
 
@@ -81,7 +92,7 @@ class _AnimationSpriteAnimationScreenState extends State<AnimationSpriteAnimatio
   Future setAudio() async {
     audioPlayer.setReleaseMode(ReleaseMode.loop);
 
-    final player = AudioCache(prefix: "assets/songs/");
+    final player = AudioCache(prefix: "assets/gameAssets/songs/");
     //load song from assets
     final url = await player.load("song.mp3");
     audioPlayer.setSourceUrl(url.path);
@@ -90,7 +101,7 @@ class _AnimationSpriteAnimationScreenState extends State<AnimationSpriteAnimatio
   @override
   void dispose() {
     _controller.dispose();
-    audioPlayer.dispose();
+    audioPlayer.pause();
     super.dispose();
   }
 
@@ -128,49 +139,66 @@ class _AnimationSpriteAnimationScreenState extends State<AnimationSpriteAnimatio
                   animation: _animation,
                   builder: (context, child) {
                     return Stack(
-                      alignment: Alignment.center,
                       children: [
-                        Positioned.fill(
-                          child: Center(
-                            child: SizedBox(
-                                height: spriteHeight,
-                                width: spriteWidth,
-                                child: _spriteImages[_animation.value]),
-                          ),
-                        ),
-                        //you can change the position of the head/face image according to your need for portrait and landscape mode
-                        Positioned(
-                          top: (orientation == Orientation.portrait) ? 160 : 5,
-                          left: (orientation == Orientation.portrait) ? 110 : 2,
-                          child: SizedBox(
-                            width: (orientation == Orientation.landscape) ? 75 : 75,
-                            child:    GestureDetector(
-                    child:  Image.asset(Configt.appiconback,
-                      height: 75,width: 75,),
-                    onTap: () {
-                    _controller.stop();
-                    audioPlayer.pause();
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => SelectionScreen()),);
-                    }
-                    ),
-                          ),
-                        ),
-                        Positioned(
-                          top: (orientation == Orientation.portrait) ? 160 : 260,
-                          left: (orientation == Orientation.portrait) ? 110 : 700,
-                          child: SizedBox(
-                            width: (orientation == Orientation.landscape) ? 100 : 200,
-                            child:    GestureDetector(
-                              child:  Image.asset(Configt.appiconnext,
+                        Stack(
+                          alignment: Alignment.center,
+                          children: [
 
-                                height: 75,width: 75,),
-                                onTap: () {
-                    _controller.stop();
-                    audioPlayer.pause();
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => QuestionAnimationScreen()),);
-                    }
-                            )
+                            Positioned.fill(
+                              child: Center(
+                                child: SizedBox(
+                                    height: spriteHeight,
+                                    width: spriteWidth,
+                                    child: _spriteImages[_animation.value]),
+                              ),
+                            ),
+                            //you can change the position of the head/face image according to your need for portrait and landscape mode
+                            Positioned(
+                              top: (orientation == Orientation.portrait) ? 160 : 5,
+                              left: (orientation == Orientation.portrait) ? 110 : 2,
+                              child: SizedBox(
+                                width: (orientation == Orientation.landscape) ? 75 : 75,
+                                child:    GestureDetector(
+                        child:  Image.asset(Configt.appiconback,
+                          height: 75,width: 75,),
+                        onTap: () {
+                        _controller.stop();
+                        audioPlayer.pause();
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => SelectionScreen()),);
+                        }
+                        ),
+                              ),
+                            ),
+                            Positioned(
+                              top: (orientation == Orientation.portrait) ? 160 : 250,
+                              right: (orientation == Orientation.portrait) ? 5 : 2,
+                              child: SizedBox(
+                                width: (orientation == Orientation.landscape) ? 80 : 200,
+                                child:    GestureDetector(
+                                  child:  Image.asset(Configt.appiconnext,
 
+                                    height: 75,width: 75,),
+                                    onTap: () {
+                        _controller.stop();
+                        audioPlayer.pause();
+                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => QuestionAnimationScreen()),);
+                        }
+                                )
+
+                              ),
+                            ),
+
+                          ],
+                        ),
+                        if(showLottieAnimation)
+                        Center(
+                          child: SizedBox(
+                            height: 200,
+                            width: 200,
+                            child: Lottie.asset(
+                              Configt.clickTAP,
+                              fit: BoxFit.fitHeight,
+                            ),
                           ),
                         ),
                       ],
@@ -186,13 +214,21 @@ class _AnimationSpriteAnimationScreenState extends State<AnimationSpriteAnimatio
   }
 
   //function to build sprite images
-  Image _buildSpriteImage(int index) {
+  Image _buildSpriteImage(int index)
+  {
     final AssetImage childImage =
-    AssetImage('assets/images/animationframes/ezgif-frame-$index.jpg');
-    final Image child = Image(image: childImage, fit: BoxFit.fill,gaplessPlayback: true,);
+    AssetImage('assets/gameAssets/images/animationframes/ezgif-frame-$index.jpg');
+    final Image child = Image(
+
+      image: childImage,
+      fit: BoxFit.fill,
+      gaplessPlayback: true,
+
+    );
 
     return child;
   }
+
 
   //function to show snackbar
   void _showStartDancingSnackbar() {

@@ -1,18 +1,161 @@
+import 'dart:core';
+import 'dart:convert';
+import 'dart:io';
+import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:flutter_sound/flutter_sound.dart';
 import 'dart:ui';
-import 'package:kathaappa/Screens/ScreenTest/ListWords.dart';
-import 'package:kathaappa/Screens/ScreenTest/HomeScreen.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:path_provider/path_provider.dart';
+import 'ListWords.dart';
+import 'package:audioplayers/audioplayers.dart';
+import 'package:flutter/services.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'Correct.dart';
+import 'Incorrect.dart';
 
-class RecordScreen extends StatelessWidget {
+class RecordScreen extends StatefulWidget {
+  @override
+  _RecordScreenState createState() => _RecordScreenState();
+}
+
+class _RecordScreenState extends State<RecordScreen> {
+  FlutterSoundRecorder? _recorder;
+  bool _isRecording = false;
+  String? _path;
+  String _audioPath = '';
+  final audioPlayer = AudioPlayer();
+
+  @override
+  void initState() {
+    super.initState();
+    print("initState Called");
+    _recorder = FlutterSoundRecorder();
+    _recorder!.openAudioSession();
+    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+
+    Timer(Duration(seconds: 1), () {
+      print("Timer 1 fired");
+      setAudio();
+    });
+
+    Timer(Duration(seconds: 2), () {
+      print("Timer 2 fired");
+      _handleTap();
+    });
+  }
+
+  void _handleTap() {
+    print("_handleTap Called");
+    Timer(Duration(seconds:15), () {
+      print("Timer inside _handleTap fired");
+    });
+    audioPlayer.resume();
+  }
+
+  Future setAudio() async {
+    print("setAudio Called");
+    audioPlayer.setReleaseMode(ReleaseMode.loop);
+
+    final player = AudioCache(prefix: "assets/screenTestAssets/VoiceOver/");
+    final url = await player.load("S3_1.wav");
+    audioPlayer.setSourceUrl(url.path);
+  }
+//successful recording func 10/21/23 12:39 p.m
+  Future<void> _startRecording() async {
+    print("_startRecording Called");
+    try {
+      if (await Permission.microphone.isGranted) { // Correct way to check for microphone permission
+        Directory tempDir = await getTemporaryDirectory();
+        String tempPath = tempDir.path + '/audio.wav';
+        await _recorder!.startRecorder(toFile: tempPath);
+        setState(() {
+          _isRecording = true;
+          _audioPath = tempPath;
+        });
+      } else {
+        print("Permission Denied");
+      }
+    } catch (e) {
+      print("Error in _startRecording: $e");
+    }
+  }
+
+
+  Future<void> _stopRecording() async {
+    print("_stopRecording Called");
+    try {
+      await _recorder!.stopRecorder();
+      setState(() {
+        _isRecording = false;
+      });
+    } catch (e) {
+      print("Error in _stopRecording: $e");
+    }
+
+    Timer(Duration(seconds: 1), () {
+      print("Timer inside _stopRecording fired");
+      uploadAudio(File(_audioPath!), 'balla');
+    });
+  }
+
+  Future<void> uploadAudio(File audioFile, String inputWord) async {
+    print("uploadAudio Called");
+    try {
+      var request = http.MultipartRequest('POST', Uri.parse('http://192.168.8.181:5000/predict'));
+      request.fields['input_word'] = inputWord;
+      request.files.add(http.MultipartFile.fromBytes('audio_file', await audioFile.readAsBytes(), filename: 'audio.wav'));
+
+      var response = await request.send();
+
+      if (response.statusCode == 200) {
+        var result = await http.Response.fromStream(response);
+        var parsedJson = json.decode(result.body);
+        print('Result: ${parsedJson['result']}');
+        // var parsedJson = json.decode(result.body);
+        // if (parsedJson['result'] == "Correct Answer") {
+        //   audioPlayer.dispose();  audioPlayer.pause();
+        //   Navigator.push(
+        //     context,
+        //     MaterialPageRoute(
+        //       builder: (context) => Correct(),
+        //     ),
+        //   );
+        // }
+        // if (parsedJson['result'] == "Wrong Answer") {
+        //   audioPlayer.dispose();  audioPlayer.pause();
+        //   Navigator.push(
+        //     context,
+        //     MaterialPageRoute(
+        //       builder: (context) => InCorrect(),
+        //     ),
+        //   );
+        // }
+      } else {
+        print("Failed to upload. Status code: ${response.statusCode}");
+      }
+    } catch (e) {
+      print("Error in uploadAudio: $e");
+    }
+  }
+
+  @override
+  void dispose() {
+    print("dispose Called");
+    audioPlayer.dispose();
+    audioPlayer.pause();
+    _recorder!.closeAudioSession();
+    super.dispose();
+  }
   @override
   Widget build(BuildContext context) {
-    double fem = 1.0; // Your factor value
-    double ffem = 1.0; // Your factor value
-
+    double fem = 1.0;
+    double ffem = 1.0;
     return SafeArea(
       child: Scaffold(
         body: Container(
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             gradient:  LinearGradient(
               begin: Alignment(0.407, -1),
               end: Alignment(-0.407, 1),
@@ -54,6 +197,7 @@ class RecordScreen extends StatelessWidget {
                             height: 30 * fem,
                             child: ElevatedButton(
                               onPressed: () {
+                                audioPlayer.dispose();  audioPlayer.pause();
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
@@ -185,13 +329,17 @@ class RecordScreen extends StatelessWidget {
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: ElevatedButton(
-                  child: Text(
+                  child: _isRecording
+                      ? SpinKitCircle(
+                    color: Colors.white,
+                    size: 50.0,
+                  )
+                      : Text(
                     '',
                     style: TextStyle(
                       fontFamily: 'Noto Sans Sinhala',
-                      fontSize: 18.5 * ffem,
+                      fontSize: 18.5,
                       fontWeight: FontWeight.w700,
-                      height: 1.3025 * ffem / fem,
                       color: Color(0xff591010),
                     ),
                   ),
@@ -209,78 +357,16 @@ class RecordScreen extends StatelessWidget {
                     MaterialStateProperty.all(Colors.transparent),
                   ),
                   onPressed: (){
-
+                    audioPlayer.dispose();  audioPlayer.pause();
+                    audioPlayer.pause();
+                    if (_isRecording) {
+                      _stopRecording();
+                    } else {
+                      _startRecording();
+                    }
                   },
                 ),
               ),
-
-             /* Positioned(
-                left: 46 * fem,
-                top: 646.991394043 * fem,
-                child: Align(
-                  child: SizedBox(
-                    width: 141 * fem,
-                    height: 43.73 * fem,
-                    child: GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => ListWords()),
-                        );
-                      },
-                      child: AnimatedContainer(
-                        duration: Duration(milliseconds: 300),
-                        curve: Curves.easeInOut,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20 * fem),
-                          gradient: LinearGradient(
-                            begin: Alignment(0.407, -1),
-                            end: Alignment(-0.407, 1),
-                            colors: <Color>[
-                              Color(0xfff9ff00),
-                              Color(0xffff4c00),
-                            ],
-                            stops: <double>[0, 1],
-                          ),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.yellow.withOpacity(0.5),
-                              blurRadius: 10.0,
-                              spreadRadius: 2.0,
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ),*/
-              // Row(
-              //   mainAxisAlignment: MainAxisAlignment.center,
-              //   children: [
-              //     Positioned(
-              //       left: 85 * fem,
-              //       top: 656.9298095703 * fem,
-              //       child: Align(
-              //         child: SizedBox(
-              //           width: 61 * fem,
-              //           height: 27 * fem,
-              //           child: Text(
-              //             'අරඹමු',
-              //             style: TextStyle(
-              //               fontFamily: 'Noto Sans Sinhala',
-              //               fontSize: 18.5 * ffem,
-              //               fontWeight: FontWeight.w700,
-              //               height: 1.3025 * ffem / fem,
-              //               color: Color(0xff591010),
-              //             ),
-              //           ),
-              //         ),
-              //       ),
-              //     ),
-              //   ],
-              // ),
-
             ],
           ),
         ),
