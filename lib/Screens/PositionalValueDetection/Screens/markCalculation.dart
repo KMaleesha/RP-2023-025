@@ -1,17 +1,75 @@
 import 'package:flutter/material.dart';
 import '../../Users/screens/homeScreen.dart';
+import 'api_service.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class MarkCalculation extends StatefulWidget {
-  const MarkCalculation({Key? key}) : super(key: key);
+  final Map<String, dynamic> apiData;
+  const MarkCalculation({Key? key, required this.apiData}) : super(key: key);
 
   @override
   State<MarkCalculation> createState() => _MarkCalculation();
 }
 class _MarkCalculation extends State<MarkCalculation> {
-  late String word = "වදුරා";
-  late int wordLength = word.length;
-  late int correctLetterCount = 5;
+  late String userInput;
+  late String mostMatch;
+  late int wordLength;
+  late String differingLetters;
+  late int numDifferLetter;
+  late int correctLetterCount = wordLength - numDifferLetter;
   late double result = ((100 / wordLength) * correctLetterCount);
+
+  get apiCall => ApiService();
+
+// Inside _MarkCalculation class
+  void saveDataToFirestore() async {
+    // Firestore instance
+    FirebaseFirestore firestore = FirebaseFirestore.instance;
+
+    // Prepare the data to be saved
+    Map<String, dynamic> dataToSave = {
+      'Differing Letters': differingLetters,
+      'Most Match': mostMatch,
+      'Position Info': widget.apiData['Position Info'],  // if it's a list, it should be supported by Firestore
+      'User Input': userInput,
+      'Result': result,
+      // ... any other fields you want to save
+    };
+
+    // Add data to Firestore
+    await firestore
+        .collection('letter_error')
+        .add(dataToSave)
+        .then((value) {
+      print("Data added successfully!");
+    }).catchError((error) {
+      print("Failed to add data: $error");
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    mostMatch = widget.apiData['Most Match'] ?? "";
+    userInput = widget.apiData['User Input'] ?? "";
+    differingLetters = widget.apiData['Differing Letters'] ?? "";
+
+    if (widget.apiData['Position Info'] is List && widget.apiData['Position Info'].length > 1) {
+      var positionInfo = widget.apiData['Position Info'][1].split(':').last;
+      if (positionInfo != null) {
+        numDifferLetter = int.tryParse(positionInfo) ?? 0; // convert string to int
+      }
+    }
+
+    print("API Data in initState: ${widget.apiData}");
+    print("Most Match: $mostMatch");
+    print("User Input: $userInput");
+    print("Differing Letters: $differingLetters");
+
+    wordLength = mostMatch.length;
+
+  }
 
   String getTextBasedOnResult(double result) {
     if (result >= 80) {
@@ -69,9 +127,13 @@ class _MarkCalculation extends State<MarkCalculation> {
     return MaterialApp(
       home: Scaffold(
           appBar: AppBar(
-            backgroundColor: Colors.transparent,
+            backgroundColor: Colors.lightBlueAccent.shade100,
             elevation: 0.0,
             centerTitle: true,
+            title: Text(
+              'ළකුණු',
+              style: TextStyle(color: Colors.black),
+            ),
             leading: IconButton(
               icon: Icon(
                 Icons.arrow_back,
@@ -105,7 +167,7 @@ class _MarkCalculation extends State<MarkCalculation> {
                 Container(
                   decoration: const BoxDecoration(
                     image: DecorationImage(
-                      image: AssetImage('assets/phonologicalAssets/background_image3.jpg'), // Replace with your image path
+                      image: AssetImage('assets/phonologicalAssets/background_image3.jpeg'), // Replace with your image path
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -118,7 +180,7 @@ class _MarkCalculation extends State<MarkCalculation> {
                         width: 350,
                         height: 450,
                         decoration: BoxDecoration(
-                          color: Colors.blue.shade300,
+                          color: Colors.blue.shade200,
                           borderRadius: BorderRadius.circular(40),
                           boxShadow: [
                             BoxShadow(
@@ -216,10 +278,10 @@ class _MarkCalculation extends State<MarkCalculation> {
                                   width: 300,
                                   height: 70,
                                   decoration: BoxDecoration(
-                                    color: Colors.white,
+                                    color: Colors.blueGrey.shade50,
                                     borderRadius: BorderRadius.circular(30),
                                     border: Border.all(
-                                      color: Colors.white,
+                                      color: Colors.blue,
                                       width: 3,
                                     ),
                                   ),
@@ -245,6 +307,7 @@ class _MarkCalculation extends State<MarkCalculation> {
                         height: 50, // Adjust the height as needed
                         child: ElevatedButton(
                           onPressed: () {
+                            saveDataToFirestore();
                             Navigator.push(
                               context,
                               MaterialPageRoute(builder: (context) => HomeScreenAll()),

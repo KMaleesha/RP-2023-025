@@ -5,7 +5,7 @@ description: A new Flutter project.
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
 
-version: 1.0.0+1
+version: 1.1.0
 
 environment:
   sdk: '>=2.18.2 <3.0.0'
@@ -39,6 +39,7 @@ dependencies:
   material_dialogs: ^1.1.4
   lottie: ^2.3.0
   flutter_spinkit: ^5.0.0
+  flutter_swiper_plus: ^2.0.4
 
 dev_dependencies:
   flutter_test:
@@ -127,10 +128,14 @@ flutter:
     - assets/screenTestAssets/VoiceOver/
     - assets/loginImage.jpg
     - assets/screenTestAssets/incorrectFinal.jpg
+    - assets/phonologicalAssets/backgroud1.jpeg.
     - assets/phonologicalAssets/background_image.jpg
     - assets/phonologicalAssets/background_image1.jpg
     - assets/phonologicalAssets/background_image2.jpg
     - assets/phonologicalAssets/background_image3.jpeg
-
-
+    - assets/drop_down_icon.png
+    - assets/exercise.png
+    - assets/games.png
+    - assets/letterError.png
+    - assets/therapist.png
 

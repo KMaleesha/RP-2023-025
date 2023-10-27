@@ -41,6 +41,11 @@ class Configt {
   static const bAnimation = 'assets/gameAssets/bAnimation.gif';
   static const clickTAP = 'assets/gameAssets/click.json';
   static const loginImage = 'assets/loginImage.jpg';
+  static const drop_down_icon = 'assets/drop_down_icon.png';
+  static const exercise = 'assets/exercise.png';
+  static const games = 'assets/games.png';
+  static const letterError = 'assets/letterError.png';
+  static const therapist = 'assets/therapist.png';
 
 
 
