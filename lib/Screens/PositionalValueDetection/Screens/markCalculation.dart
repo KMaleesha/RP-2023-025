@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../Users/screens/homeScreen.dart';
 import 'api_service.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class MarkCalculation extends StatefulWidget {
   final Map<String, dynamic> apiData;
@@ -19,6 +20,32 @@ class _MarkCalculation extends State<MarkCalculation> {
   late double result = ((100 / wordLength) * correctLetterCount);
 
   get apiCall => ApiService();
+
+// Inside _MarkCalculation class
+  void saveDataToFirestore() async {
+    // Firestore instance
+    FirebaseFirestore firestore = FirebaseFirestore.instance;
+
+    // Prepare the data to be saved
+    Map<String, dynamic> dataToSave = {
+      'Differing Letters': differingLetters,
+      'Most Match': mostMatch,
+      'Position Info': widget.apiData['Position Info'],  // if it's a list, it should be supported by Firestore
+      'User Input': userInput,
+      'Result': result,
+      // ... any other fields you want to save
+    };
+
+    // Add data to Firestore
+    await firestore
+        .collection('letter_error')
+        .add(dataToSave)
+        .then((value) {
+      print("Data added successfully!");
+    }).catchError((error) {
+      print("Failed to add data: $error");
+    });
+  }
 
   @override
   void initState() {
@@ -280,6 +307,7 @@ class _MarkCalculation extends State<MarkCalculation> {
                         height: 50, // Adjust the height as needed
                         child: ElevatedButton(
                           onPressed: () {
+                            saveDataToFirestore();
                             Navigator.push(
                               context,
                               MaterialPageRoute(builder: (context) => HomeScreenAll()),

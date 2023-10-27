@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import '../../Users/screens/homeScreen.dart';
 import 'PositionalErrorDetection.dart';
 import 'api_service.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class MyApiResultScreen extends StatefulWidget {
   @override
@@ -11,7 +13,36 @@ class MyApiResultScreen extends StatefulWidget {
 class _MyApiResultScreenState extends State<MyApiResultScreen> {
   final ApiService apiService = ApiService();
 
-  Future<Map<String, dynamic>> get apiCall => apiService.fetchPost("සමනයා");
+  Future<Map<String, dynamic>> fetchLatestTranscribedTextAndMakeApiCall() async {
+    final FirebaseAuth _auth = FirebaseAuth.instance;
+    final User? user = _auth.currentUser;
+
+    if (user == null) {
+      // Handle the situation where the user is not logged in.
+      throw Exception('User not logged in.');
+    }
+
+    final String uid = user.uid;
+    final FirebaseFirestore _db = FirebaseFirestore.instance;
+
+    QuerySnapshot querySnapshot = await _db
+        .collection('users')
+        .doc(uid)  // Replacing 'yourUserId' with the actual user ID
+        .collection('audios')
+        .orderBy('date', descending: true)
+        .limit(1)
+        .get();
+
+    if (querySnapshot.docs.isNotEmpty) {
+      Map<String, dynamic> latestAudio = querySnapshot.docs.first.data() as Map<String, dynamic>;
+      String transcribedText = latestAudio['transcribedtext'];
+      return await apiService.fetchPost(transcribedText);
+    }
+    // Handle the error case when the document is not found.
+    throw Exception('No latest transcribed text found.');
+  }
+
+  Future<Map<String, dynamic>> get apiCall => fetchLatestTranscribedTextAndMakeApiCall();
 
   @override
   Widget build(BuildContext context) {
