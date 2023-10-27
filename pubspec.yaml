@@ -1,11 +1,11 @@
-name: kathaappa
+name: Katha
 description: A new Flutter project.
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
 
-version: 1.0.0+1
+version: 1.1.0
 
 environment:
   sdk: '>=2.18.2 <3.0.0'
@@ -89,6 +89,11 @@ flutter:
     - assets/gameAssets/images/other/smilingface.gif
     - assets/gameAssets/images/other/cryface.gif
     - assets/gameAssets/images/other/cryface.json
+    - assets/gameAssets/images/other/childRobot.json
+    - assets/gameAssets/songs/questionWords/Hariiii.wav
+    - assets/gameAssets/songs/questionWords/
+    - assets/gameAssets/songs/questionWords/uthsahakarankooo.wav
+    - assets/gameAssets/thoughtBubble.json
     - assets/gameAssets/images/other/back.png
     - assets/gameAssets/images/other/home.png
     - assets/gameAssets/images/other/next.png
@@ -98,5 +103,38 @@ flutter:
     - assets/gameAssets/images/other/stars2.json
     - assets/gameAssets/images/boy.png
     - assets/gameAssets/images/girl.png
+    - assets/gameAssets/rocketg.json
+    - assets/gameAssets/baby.json
+    - assets/gameAssets/click.json
+    - assets/gameAssets/rabbit.json
+    - assets/gameAssets/bAnimation.gif
+    - assets/gameAssets/songs/winAudio.mp3
+    - assets/gameAssets/songs/selectionAudio.mp3
+    - assets/gameAssets/songs/questionPage.mp3
+    - assets/gameAssets/songs/loseAudio.mp3
     - assets/gameAssets/songs/questionWords/hawa.wav
     - assets/logoGif.gif
+    - assets/screenTestAssets/incorrect.jpg
+    - assets/screenTestAssets/correct.jpg
+    - assets/screenTestAssets/HowTo.jpg
+    - assets/screenTestAssets/g2.gif
+    - assets/screenTestAssets/VoiceOver/S1.wav
+    - assets/screenTestAssets/VoiceOver/S2.wav
+    - assets/screenTestAssets/VoiceOver/S3_3.wav
+    - assets/screenTestAssets/VoiceOver/S4_1.wav
+    - assets/screenTestAssets/VoiceOver/S4_2.wav
+    - assets/screenTestAssets/VoiceOver/S5.wav
+    - assets/screenTestAssets/VoiceOver/
+    - assets/loginImage.jpg
+    - assets/screenTestAssets/incorrectFinal.jpg
+    - assets/phonologicalAssets/background_image.jpg
+    - assets/phonologicalAssets/background_image1.jpg
+    - assets/phonologicalAssets/background_image2.jpg
+    - assets/phonologicalAssets/background_image3.jpeg
+    - assets/drop_down_icon.png
+    - assets/exercise.png
+    - assets/games.png
+    - assets/letterError.png
+    - assets/therapist.png
+
+
