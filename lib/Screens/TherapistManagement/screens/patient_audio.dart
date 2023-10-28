@@ -7,7 +7,8 @@ import '../../../../utils/configt.dart';
 import 'package:flutter_sound/flutter_sound.dart';
 import 'dart:async';
 
-import '../model/patient_model.dart'; 
+import '../model/patient_model.dart';
+import '../services/transcribe_api.dart';
 
 class WordDetailScreen extends StatefulWidget {
   final String patientUid;
@@ -77,11 +78,6 @@ class _WordDetailScreenState extends State<WordDetailScreen> {
     });
   }
 
-  Future<String> transcribeAudio() async {
-    await Future.delayed(Duration(seconds: 2)); 
-    return 'This is the transcribed text from the dummy API';
-  }
-
   Future<void> saveFeedback() async {
     await FirebaseFirestore.instance
         .collection('users')
@@ -89,6 +85,15 @@ class _WordDetailScreenState extends State<WordDetailScreen> {
         .collection('audios')
         .doc(widget.documentId)
         .update({'feedback': feedbackController.text});
+  }
+
+  Future<void> saveTranscribedText(String transcribed) async {
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(widget.patientUid)
+        .collection('audios')
+        .doc(widget.documentId)
+        .set({'transcribedtext': transcribed}, SetOptions(merge: true));
   }
 
   @override
@@ -110,6 +115,7 @@ class _WordDetailScreenState extends State<WordDetailScreen> {
 
           final audio = snapshot.data!;
           feedbackController.text = audio.feedback ?? '';
+          transcribedText = audio.transcribedtext ?? 'Transcribed text will appear here'; 
           final formattedDate = audio.date != null
               ? DateFormat('yyyy-MM-dd hh:mm a').format(audio.date!)
               : "Unknown date";
@@ -238,7 +244,7 @@ class _WordDetailScreenState extends State<WordDetailScreen> {
                               children: [
                                 Row(
                                   mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween, 
+                                      MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(
                                       'Word: ',
@@ -256,7 +262,7 @@ class _WordDetailScreenState extends State<WordDetailScreen> {
                                 SizedBox(height: 16),
                                 Row(
                                   mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween, 
+                                      MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(
                                       'Date: ',
@@ -274,7 +280,7 @@ class _WordDetailScreenState extends State<WordDetailScreen> {
                                 SizedBox(height: 16),
                                 Row(
                                   mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween, 
+                                      MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(
                                       'System Generated Result: ',
@@ -324,13 +330,26 @@ class _WordDetailScreenState extends State<WordDetailScreen> {
                                   child: ElevatedButton(
                                     onPressed: () async {
                                       String transcribed =
-                                          await transcribeAudio(); 
+                                          await transcribeAudio(
+                                              audio.url ?? "");
+
+                                      // Save to Firestore
+                                      await saveTranscribedText(transcribed);
+
+                                      // Update the state
                                       setState(() {
-                                        transcribedText =
-                                            transcribed; // Update the transcribed text
+                                        transcribedText = transcribed;
                                       });
                                     },
                                     child: Text("Transcribe Audio"),
+                                  ),
+                                ),
+                                SizedBox(height: 16),
+                                Center(
+                                  child: Text(
+                                    'Transcription :',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(fontSize: 16),
                                   ),
                                 ),
                                 SizedBox(height: 16),

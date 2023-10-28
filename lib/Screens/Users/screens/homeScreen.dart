@@ -94,7 +94,7 @@ class _HomeScreenAllState extends State<HomeScreenAll> {
             ]),
       if (role == 2)
         PlanetInfo(5,
-            name: ' Therapist',
+            name: '       Therapist',
             iconImage: Configt.therapist,
             description: "",
             images: [
