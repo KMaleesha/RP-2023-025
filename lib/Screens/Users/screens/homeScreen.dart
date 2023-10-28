@@ -12,6 +12,7 @@ import '../../GameScreen/Game/animationScreen.dart';
 import '../../GameScreen/Game/dataentry_screen.dart';
 import '../../GameScreen/Game/selection_screen.dart';
 import '../../GameScreen/testing/questionPage.dart';
+import '../../PositionalValueDetection/Screens/MyApiResultScreen.dart';
 import '../../PositionalValueDetection/Screens/PositionalErrorDetection.dart';
 import '../../PositionalValueDetection/Screens/letterErrorDetails.dart';
 import '../../PositionalValueDetection/Screens/letterErrorDetection.dart';
@@ -211,8 +212,7 @@ class _HomeScreenAllState extends State<HomeScreenAll> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) =>
-                                        PositionalErrorDetector()),
+                                    builder: (context) => MyApiResultScreen()),
                               );
                             } else if (displayPlanets[index].position == 2) {
                               Navigator.push(

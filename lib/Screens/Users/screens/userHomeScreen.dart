@@ -10,6 +10,7 @@ import '../../GameScreen/Game/animationScreen.dart';
 import '../../GameScreen/Game/dataentry_screen.dart';
 import '../../GameScreen/Game/selection_screen.dart';
 import '../../GameScreen/testing/questionPage.dart';
+import '../../PositionalValueDetection/Screens/MyApiResultScreen.dart';
 import '../../PositionalValueDetection/Screens/PositionalErrorDetection.dart';
 import '../../PositionalValueDetection/Screens/letterErrorDetails.dart';
 import '../../PositionalValueDetection/Screens/letterErrorDetection.dart';
@@ -94,7 +95,7 @@ class _HomeState extends State<Home> {
                             ElevatedButton(
                               onPressed: () {
                                 Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (context) => PositionalErrorDetector(),
+                                  builder: (context) => MyApiResultScreen(),
                                 ));
                               },
                               style: ElevatedButton.styleFrom(
