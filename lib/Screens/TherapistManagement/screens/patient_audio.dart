@@ -5,16 +5,20 @@ import 'package:intl/intl.dart';
 import '../model/audio_model.dart';
 import '../../../../utils/configt.dart';
 import 'package:flutter_sound/flutter_sound.dart';
-import 'dart:async'; 
+import 'dart:async';
+
+import '../model/patient_model.dart'; 
 
 class WordDetailScreen extends StatefulWidget {
   final String patientUid;
   final String documentId;
+  final Patient patient;
 
   const WordDetailScreen({
     Key? key,
     required this.patientUid,
     required this.documentId,
+    required this.patient,
   }) : super(key: key);
 
   @override
@@ -119,6 +123,105 @@ class _WordDetailScreenState extends State<WordDetailScreen> {
             ),
             child: Column(
               children: [
+                Card(
+                  elevation: 2,
+                  margin: EdgeInsets.all(16),
+                  child: Padding(
+                    padding: EdgeInsets.all(16),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.symmetric(vertical: 8),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'Name:',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 18,
+                                ),
+                              ),
+                              Text(
+                                '${widget.patient.name ?? "Not specified"}',
+                                style: TextStyle(
+                                  fontSize: 18,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.symmetric(vertical: 8),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'Age:',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 18,
+                                ),
+                              ),
+                              Text(
+                                '${widget.patient.age ?? "Not specified"}',
+                                style: TextStyle(
+                                  fontSize: 18,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.symmetric(vertical: 8),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'Mobile:',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 18,
+                                ),
+                              ),
+                              Text(
+                                '${widget.patient.mobile ?? "Not specified"}',
+                                style: TextStyle(
+                                  fontSize: 18,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.symmetric(vertical: 8),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'Patient Since:',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 18,
+                                ),
+                              ),
+                              Text(
+                                widget.patient.patientSince != null
+                                    ? DateFormat('yyyy-MM-dd').format(
+                                        widget.patient.patientSince!.toDate())
+                                    : "Not specified",
+                                style: TextStyle(
+                                  fontSize: 18,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
                 Expanded(
                   child: SingleChildScrollView(
                     child: Column(
