@@ -1,14 +1,18 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class Patient {
   final String uid;
   final String? name; 
   final int? age;
   final String? mobile;
+  final Timestamp? patientSince;  
 
   Patient({
     required this.uid,
     required this.name, 
     required this.age,
     required this.mobile,
+    this.patientSince,  
   });
   
   Map<String, dynamic> toMap() {
@@ -17,6 +21,7 @@ class Patient {
       'name': name,
       'age': age,
       'mobile': mobile,
+      'patientSince': patientSince,  
     };
   }
 
@@ -26,6 +31,7 @@ class Patient {
       name: map['name'] ?? '', 
       age: map['age'] ?? null,  
       mobile: map['mobile'] ?? '',
+      patientSince: map['patientSince'] as Timestamp?,  
     );
   }
 }

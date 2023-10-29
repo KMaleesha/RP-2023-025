@@ -17,6 +17,7 @@ import '../../PositionalValueDetection/Screens/PositionalErrorDetection.dart';
 import '../../PositionalValueDetection/Screens/letterErrorDetails.dart';
 import '../../PositionalValueDetection/Screens/letterErrorDetection.dart';
 import '../../PositionalValueDetection/Screens/markCalculation.dart';
+import '../../TherapistManagement/screens/audio_list.dart';
 import '../../TherapistManagement/screens/therapist_dashboard.dart';
 import '../../ScreenTest/HomeScreen.dart';
 import '../../ScreenTest/ListWords.dart';
@@ -40,7 +41,7 @@ class _HomeScreenAllState extends State<HomeScreenAll> {
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   }
 
-  bool roleCheck = false;
+  int roleCheck = 0;
   User? user = FirebaseAuth.instance.currentUser;
   UserModel loggedInUser = UserModel();
   int role = 0;
@@ -55,11 +56,9 @@ class _HomeScreenAllState extends State<HomeScreenAll> {
 
     role = userDoc.get('role') ?? 0;
     print("role $role");
-    if (role == 2) {
-      setState(() {
-        roleCheck = true;
-      });
-    }
+    setState(() {
+      roleCheck = role;
+    });
 
     return role;
   }
@@ -69,27 +68,23 @@ class _HomeScreenAllState extends State<HomeScreenAll> {
       PlanetInfo(1,
           name: 'අකුරු වැරදි ',
           iconImage: Configt.letterError,
-          description:
-          ""  ,          images: [
-          ]),
+          description: "",
+          images: []),
       PlanetInfo(2,
           name: 'පැවරුම්',
           iconImage: Configt.exercise,
-          description:
-          ""  ,          images: [
-          ]),
+          description: "",
+          images: []),
       PlanetInfo(3,
           name: 'ගේම්ස්',
           iconImage: Configt.games,
-          description: ""  ,
-          images: [
-          ]),
-      if(roleCheck)
+          description: "",
+          images: []),
+      if (role == 0)
         PlanetInfo(4,
-            name: ' Therapist',
+            name: '       ප්‍රතිචාර',
             iconImage: Configt.therapist,
-            description:
-            ""  ,
+            description: "",
             images: [
               // 'https://d2pn8kiwq2w21t.cloudfront.net/images/imagesmars20160421PIA00407-16.width-1320.jpg',
               // 'https://solarsystem.nasa.gov/rails/active_storage/blobs/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBaDRTIiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--57fdc4ee44fe502a585880710f8113dd538c2a08/marspolarcrater_1600.jpg?disposition=attachment',
@@ -97,7 +92,18 @@ class _HomeScreenAllState extends State<HomeScreenAll> {
               // 'https://www.nasa.gov/sites/default/files/styles/full_width_feature/public/thumbnails/image/pia25450.jpeg',
               // 'https://www.nasa.gov/sites/default/files/styles/full_width_feature/public/thumbnails/image/pia24420.jpeg',
             ]),
-
+      if (role == 2)
+        PlanetInfo(5,
+            name: '       Therapist',
+            iconImage: Configt.therapist,
+            description: "",
+            images: [
+              // 'https://d2pn8kiwq2w21t.cloudfront.net/images/imagesmars20160421PIA00407-16.width-1320.jpg',
+              // 'https://solarsystem.nasa.gov/rails/active_storage/blobs/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBaDRTIiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--57fdc4ee44fe502a585880710f8113dd538c2a08/marspolarcrater_1600.jpg?disposition=attachment',
+              // 'https://solarsystem.nasa.gov/rails/active_storage/blobs/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBcGNSIiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--50b01c602bd1b0830fd2c2727220c4c1558e2ab5/PIA00567.jpg?disposition=attachment',
+              // 'https://www.nasa.gov/sites/default/files/styles/full_width_feature/public/thumbnails/image/pia25450.jpeg',
+              // 'https://www.nasa.gov/sites/default/files/styles/full_width_feature/public/thumbnails/image/pia24420.jpeg',
+            ]),
     ];
     return planets;
   }
@@ -109,7 +115,6 @@ class _HomeScreenAllState extends State<HomeScreenAll> {
     width = MediaQuery.of(context).size.width;
     height = MediaQuery.of(context).size.height;
     return Scaffold(
-
       backgroundColor: gradientEndColor,
       body: Column(
         children: [
@@ -132,7 +137,6 @@ class _HomeScreenAllState extends State<HomeScreenAll> {
               ),
             ]),
           ),
-
           Container(
             decoration: BoxDecoration(
                 gradient: LinearGradient(
@@ -216,13 +220,22 @@ class _HomeScreenAllState extends State<HomeScreenAll> {
                                 MaterialPageRoute(
                                     builder: (context) => HomeScreen()),
                               );
-                            }else if (displayPlanets[index].position == 3) {
+                            } else if (displayPlanets[index].position == 3) {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => DataEntryScreen()),
                               );
-                            }else if (displayPlanets[index].position == 4) {
+                            } else if (displayPlanets[index].position == 4) {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => AudioList(
+                                      uid:
+                                          user?.uid ?? ''), // pass the uid here
+                                ),
+                              );
+                            } else if (displayPlanets[index].position == 5) {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
@@ -240,20 +253,23 @@ class _HomeScreenAllState extends State<HomeScreenAll> {
                                   ),
                                   Card(
                                     shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(32)),
+                                        borderRadius:
+                                            BorderRadius.circular(32)),
                                     elevation: 8,
                                     color: Colors.white,
                                     child: Padding(
                                       padding: const EdgeInsets.all(32.0),
                                       child: Column(
                                         crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                            CrossAxisAlignment.start,
                                         children: <Widget>[
                                           const SizedBox(
                                             height: 100,
                                           ),
                                           Text(
-                                            displayPlanets[index].name.toString(),
+                                            displayPlanets[index]
+                                                .name
+                                                .toString(),
                                             style: const TextStyle(
                                                 fontSize: 40,
                                                 fontFamily: 'Avenir',
@@ -271,8 +287,8 @@ class _HomeScreenAllState extends State<HomeScreenAll> {
                                           //   textAlign: TextAlign.left,
                                           // ),
                                           Padding(
-                                            padding:
-                                            const EdgeInsets.only(top: 32.0),
+                                            padding: const EdgeInsets.only(
+                                                top: 32.0),
                                             child: Row(
                                               children: [
                                                 Text(
@@ -281,7 +297,8 @@ class _HomeScreenAllState extends State<HomeScreenAll> {
                                                       fontSize: 16,
                                                       fontFamily: 'Avenir',
                                                       color: secondaryTextColor,
-                                                      fontWeight: FontWeight.w400),
+                                                      fontWeight:
+                                                          FontWeight.w400),
                                                   textAlign: TextAlign.left,
                                                 ),
                                                 Icon(
@@ -300,8 +317,9 @@ class _HomeScreenAllState extends State<HomeScreenAll> {
                               ),
                               Hero(
                                   tag: displayPlanets[index].position,
-                                  child: Image.asset(
-                                      displayPlanets[index].iconImage.toString()))
+                                  child: Image.asset(displayPlanets[index]
+                                      .iconImage
+                                      .toString()))
                             ],
                           ),
                         );
@@ -309,7 +327,7 @@ class _HomeScreenAllState extends State<HomeScreenAll> {
                     ),
                   ),
                 )
-            ],
+              ],
             ),
           ),
         ],

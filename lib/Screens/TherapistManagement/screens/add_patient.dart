@@ -35,7 +35,7 @@ class _AddPatientState extends State<AddPatient> {
   }
 
   Future<void> _getDoctorPatients() async {
-    currentPatients.clear(); 
+    currentPatients.clear();
     QuerySnapshot querySnapshot = await FirebaseFirestore.instance
         .collection('users')
         .doc(doctorUser?.uid)
@@ -73,7 +73,10 @@ class _AddPatientState extends State<AddPatient> {
         .doc(doctorUser?.uid)
         .collection('patients')
         .doc(patient.uid)
-        .set(patient.toMap());
+        .set({
+      ...patient.toMap(),
+      'patientSince': FieldValue.serverTimestamp(), // New field
+    });
 
     if (widget.onPatientAdded != null) {
       widget.onPatientAdded!();
