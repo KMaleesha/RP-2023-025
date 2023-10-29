@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:Katha/Screens/ScreenTest/InCorrect.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'dart:ui';
@@ -52,11 +53,21 @@ class _InCorrectFinalState extends State<InCorrectFinal> {
     final url = await player.load("S5.wav");
     audioPlayer.setSourceUrl(url.path);
   }
+  Future<bool> _onWillPop() async {
+    Navigator.of(context).pushReplacement(
+      MaterialPageRoute(
+        builder: (context) =>  const InCorrect(),
+      ),
+    );
+    audioPlayer.dispose();
+    audioPlayer.pause();
+    return false; // Prevents the app from exiting
+  }
+
   @override
   void dispose() {
-
-    audioPlayer.dispose();  audioPlayer.pause();audioPlayer.pause();
     audioPlayer.pause();
+    audioPlayer.dispose();
     super.dispose();
   }
   /////////////////3
@@ -65,7 +76,8 @@ class _InCorrectFinalState extends State<InCorrectFinal> {
     double fem = 1.0; // Your factor value
     double ffem = 1.0; // Your factor value
 
-    return SafeArea(
+    return  WillPopScope(
+      onWillPop: _onWillPop,
       child: Scaffold(
         body: Container(
 
