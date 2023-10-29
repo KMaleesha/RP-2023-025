@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
 class ApiService {
   Future<Map<String, dynamic>> fetchPost(String inputWord) async {
     final response = await http.post(
-      Uri.parse('http://192.168.8.142:5000/API_Word'), // replace with your API's URL
+      Uri.parse('http://192.168.8.168:5000/API_Word'), // replace with your API's URL
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
