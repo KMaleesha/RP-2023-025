@@ -14,7 +14,11 @@ Future<String> transcribeAudio(String url) async {
     await ref.writeToFile(tempFile);
 
     // Step 2: Create multipart request
-    final uri = Uri.parse("http://10.0.2.2:5000/voiceUpload");
+    // final uri = Uri.parse("http://10.0.2.2:5000/voiceUpload");
+    // final uri = Uri.parse("http://127.0.0.1:5000/voiceUpload");
+    final uri = Uri.parse("http://192.168.8.168:3000/voiceUpload");
+
+
     var request = http.MultipartRequest('POST', uri)
       ..files.add(await http.MultipartFile.fromPath('audio', tempFile.path));
 

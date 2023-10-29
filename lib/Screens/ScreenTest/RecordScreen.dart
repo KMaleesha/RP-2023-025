@@ -110,7 +110,7 @@ class _RecordScreenState extends State<RecordScreen> {
       uploadAudio(File(_audioPath!), 'balla');
     });
   }
-
+/////////////////////////////////////////////////
   Future<void> uploadAudio(File audioFile, String inputWord) async {
     print("uploadAudio Called");
     try {
@@ -281,10 +281,8 @@ class _RecordScreenState extends State<RecordScreen> {
                     ),
                   ),
                 ),
-                Positioned(
-                  top: 70,
-                  left: 0,
-                  right: 0,
+                Padding(
+                  padding: EdgeInsets.only(top: 20),
                   child: Container(
                     child: Align(
                       alignment: Alignment.center,
@@ -309,10 +307,8 @@ class _RecordScreenState extends State<RecordScreen> {
                 SizedBox(
                   height: fem*10,
                 ),
-                Positioned(
-                  left: 0,
-                  right: 0,
-                  top: 60,
+                Padding(
+                  padding: EdgeInsets.only(top: 20),
                   child: Align(
                     child: Image.asset(
                       'assets/screenTestAssets/DogIn.gif',
@@ -322,53 +318,101 @@ class _RecordScreenState extends State<RecordScreen> {
                 SizedBox(
                   height: fem*40,
                 ),
-                Container(
-                  decoration: BoxDecoration(
-                    boxShadow: [
-                      BoxShadow(
-                          color: Colors.black26,
-                          offset: Offset(0, 4),
-                          blurRadius: 5.0
-                      )
-                    ],
-                    gradient: LinearGradient(
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                      stops: [0.0, 1.0],
-                      colors: [
-                        Color(0xffa00000), // Red shade
-                        Color(0xffff0000), // Pure red
-                      ],
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+
+                    if(_isRecording == false)
+                    Container(
+                      decoration: BoxDecoration(
+                        boxShadow: [
+                          BoxShadow(
+                              color: Colors.black26,
+                              offset: Offset(0, 4),
+                              blurRadius: 5.0
+                          )
+                        ],
+                        gradient: LinearGradient(
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                          stops: [0.0, 1.0],
+                          colors: [
+                            Color(0xffa00000), // Red shade
+                            Color(0xffff0000), // Pure red
+                          ],
+                        ),
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                      child: ElevatedButton(
+                        style: ButtonStyle(
+                          minimumSize: MaterialStateProperty.all(Size(fem * 1.1, 60)),
+                          backgroundColor: MaterialStateProperty.all(Colors.transparent),
+                          shadowColor: MaterialStateProperty.all(Colors.transparent),
+                        ),
+                        onPressed: ()  {
+                          setState(() {
+                            _isRecording = true;
+                            _startRecording();
+                            audioPlayer.dispose();
+                            audioPlayer.pause();
+                          });
+
+
+
+                        },
+                        child:  Icon(Icons.mic, color: Colors.white),
+
+                      ),
+
                     ),
-                    borderRadius: BorderRadius.circular(30),
-                  ),
-                  child: ElevatedButton(
-                    child: _isRecording
-                        ? SpinKitCircle(
-                      color: Colors.white,
-                      size: 50.0,
-                    )
-                        : Text(
-                      '',
+                    SizedBox(width: 4,),
+                    if(_isRecording )
+                    Container(
+                      decoration: BoxDecoration(
+                        boxShadow: [
+                          BoxShadow(
+                              color: Colors.black26,
+                              offset: Offset(0, 4),
+                              blurRadius: 5.0
+                          )
+                        ],
+                        gradient: LinearGradient(
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                          stops: [0.0, 1.0],
+                          colors: [
+                            Color(0xffa00000), // Red shade
+                            Color(0xffff0000), // Pure red
+                          ],
+                        ),
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                      child: ElevatedButton(
+                        style: ButtonStyle(
+                          minimumSize: MaterialStateProperty.all(Size(fem * 1.1, 60)),
+                          backgroundColor: MaterialStateProperty.all(Colors.transparent),
+                          shadowColor: MaterialStateProperty.all(Colors.transparent),
+                        ),
+                          onPressed: () {
+                            setState(() {
+                              _isRecording = false;
+                              _stopRecording();
+                              audioPlayer.dispose();
+                              audioPlayer.pause();
+                            });
+
+
+                          },
+
+                          child: SpinKitCircle(
+                          color: Colors.white,
+                          size: 50.0,
+                        )
+
+                      ),
+
                     ),
-                    style: ButtonStyle(
-                      minimumSize: MaterialStateProperty.all(Size(fem * 1.1, 60)), // Increase size
-                      backgroundColor:
-                      MaterialStateProperty.all(Colors.transparent),
-                      shadowColor:
-                      MaterialStateProperty.all(Colors.transparent),
-                    ),
-                    onPressed: (){
-                      audioPlayer.dispose();
-                      audioPlayer.pause();
-                      audioPlayer.pause();
-                      if (_isRecording) {
-                        _stopRecording();
-                      } else {
-                        _startRecording();
-                      }
-                    },
-                  ),
+                  ],
                 ),
 
               ],
