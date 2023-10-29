@@ -7,6 +7,7 @@ class AudioModel {
   final DateTime? date;
   final bool? result;
   String? feedback; 
+  String? transcribedtext;
 
   AudioModel({
     required this.id,
@@ -15,6 +16,7 @@ class AudioModel {
     this.date,
     this.feedback, 
     this.result, 
+    this.transcribedtext,
   });
 
   factory AudioModel.fromMap(Map<String, dynamic> map, String id) {
@@ -25,6 +27,7 @@ class AudioModel {
       result: map['result'] as bool?,
       date: (map['date'] as Timestamp?)?.toDate(),
       feedback: map['feedback'] as String?, 
+      transcribedtext: map['transcribedtext'] as String?,
     );
   }
 }
