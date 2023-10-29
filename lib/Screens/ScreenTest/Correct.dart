@@ -8,6 +8,7 @@ import 'HomeScreen.dart';
 import 'package:audioplayers/audioplayers.dart';
 
 import 'ListWords.dart';
+import 'RecordScreen.dart';
 
 
 class Correct extends StatefulWidget {
@@ -43,6 +44,16 @@ class _CorrectState extends State<Correct> {
     });
     audioPlayer.resume();
   }
+  Future<bool> _onWillPop() async {
+    Navigator.of(context).pushReplacement(
+      MaterialPageRoute(
+        builder: (context) => RecordScreen(),
+      ),
+    );
+    audioPlayer.dispose();
+    audioPlayer.pause();
+    return false; // Prevents the app from exiting
+  }
   //function to initialize audio
   Future setAudio() async {
     audioPlayer.setReleaseMode(ReleaseMode.loop);
@@ -54,9 +65,8 @@ class _CorrectState extends State<Correct> {
   }
   @override
   void dispose() {
-
-    audioPlayer.dispose();  audioPlayer.pause();
     audioPlayer.pause();
+    audioPlayer.dispose();
     super.dispose();
   }
   /////////////////3
@@ -65,7 +75,8 @@ class _CorrectState extends State<Correct> {
     double fem = 1.0; // Your factor value
     double ffem = 1.0; // Your factor value
 
-    return SafeArea(
+    return  WillPopScope(
+      onWillPop: _onWillPop,
       child: Scaffold(
         body: Container(
 
@@ -183,28 +194,12 @@ class _CorrectState extends State<Correct> {
                       children: [
                         // First image (bottom layer)
                         Image.asset(
-                          'assets/screenTestAssets/correct.jpg',
+                          'assets/screenTestAssets/correct.gif',
                           fit: BoxFit.cover,
                           width: 500,
                           height: 700,
                         ),
                         // Second image (top layer)
-
-                        Positioned(
-                          left: 0,
-                          right: 0,
-                          bottom: 0, // Move it further down relative to the bottom edge
-                          child: Align(
-                            alignment: Alignment.bottomCenter,
-                            child: Padding(
-                              padding: const EdgeInsets.only(bottom: 20), // 20 pixels padding at the bottom
-                              child: Image.asset(
-                                'assets/screenTestAssets/g2.gif',  // Replace this with your actual asset path
-                                fit: BoxFit.contain,
-                              ),
-                            ),
-                          ),
-                        ),
 
                         // Positioned(
                         //   left: 0,

@@ -115,15 +115,18 @@ flutter:
     - assets/gameAssets/songs/loseAudio.mp3
     - assets/gameAssets/songs/questionWords/hawa.wav
     - assets/logoGif.gif
-    - assets/screenTestAssets/incorrect.jpg
-    - assets/screenTestAssets/correct.jpg
+    - assets/screenTestAssets/incorrect.png
+    - assets/screenTestAssets/correct.gif
     - assets/screenTestAssets/HowTo.jpg
+    - assets/screenTestAssets/HowTo2.gif
+    - assets/screenTestAssets/HowTo2.mp4
     - assets/screenTestAssets/g2.gif
     - assets/screenTestAssets/VoiceOver/S1.wav
     - assets/screenTestAssets/VoiceOver/S2.wav
     - assets/screenTestAssets/VoiceOver/S3_3.wav
     - assets/screenTestAssets/VoiceOver/S4_1.wav
     - assets/screenTestAssets/VoiceOver/S4_2.wav
+    - assets/screenTestAssets/VoiceOver/S4_3.wav
     - assets/screenTestAssets/VoiceOver/S5.wav
     - assets/screenTestAssets/VoiceOver/
     - assets/loginImage.jpg

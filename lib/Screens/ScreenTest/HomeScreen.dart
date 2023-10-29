@@ -43,6 +43,18 @@ class _HomeScreenState extends State<HomeScreen> {
     });
     audioPlayer.resume();
   }
+
+  Future<bool> _onWillPop() async {
+    Navigator.of(context).pushReplacement(
+      MaterialPageRoute(
+        builder: (context) =>  const HomeScreenAll(),
+      ),
+    );
+    audioPlayer.dispose();
+    audioPlayer.pause();
+    return false; // Prevents the app from exiting
+  }
+
   //function to initialize audio
   Future setAudio() async {
     audioPlayer.setReleaseMode(ReleaseMode.loop);
@@ -55,8 +67,8 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void dispose() {
 
-    audioPlayer.dispose();  audioPlayer.pause();  audioPlayer.pause();
     audioPlayer.pause();
+    audioPlayer.dispose();
     super.dispose();
   }
   /////////////////3
@@ -65,10 +77,12 @@ class _HomeScreenState extends State<HomeScreen> {
     double fem = 1.0; // Your factor value
     double ffem = 1.0; // Your factor value
 
-    return SafeArea(
+    return  WillPopScope(
+      onWillPop: _onWillPop,
       child: Scaffold(
         body: Container(
 
+          color: Colors.greenAccent,  // Add this line to set the background color
           width: double.infinity,
           height: 807 * fem,
           child: Stack(
@@ -178,7 +192,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
               Positioned(
-                top: 70,
+                top: 90,
                 left: 0,
                 right: 0,
                 child: Container(
@@ -190,8 +204,8 @@ class _HomeScreenState extends State<HomeScreen> {
                       begin: Alignment(0.407, -1),
                       end: Alignment(-0.407, 1),
                       colors: <Color>[
-                        Color(0xff24d0a7),
-                        Color(0xff24d0a7),
+                        Color(0x69F0AE),
+                        Color(0x69F0AE),
                       ],
                       stops: <double>[0, 1],
                     ),
@@ -201,39 +215,57 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: Text(
                       'වචන සෙල්ලම',
                       style: TextStyle(
-                        fontSize: 28,
+                        fontSize: 34,
                         fontWeight: FontWeight.bold,
                         color: Color(0xff0e510d),
                         shadows: [
                           Shadow(
-                            color: Colors.greenAccent,
-                            blurRadius: 2,
+                            color: Colors.green[200]!, // This is a lighter green.
+                            blurRadius: 6,
                             offset: Offset(1, 1),
+                          ),
+                          Shadow(
+                            color: Colors.green[200]!, // You can add more shadows for a stronger glow effect.
+                            blurRadius: 6,
+                            offset: Offset(-1, -1),
+                          ),
+                          Shadow(
+                            color: Colors.green[200]!,
+                            blurRadius: 6,
+                            offset: Offset(1, -1),
+                          ),
+                          Shadow(
+                            color: Colors.green[200]!,
+                            blurRadius: 6,
+                            offset: Offset(-1, 1),
                           ),
                         ],
                       ),
                     ),
                   ),
+
                 ),
               ),
 
 
         // ... (rest of the code above)
-        Positioned(
-          left: 0,
-          right: 0,
-          top: 140,
-          child: Align(
-            child: SizedBox(
-              width: 500,  // Increased width from 400 to 500
-              height: 700, // Keep the existing height or adjust as needed
-              child: Image.asset(
-                'assets/screenTestAssets/HomeScreen.gif',
-                fit: BoxFit.cover,
+              Positioned(
+                left: 0,
+                right: 0,
+                top: 200,
+                child: Align(
+                  alignment: Alignment.centerLeft,  // Align to the left to ensure the hand is visible
+                  child: SizedBox(
+                    width: 500,
+                    height: 600,  // Increased the height from 700 to 800
+                    child: Image.asset(
+                      'assets/screenTestAssets/HomeScreen.gif',
+                      fit: BoxFit.cover,  // Using BoxFit.cover to ensure it covers the space without whitespace
+                    ),
+                  ),
+                ),
               ),
-            ),
-          ),
-        ),
+
 // ... (rest of the code below)
               ///
               Positioned(

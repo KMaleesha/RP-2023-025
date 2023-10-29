@@ -27,7 +27,7 @@ class _ListWordsState extends State<ListWords> {
     });
 
     //startvoice recorder
-    Timer(Duration(seconds: 5), () {
+    Timer(Duration(seconds: 2), () {
       _handleTap();
     });
     /////////////////2
@@ -49,11 +49,22 @@ class _ListWordsState extends State<ListWords> {
     final url = await player.load("S2.wav");
     audioPlayer.setSourceUrl(url.path);
   }
+
+  Future<bool> _onWillPop() async {
+    Navigator.of(context).pushReplacement(
+      MaterialPageRoute(
+        builder: (context) =>  const HomeScreen(),
+      ),
+    );
+    audioPlayer.dispose();
+    audioPlayer.pause();
+    return false; // Prevents the app from exiting
+  }
+
   @override
   void dispose() {
-
-    audioPlayer.dispose();  audioPlayer.pause();
     audioPlayer.pause();
+    audioPlayer.dispose();
     super.dispose();
   }
   /////////////////3
@@ -62,7 +73,8 @@ class _ListWordsState extends State<ListWords> {
     double fem = 1.0; // Set the value of fem according to your requirements
     double ffem = 1.0; // Set the value of ffem according to your requirements
 
-    return SafeArea(
+    return  WillPopScope(
+      onWillPop: _onWillPop,
       child: Scaffold(
         body: Container(
           width: double.infinity,
