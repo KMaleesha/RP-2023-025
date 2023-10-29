@@ -420,10 +420,10 @@ class Assets {
   static const String assetsLogo = 'assets/logo.jpg';
   static const String assetsLogoGif = 'assets/logoGif.gif';
   static const String assetsPhonologicalAssetsBackgroundImage = 'assets/phonologicalAssets/background_image.jpg';
+  static const String assetsPhonologicalAssetsBackgroundImage0 = 'assets/phonologicalAssets/background_image0.jpg';
   static const String assetsPhonologicalAssetsBackgroundImage1 = 'assets/phonologicalAssets/background_image1.jpg';
   static const String assetsPhonologicalAssetsBackgroundImage2 = 'assets/phonologicalAssets/background_image2.jpg';
   static const String assetsPhonologicalAssetsBackgroundImage3 = 'assets/phonologicalAssets/background_image3.jpeg';
-  static const String assetsScreenTestAssetsCorrect = 'assets/screenTestAssets/correct.jpg';
   static const String assetsScreenTestAssetsDogIn = 'assets/screenTestAssets/DogIn.gif';
   static const String assetsScreenTestAssetsDogList = 'assets/screenTestAssets/DogList.gif';
   static const String assetsScreenTestAssetsG2 = 'assets/screenTestAssets/g2.gif';
@@ -433,7 +433,6 @@ class Assets {
   static const String assetsScreenTestAssetsIconBack = 'assets/screenTestAssets/icon-back.png';
   static const String assetsScreenTestAssetsIconHome = 'assets/screenTestAssets/icon-home.png';
   static const String assetsScreenTestAssetsIconProfile = 'assets/screenTestAssets/icon-profile.png';
-  static const String assetsScreenTestAssetsIncorrect = 'assets/screenTestAssets/incorrect.jpg';
   static const String assetsScreenTestAssetsIncorrectFinal = 'assets/screenTestAssets/incorrectFinal.jpg';
   static const String assetsScreenTestAssetsSpiderList = 'assets/screenTestAssets/SpiderList.gif';
   static const String assetsScreenTestAssetsWordListBack = 'assets/screenTestAssets/wordListBack.jpg';
@@ -515,7 +514,9 @@ class Assets {
   static const String otherSmilingface = 'assets/gameAssets/images/other/smilingface.gif';
   static const String otherStars = 'assets/gameAssets/images/other/stars.json';
   static const String otherStars2 = 'assets/gameAssets/images/other/stars2.json';
+  static const String phonologicalAssetsBackgroud1 = 'assets/phonologicalAssets/backgroud1.jpeg';
   static const String phonologicalAssetsBackgroundImage = 'assets/phonologicalAssets/background_image.jpg';
+  static const String phonologicalAssetsBackgroundImage0 = 'assets/phonologicalAssets/background_image0.jpg';
   static const String phonologicalAssetsBackgroundImage1 = 'assets/phonologicalAssets/background_image1.jpg';
   static const String phonologicalAssetsBackgroundImage2 = 'assets/phonologicalAssets/background_image2.jpg';
   static const String phonologicalAssetsBackgroundImage3 = 'assets/phonologicalAssets/background_image3.jpeg';
@@ -525,7 +526,6 @@ class Assets {
   static const String questionWordsHariiii = 'assets/gameAssets/songs/questionWords/Hariiii.wav';
   static const String questionWordsHawa = 'assets/gameAssets/songs/questionWords/hawa.wav';
   static const String questionWordsUthsahakarankooo = 'assets/gameAssets/songs/questionWords/uthsahakarankooo.wav';
-  static const String screenTestAssetsCorrect = 'assets/screenTestAssets/correct.jpg';
   static const String screenTestAssetsDogIn = 'assets/screenTestAssets/DogIn.gif';
   static const String screenTestAssetsDogList = 'assets/screenTestAssets/DogList.gif';
   static const String screenTestAssetsG2 = 'assets/screenTestAssets/g2.gif';
@@ -536,6 +536,7 @@ class Assets {
   static const String screenTestAssetsIconHome = 'assets/screenTestAssets/icon-home.png';
   static const String screenTestAssetsIconProfile = 'assets/screenTestAssets/icon-profile.png';
   static const String screenTestAssetsIncorrect = 'assets/screenTestAssets/incorrect.jpg';
+  static const String screenTestAssetsIncorrect1 = 'assets/screenTestAssets/incorrect1.jpg';
   static const String screenTestAssetsIncorrectFinal = 'assets/screenTestAssets/incorrectFinal.jpg';
   static const String screenTestAssetsSpiderList = 'assets/screenTestAssets/SpiderList.gif';
   static const String screenTestAssetsVoiceOverS1 = 'assets/screenTestAssets/VoiceOver/S1.wav';
@@ -553,6 +554,9 @@ class Assets {
   static const String screenTestListWords = 'lib/Screens/ScreenTest/ListWords.dart';
   static const String screenTestRecordScreen = 'lib/Screens/ScreenTest/RecordScreen.dart';
   static const String screensAddPatient = 'lib/Screens/TherapistManagement/screens/add_patient.dart';
+  static const String screensApiService = 'lib/Screens/PositionalValueDetection/Screens/api_service.dart';
+  static const String screensAudioList = 'lib/Screens/TherapistManagement/screens/audio_list.dart';
+  static const String screensAudioOne = 'lib/Screens/TherapistManagement/screens/audio_one.dart';
   static const String screensConstants = 'lib/Screens/Users/screens/constants.dart';
   static const String screensDatas = 'lib/Screens/Users/screens/datas.dart';
   static const String screensHomeScreen = 'lib/Screens/Users/screens/homeScreen.dart';
@@ -560,12 +564,14 @@ class Assets {
   static const String screensLetterErrorDetection = 'lib/Screens/PositionalValueDetection/Screens/letterErrorDetection.dart';
   static const String screensLoginScreen = 'lib/Screens/Users/screens/loginScreen.dart';
   static const String screensMarkCalculation = 'lib/Screens/PositionalValueDetection/Screens/markCalculation.dart';
+  static const String screensMyApiResultScreen = 'lib/Screens/PositionalValueDetection/Screens/MyApiResultScreen.dart';
   static const String screensPatientAudio = 'lib/Screens/TherapistManagement/screens/patient_audio.dart';
   static const String screensPatientProfile = 'lib/Screens/TherapistManagement/screens/patient_profile.dart';
   static const String screensPositionalErrorDetection = 'lib/Screens/PositionalValueDetection/Screens/PositionalErrorDetection.dart';
   static const String screensSignUpScreen = 'lib/Screens/Users/screens/signUpScreen.dart';
   static const String screensTherapistDashboard = 'lib/Screens/TherapistManagement/screens/therapist_dashboard.dart';
   static const String screensUserHomeScreen = 'lib/Screens/Users/screens/userHomeScreen.dart';
+  static const String servicesTranscribeApi = 'lib/Screens/TherapistManagement/services/transcribe_api.dart';
   static const String songsLoseAudio = 'assets/gameAssets/songs/loseAudio.mp3';
   static const String songsQuestionPage = 'assets/gameAssets/songs/questionPage.mp3';
   static const String songsQuestionWordsHariiii = 'assets/gameAssets/songs/questionWords/Hariiii.wav';
