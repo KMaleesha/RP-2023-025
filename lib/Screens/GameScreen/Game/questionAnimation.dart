@@ -12,8 +12,11 @@ import 'package:flutter/services.dart';
 
 import 'package:lottie/lottie.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:record/record.dart';
+import 'package:permission_handler/permission_handler.dart';
+
 import '../../../utils/configt.dart';
+import '../../ScreenTest/Correct.dart';
+import '../../ScreenTest/InCorrect.dart';
 import 'imageSaveSharedPreferences.dart';
 import 'loserScreen.dart';
 import 'model/childImage.dart';
@@ -52,7 +55,7 @@ class _QuestionAnimationScreenState extends State<QuestionAnimationScreen>
   bool askA = false;
   bool isLoading = true;
   bool isUpload = false;
-
+  FlutterSoundRecorder? _recorder;
   @override
   void initState() {
     super.initState();
@@ -63,6 +66,8 @@ class _QuestionAnimationScreenState extends State<QuestionAnimationScreen>
         isLoading = false; // Content is now loaded
       });
     });
+    _recorder = FlutterSoundRecorder();
+    _recorder!.openAudioSession();
     getData();
     _player = FlutterSoundPlayer();
     _player?.openAudioSession();
@@ -270,15 +275,24 @@ class _QuestionAnimationScreenState extends State<QuestionAnimationScreen>
                       ],
                     ),
 
-                    Padding(
-                      padding: EdgeInsets.only(
-                          left: width * 0.7, top: height * 0.4),
-                      child: Container(
-                        width: 150,
-                        height: 150,
-                        alignment: Alignment.topLeft,
-                        child: Image.asset(Configt.app_hawa),
-                      ),
+                    GestureDetector(
+
+                        onTap: () {
+                          stopRecording();
+                          setState(() {
+                            isUpload = true;
+                          });
+                        },
+                      child: Padding(
+                        padding: EdgeInsets.only(
+                            left: width * 0.7, top: height * 0.4),
+                        child: Container(
+                          width: 150,
+                          height: 150,
+                          alignment: Alignment.topLeft,
+                          child: Image.asset(Configt.app_hawa),
+                        ),
+                     )
                     ),
                   ],
                 ),
@@ -372,69 +386,62 @@ class _QuestionAnimationScreenState extends State<QuestionAnimationScreen>
     print(" startRecording seconds 31 ");
     startRecording();
 
-    Timer(Duration(seconds: 5), () {
-      print(" Timer stopRecording seconds: 41");
-      stopRecording();
-      setState(() {
-        isUpload = true;
-      });
-    });
-    Timer(Duration(seconds: 8), () async {
-      print(" Timer  seconds:43 addnewvoice(); ");
-
-      await addnewvoice(File(_audioPath!), 'balla');
-
-      // startPlayback();
-      // Timer(Duration(seconds: 5), () {
-      //   print(" stopPlayback");
-      //   // stopPlayback();
-      // });
-    });
+    // Timer(Duration(seconds: 8), () {
+    //   print(" Timer stopRecording seconds: 41");
+    //   stopRecording();
+    //   setState(() {
+    //     isUpload = true;
+    //   });
+    // });
+    // Timer(Duration(seconds: 8), () async {
+    //   print(" Timer  seconds:43 addnewvoice(); ");
+    //
+    //   // stopRecording();
+    //
+    //   // startPlayback();
+    //   // Timer(Duration(seconds: 5), () {
+    //   //   print(" stopPlayback");
+    //   //   // stopPlayback();
+    //   // });
+    // });
   }
 
   Future<void> startRecording() async {
-    print("Start Recording - Entry");
+    print("_startRecording Called");
     try {
-      Record record = Record();
-      if (await record.hasPermission()) {
-        print("startRecording() hasPermission ");
+      if (await Permission.microphone.isGranted) { // Correct way to check for microphone permission
         Directory tempDir = await getTemporaryDirectory();
         String tempPath = tempDir.path + '/audio.wav';
-        await record.start(path: tempPath);
+        await _recorder!.startRecorder(toFile: tempPath);
         setState(() {
-          askQ = false;
-          askA = true;
-
-          // _isRecording = true;
+          _isRecording = true;
           _audioPath = tempPath;
-          print("tempPath $tempPath");
+          askA = true;
+          askQ = false;
         });
-        print("Start Recording - _audioPath: $_audioPath");
+      } else {
+        print("Permission Denied");
       }
     } catch (e) {
-      print("startRecording() has no Permission");
-      print(e);
+      print("Error in _startRecording: $e");
     }
   }
   Future<void> stopRecording() async {
-    print(" stopRecording ");
-    print("Stop Recording - Entry");
+    print("_stopRecording Called");
     try {
-      Record record = Record();
-      String? path = await record.stop();
-      if (path != null) {
-        setState(() {
-          askQ = false;
-          askA = false;
-          // _isRecording = false;
-          _audioPath = path;
-          print(" path $path");
-        }); // Call the upload method here
-        print("Stop Recording - _audioPath: $_audioPath");
-      }
+      await _recorder!.stopRecorder();
+      setState(() {
+        _isRecording = false;
+        askA = false;
+      });
     } catch (e) {
-      print(e);
+      print("Error in _stopRecording: $e");
     }
+
+    Timer(Duration(seconds: 1), () {
+      print("Timer inside _stopRecording fired");
+      addnewvoice(File(_audioPath!), 'balla');
+    });
   }
 
   Future<void> addnewvoice(File audioFile, String inputWord) async {
