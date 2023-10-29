@@ -115,7 +115,8 @@ class _WordDetailScreenState extends State<WordDetailScreen> {
 
           final audio = snapshot.data!;
           feedbackController.text = audio.feedback ?? '';
-          transcribedText = audio.transcribedtext ?? 'Transcribed text will appear here'; 
+          transcribedText =
+              audio.transcribedtext ?? 'Transcribed text will appear here';
           final formattedDate = audio.date != null
               ? DateFormat('yyyy-MM-dd hh:mm a').format(audio.date!)
               : "Unknown date";
@@ -333,13 +334,26 @@ class _WordDetailScreenState extends State<WordDetailScreen> {
                                           await transcribeAudio(
                                               audio.url ?? "");
 
-                                      // Save to Firestore
-                                      await saveTranscribedText(transcribed);
+                                      // Check if the returned string is an error message
+                                      if (!transcribed.startsWith("Error:") &&
+                                          !transcribed.startsWith(
+                                              "Failed to transcribe")) {
+                                        // Save to Firestore
+                                        await saveTranscribedText(transcribed);
 
-                                      // Update the state
-                                      setState(() {
-                                        transcribedText = transcribed;
-                                      });
+                                        // Update the state
+                                        setState(() {
+                                          transcribedText = transcribed;
+                                        });
+                                      } else {
+                                        // Handle the error scenario, maybe show a toast message or alert dialog
+                                        Fluttertoast.showToast(
+                                          msg:
+                                              'Transcription Error',
+                                          toastLength: Toast.LENGTH_LONG,
+                                          gravity: ToastGravity.BOTTOM,
+                                        );
+                                      }
                                     },
                                     child: Text("Transcribe Audio"),
                                   ),
