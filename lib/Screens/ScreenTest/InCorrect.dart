@@ -2,12 +2,12 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:record/record.dart';
 import 'dart:ui';
 import '../Users/screens/homeScreen.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'HowToSpeak.dart';
-
-import 'ListWords.dart';
+import 'RecordScreen.dart';
 
 
 class InCorrect extends StatefulWidget {
@@ -43,6 +43,18 @@ class _InCorrectState extends State<InCorrect> {
     });
     audioPlayer.resume();
   }
+
+  Future<bool> _onWillPop() async {
+    Navigator.of(context).pushReplacement(
+      MaterialPageRoute(
+        builder: (context) => RecordScreen(),
+      ),
+    );
+    audioPlayer.dispose();
+    audioPlayer.pause();
+    return false; // Prevents the app from exiting
+  }
+
   //function to initialize audio
   Future setAudio() async {
     audioPlayer.setReleaseMode(ReleaseMode.loop);
@@ -54,18 +66,17 @@ class _InCorrectState extends State<InCorrect> {
   }
   @override
   void dispose() {
-
-    audioPlayer.dispose();  audioPlayer.pause();
     audioPlayer.pause();
+    audioPlayer.dispose();
     super.dispose();
   }
-  /////////////////3
   @override
   Widget build(BuildContext context) {
     double fem = 1.0; // Your factor value
     double ffem = 1.0; // Your factor value
 
-    return SafeArea(
+    return  WillPopScope(
+      onWillPop: _onWillPop,
       child: Scaffold(
         body: Container(
 
@@ -101,7 +112,7 @@ class _InCorrectState extends State<InCorrect> {
                             child: ElevatedButton(
                               onPressed: () {
                                 audioPlayer.pause();
-                                audioPlayer.dispose();  audioPlayer.pause();
+                                audioPlayer.dispose();
                                 Navigator.of(context).push(MaterialPageRoute(
                                   builder: (context) => HomeScreenAll(),
                                 ));
@@ -128,7 +139,7 @@ class _InCorrectState extends State<InCorrect> {
                                 child: ElevatedButton(
                                   onPressed: () {
                                     audioPlayer.pause();
-                                    audioPlayer.dispose();  audioPlayer.pause();
+                                    audioPlayer.dispose();
                                     Navigator.of(context).push(MaterialPageRoute(
                                       builder: (context) => HowToSpeak(),
                                     ));
@@ -184,7 +195,7 @@ class _InCorrectState extends State<InCorrect> {
                     width: 500,
                     height: 700,
                     child: Image.asset(
-                      'assets/screenTestAssets/incorrect.jpg',
+                      'assets/screenTestAssets/incorrect.png',
                       fit: BoxFit.cover,
 
                     ),
@@ -198,7 +209,7 @@ class _InCorrectState extends State<InCorrect> {
         child: GestureDetector(
           onTap: () {
             audioPlayer.pause();
-            audioPlayer.dispose();  audioPlayer.pause();
+            audioPlayer.dispose();
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => HowToSpeak()),

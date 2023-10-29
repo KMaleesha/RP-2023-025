@@ -41,6 +41,7 @@ dependencies:
   flutter_spinkit: ^5.0.0
   flutter_swiper_plus: ^2.0.4
 
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -115,20 +116,24 @@ flutter:
     - assets/gameAssets/songs/loseAudio.mp3
     - assets/gameAssets/songs/questionWords/hawa.wav
     - assets/logoGif.gif
-    - assets/screenTestAssets/incorrect.jpg
-    - assets/screenTestAssets/correct.jpg
+    - assets/screenTestAssets/incorrect.png
+    - assets/screenTestAssets/correct.gif
     - assets/screenTestAssets/HowTo.jpg
+    - assets/screenTestAssets/HowTo2.gif
+    - assets/screenTestAssets/HowTo2.mp4
     - assets/screenTestAssets/g2.gif
     - assets/screenTestAssets/VoiceOver/S1.wav
     - assets/screenTestAssets/VoiceOver/S2.wav
     - assets/screenTestAssets/VoiceOver/S3_3.wav
     - assets/screenTestAssets/VoiceOver/S4_1.wav
     - assets/screenTestAssets/VoiceOver/S4_2.wav
+    - assets/screenTestAssets/VoiceOver/S4_3.wav
     - assets/screenTestAssets/VoiceOver/S5.wav
     - assets/screenTestAssets/VoiceOver/
     - assets/loginImage.jpg
     - assets/screenTestAssets/incorrectFinal.jpg
     - assets/phonologicalAssets/backgroud1.jpeg.
+    - assets/phonologicalAssets/background_image0.jpg
     - assets/phonologicalAssets/background_image.jpg
     - assets/phonologicalAssets/background_image1.jpg
     - assets/phonologicalAssets/background_image2.jpg
