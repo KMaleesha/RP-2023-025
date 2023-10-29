@@ -382,7 +382,7 @@ class _QuestionAnimationScreenState extends State<QuestionAnimationScreen>
     Timer(Duration(seconds: 8), () async {
       print(" Timer  seconds:43 addnewvoice(); ");
 
-      await addnewvoice(File(_audioPath!), 'hawa');
+      await addnewvoice(File(_audioPath!), 'balla');
 
       // startPlayback();
       // Timer(Duration(seconds: 5), () {
@@ -416,7 +416,6 @@ class _QuestionAnimationScreenState extends State<QuestionAnimationScreen>
       print(e);
     }
   }
-
   Future<void> stopRecording() async {
     print(" stopRecording ");
     print("Stop Recording - Entry");
@@ -445,7 +444,7 @@ class _QuestionAnimationScreenState extends State<QuestionAnimationScreen>
       print("uploadAudio Called");
       try {
         var request = http.MultipartRequest(
-            'POST', Uri.parse('http://192.168.8.168:5000/predict'));
+            'POST', Uri.parse('http://192.168.8.168:7000/predict'));
         request.fields['input_word'] = inputWord;
         request.files.add(http.MultipartFile.fromBytes(
             'audio_file', await audioFile.readAsBytes(),
@@ -463,17 +462,17 @@ class _QuestionAnimationScreenState extends State<QuestionAnimationScreen>
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => WinnerScreen(),
+                builder: (context) => LoserScreen(),
               ),
             );
           }
-          if (parsedJson['result'] == "Wrong Answer") {
+         if (parsedJson['result'] == "Wrong Answer") {
             audioPlayer.dispose();
             audioPlayer.pause();
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => LoserScreen(),
+                builder: (context) => WinnerScreen(),
               ),
             );
           }

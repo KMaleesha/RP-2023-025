@@ -114,7 +114,7 @@ class _RecordScreenState extends State<RecordScreen> {
   Future<void> uploadAudio(File audioFile, String inputWord) async {
     print("uploadAudio Called");
     try {
-      var request = http.MultipartRequest('POST', Uri.parse('http://192.168.8.181:5000/predict'));
+      var request = http.MultipartRequest('POST', Uri.parse('http://192.168.8.168:5000/predict'));
       request.fields['input_word'] = inputWord;
       request.files.add(http.MultipartFile.fromBytes('audio_file', await audioFile.readAsBytes(), filename: 'audio.wav'));
 
