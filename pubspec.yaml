@@ -120,7 +120,7 @@ flutter:
     - assets/screenTestAssets/correct.gif
     - assets/screenTestAssets/HowTo.jpg
     - assets/screenTestAssets/HowTo2.gif
-    - assets/screenTestAssets/HowTo2.mp4
+
     - assets/screenTestAssets/g2.gif
     - assets/screenTestAssets/VoiceOver/S1.wav
     - assets/screenTestAssets/VoiceOver/S2.wav
@@ -143,4 +143,9 @@ flutter:
     - assets/games.png
     - assets/letterError.png
     - assets/therapist.png
+    - assets/screenTestAssets/incorrect.png
 
+    - assets/screenTestAssets/HowTo2.gif
+    - assets/screenTestAssets/incorrect.png
+    - assets/screenTestAssets/correct.gif
+    - assets/screenTestAssets/VoiceOver/S4_3.wav

@@ -165,212 +165,214 @@ class _RecordScreenState extends State<RecordScreen> {
     return  WillPopScope(
       onWillPop: _onWillPop,
       child: Scaffold(
-        body: Container(
-          decoration: const BoxDecoration(
-            gradient:  LinearGradient(
-              begin: Alignment(0.407, -1),
-              end: Alignment(-0.407, 1),
-              colors: <Color>[
-                Color(0xff24d0a7),
-                Color(0xff0e510d),
-              ],
-              stops: <double>[0, 1],
+        body: SafeArea(
+          child: Container(
+            decoration: const BoxDecoration(
+              gradient:  LinearGradient(
+                begin: Alignment(0.407, -1),
+                end: Alignment(-0.407, 1),
+                colors: <Color>[
+                  Color(0xff24d0a7),
+                  Color(0xff0e510d),
+                ],
+                stops: <double>[0, 1],
+              ),
             ),
-          ),
-          width: double.infinity,
-          height: 807 * fem,
-          child: Column(
-            children: [
-              ClipRect(
-                child: BackdropFilter(
-                  filter: ImageFilter.blur(
-                    sigmaX: 13.5914087296 * fem,
-                    sigmaY: 13.5914087296 * fem,
-                  ),
-                  child: Container(
-                    margin: EdgeInsets.fromLTRB(0 * fem, 0 * fem, 0 * fem, 16 * fem),
-                    padding: EdgeInsets.fromLTRB(36.33 * fem, 14 * fem, 14.67 * fem, 0 * fem),
-                    width: double.infinity,
-                    height: 54 * fem,
-                    decoration: BoxDecoration(
-                      color: const Color(0xffffffff),
+            width: double.infinity,
+            height: 807 * fem,
+            child: Column(
+              children: [
+                ClipRect(
+                  child: BackdropFilter(
+                    filter: ImageFilter.blur(
+                      sigmaX: 13.5914087296 * fem,
+                      sigmaY: 13.5914087296 * fem,
                     ),
                     child: Container(
+                      margin: EdgeInsets.fromLTRB(0 * fem, 0 * fem, 0 * fem, 16 * fem),
+                      padding: EdgeInsets.fromLTRB(36.33 * fem, 14 * fem, 14.67 * fem, 0 * fem),
                       width: double.infinity,
+                      height: 54 * fem,
                       decoration: BoxDecoration(
                         color: const Color(0xffffffff),
                       ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Container(
-                            width: 50 * fem,
-                            height: 30 * fem,
-                            child: ElevatedButton(
-                              onPressed: () {
-                                audioPlayer.dispose();  audioPlayer.pause();
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => ListWords(),
+                      child: Container(
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          color: const Color(0xffffffff),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Container(
+                              width: 50 * fem,
+                              height: 30 * fem,
+                              child: ElevatedButton(
+                                onPressed: () {
+                                  audioPlayer.dispose();  audioPlayer.pause();
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => ListWords(),
+                                    ),
+                                  );
+                                },
+                                child: Image.asset(
+                                  'assets/screenTestAssets/icon-back.png',
+                                  width: 50 * fem,
+                                  height: 30 * fem,
+                                ),
+                                style: ElevatedButton.styleFrom(
+                                  padding: EdgeInsets.zero,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(20.0),
                                   ),
-                                );
-                              },
-                              child: Image.asset(
-                                'assets/screenTestAssets/icon-back.png',
-                                width: 50 * fem,
-                                height: 30 * fem,
-                              ),
-                              style: ElevatedButton.styleFrom(
-                                padding: EdgeInsets.zero,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(20.0),
                                 ),
                               ),
                             ),
-                          ),
-                          Row(
-                            children: [
-                              Container(
-                                width: 45 * fem,
-                                height: 32 * fem,
-                                child: ElevatedButton(
-                                  onPressed: () {
-                                    // Profile button pressed action
-                                  },
-                                  child: Image.asset(
-                                    'assets/screenTestAssets/icon-profile.png',
-                                    width: 50 * fem,
-                                    height: 27 * fem,
-                                  ),
-                                  style: ElevatedButton.styleFrom(
-                                    padding: EdgeInsets.zero,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(20.0),
+                            Row(
+                              children: [
+                                Container(
+                                  width: 45 * fem,
+                                  height: 32 * fem,
+                                  child: ElevatedButton(
+                                    onPressed: () {
+                                      // Profile button pressed action
+                                    },
+                                    child: Image.asset(
+                                      'assets/screenTestAssets/icon-profile.png',
+                                      width: 50 * fem,
+                                      height: 27 * fem,
+                                    ),
+                                    style: ElevatedButton.styleFrom(
+                                      padding: EdgeInsets.zero,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(20.0),
+                                      ),
                                     ),
                                   ),
                                 ),
-                              ),
-                              SizedBox(width: 16 * fem), // Add necessary spacing
-                              Container(
-                                width: 43 * fem,
-                                height: 32 * fem,
-                                child: ElevatedButton(
-                                  onPressed: () {
-                                    // Home button pressed action
-                                  },
-                                  child: Image.asset(
-                                    'assets/screenTestAssets/icon-home.png',
-                                    width: 50 * fem,
-                                    height: 27 * fem,
-                                  ),
-                                  style: ElevatedButton.styleFrom(
-                                    padding: EdgeInsets.zero,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(20.0),
+                                SizedBox(width: 16 * fem), // Add necessary spacing
+                                Container(
+                                  width: 43 * fem,
+                                  height: 32 * fem,
+                                  child: ElevatedButton(
+                                    onPressed: () {
+                                      // Home button pressed action
+                                    },
+                                    child: Image.asset(
+                                      'assets/screenTestAssets/icon-home.png',
+                                      width: 50 * fem,
+                                      height: 27 * fem,
+                                    ),
+                                    style: ElevatedButton.styleFrom(
+                                      padding: EdgeInsets.zero,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(20.0),
+                                      ),
                                     ),
                                   ),
                                 ),
-                              ),
-                            ],
-                          ),
-                        ],
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),
                 ),
-              ),
-              Positioned(
-                top: 70,
-                left: 0,
-                right: 0,
-                child: Container(
+                Positioned(
+                  top: 70,
+                  left: 0,
+                  right: 0,
+                  child: Container(
+                    child: Align(
+                      alignment: Alignment.center,
+                      child: Text(
+                        'මේ කවුද?',
+                        style: TextStyle(
+                          fontSize: 28,
+                          fontWeight: FontWeight.bold,
+                          color: Color(0xff0e510d),
+                          shadows: [
+                            Shadow(
+                              color: Colors.greenAccent,
+                              blurRadius: 2,
+                              offset: Offset(1, 1),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: fem*10,
+                ),
+                Positioned(
+                  left: 0,
+                  right: 0,
+                  top: 60,
                   child: Align(
-                    alignment: Alignment.center,
-                    child: Text(
-                      'මේ කවුද?',
-                      style: TextStyle(
-                        fontSize: 28,
-                        fontWeight: FontWeight.bold,
-                        color: Color(0xff0e510d),
-                        shadows: [
-                          Shadow(
-                            color: Colors.greenAccent,
-                            blurRadius: 2,
-                            offset: Offset(1, 1),
-                          ),
-                        ],
-                      ),
+                    child: Image.asset(
+                      'assets/screenTestAssets/DogIn.gif',
                     ),
                   ),
                 ),
-              ),
-              SizedBox(
-                height: fem*10,
-              ),
-              Positioned(
-                left: 0,
-                right: 0,
-                top: 60,
-                child: Align(
-                  child: Image.asset(
-                    'assets/screenTestAssets/DogIn.gif',
-                  ),
+                SizedBox(
+                  height: fem*40,
                 ),
-              ),
-              SizedBox(
-                height: fem*40,
-              ),
-              Container(
-                decoration: BoxDecoration(
-                  boxShadow: [
-                    BoxShadow(
-                        color: Colors.black26,
-                        offset: Offset(0, 4),
-                        blurRadius: 5.0
-                    )
-                  ],
-                  gradient: LinearGradient(
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                    stops: [0.0, 1.0],
-                    colors: [
-                      Color(0xffa00000), // Red shade
-                      Color(0xffff0000), // Pure red
+                Container(
+                  decoration: BoxDecoration(
+                    boxShadow: [
+                      BoxShadow(
+                          color: Colors.black26,
+                          offset: Offset(0, 4),
+                          blurRadius: 5.0
+                      )
                     ],
+                    gradient: LinearGradient(
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                      stops: [0.0, 1.0],
+                      colors: [
+                        Color(0xffa00000), // Red shade
+                        Color(0xffff0000), // Pure red
+                      ],
+                    ),
+                    borderRadius: BorderRadius.circular(30),
                   ),
-                  borderRadius: BorderRadius.circular(30),
+                  child: ElevatedButton(
+                    child: _isRecording
+                        ? SpinKitCircle(
+                      color: Colors.white,
+                      size: 50.0,
+                    )
+                        : Text(
+                      '',
+                    ),
+                    style: ButtonStyle(
+                      minimumSize: MaterialStateProperty.all(Size(fem * 1.1, 60)), // Increase size
+                      backgroundColor:
+                      MaterialStateProperty.all(Colors.transparent),
+                      shadowColor:
+                      MaterialStateProperty.all(Colors.transparent),
+                    ),
+                    onPressed: (){
+                      audioPlayer.dispose();
+                      audioPlayer.pause();
+                      audioPlayer.pause();
+                      if (_isRecording) {
+                        _stopRecording();
+                      } else {
+                        _startRecording();
+                      }
+                    },
+                  ),
                 ),
-                child: ElevatedButton(
-                  child: _isRecording
-                      ? SpinKitCircle(
-                    color: Colors.white,
-                    size: 50.0,
-                  )
-                      : Text(
-                    '',
-                  ),
-                  style: ButtonStyle(
-                    minimumSize: MaterialStateProperty.all(Size(fem * 1.1, 60)), // Increase size
-                    backgroundColor:
-                    MaterialStateProperty.all(Colors.transparent),
-                    shadowColor:
-                    MaterialStateProperty.all(Colors.transparent),
-                  ),
-                  onPressed: (){
-                    audioPlayer.dispose();
-                    audioPlayer.pause();
-                    audioPlayer.pause();
-                    if (_isRecording) {
-                      _stopRecording();
-                    } else {
-                      _startRecording();
-                    }
-                  },
-                ),
-              ),
 
-            ],
+              ],
+            ),
           ),
         ),
       ),
