@@ -271,7 +271,7 @@ class _HomeScreenAllState extends State<HomeScreenAll> {
                                                 .name
                                                 .toString(),
                                             style: const TextStyle(
-                                                fontSize: 40,
+                                                fontSize: 35,
                                                 fontFamily: 'Avenir',
                                                 color: Color(0xff47455f),
                                                 fontWeight: FontWeight.w900),
