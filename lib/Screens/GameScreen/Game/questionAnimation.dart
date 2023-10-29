@@ -372,17 +372,17 @@ class _QuestionAnimationScreenState extends State<QuestionAnimationScreen>
     print(" startRecording seconds 31 ");
     startRecording();
 
-    Timer(Duration(seconds: 10), () {
+    Timer(Duration(seconds: 5), () {
       print(" Timer stopRecording seconds: 41");
       stopRecording();
       setState(() {
         isUpload = true;
       });
     });
-    Timer(Duration(seconds: 12), () async {
+    Timer(Duration(seconds: 8), () async {
       print(" Timer  seconds:43 addnewvoice(); ");
 
-      await addnewvoice();
+      await addnewvoice(File(_audioPath!), 'hawa');
 
       // startPlayback();
       // Timer(Duration(seconds: 5), () {
@@ -438,74 +438,50 @@ class _QuestionAnimationScreenState extends State<QuestionAnimationScreen>
     }
   }
 
-  Future<void> addnewvoice() async {
+  Future<void> addnewvoice(File audioFile, String inputWord) async {
     print(" addnewvoice");
     print(" _audioPath $_audioPath");
     if (_audioPath.isNotEmpty) {
-      // Get a reference to the audio file
-      final audioFile = File(_audioPath);
+      print("uploadAudio Called");
+      try {
+        var request = http.MultipartRequest(
+            'POST', Uri.parse('http://192.168.8.168:5000/predict'));
+        request.fields['input_word'] = inputWord;
+        request.files.add(http.MultipartFile.fromBytes(
+            'audio_file', await audioFile.readAsBytes(),
+            filename: 'audio.wav'));
 
-      // Get a reference to the Firebase Storage bucket
-      final storage = FirebaseStorage.instance;
-      final audioStorageRef =
-      storage.ref().child('audio/${DateTime.now().toIso8601String()}.wav');
+        var response = await request.send();
 
-      // Upload the audio file to Firebase Storage
-      final uploadTask = audioStorageRef.putFile(audioFile);
-      final snapshot = await uploadTask.whenComplete(() {});
-
-      // Get the URL of the uploaded audio file
-      final audioUrl = await snapshot.ref.getDownloadURL();
-      print(" uploading added voice");
-      // Save the audio URL and title to Firestore
-      final firestore = FirebaseFirestore.instance;
-      await firestore
-          .collection('therapeuticGamesQuestionAudio')
-          .doc('${user?.uid}')
-          .collection('hawa')
-          .doc()
-          .set({
-        'uid': user?.uid,
-        'date': '${DateTime.now().toIso8601String()}',
-        'url': audioUrl,
-      });
-      await firestore
-          .collection("users")
-          .doc(user?.uid)
-          .collection('therapeuticGamesQuestionAudio')
-          .doc('hawa')
-          .set({
-        'uid': user?.uid,
-        'date': '${DateTime.now().toIso8601String()}',
-        'url': audioUrl,
-      }).whenComplete(() =>
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-              content: Text(
-                  'හූරේ....'))
-
-          ));
-      setState(() {
-        isLoading = false;
-        resultAPI = true;
-        isUpload = false;
-      });
-      if (resultAPI == true) {
-        Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) => WinnerScreen()));
-      } else {
-        Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) => LoserScreen()));
+        if (response.statusCode == 200) {
+          var result = await http.Response.fromStream(response);
+          var parsedJson = json.decode(result.body);
+          print('Result: ${parsedJson['result']}');
+          if (parsedJson['result'] == "Correct Answer") {
+            audioPlayer.dispose();
+            audioPlayer.pause();
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => WinnerScreen(),
+              ),
+            );
+          }
+          if (parsedJson['result'] == "Wrong Answer") {
+            audioPlayer.dispose();
+            audioPlayer.pause();
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => LoserScreen(),
+              ),
+            );
+          }
+        } else {
+          print("Failed to upload. Status code: ${response.statusCode}");
+        }
+      } catch (e) {
+        print("Error in uploadAudio: $e");
       }
-
-      print("not added voice");
     }
-    // Display a success message
-
-    //API Call
-
-    /*Future<void> askQuestion() {
-      url = 'http://' */
-
-
-  }
-}
+  }}
