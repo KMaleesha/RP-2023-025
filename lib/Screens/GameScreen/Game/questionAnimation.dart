@@ -365,48 +365,36 @@ class _QuestionAnimationScreenState extends State<QuestionAnimationScreen>
 
   // Function to handle tap on the screen
   void _handleTap() {
+    audioPlayer.resume();
     Timer(Duration(seconds: 26), () {
       askQuestion();
       print(" Timer seconds: 31  askQuestion(); ");
     });
-    audioPlayer.resume();
-    Timer(Duration(seconds: 19), () {
-      setState(() {
-        print(" Timer  seconds:24 askQ = true; ");
-        askQ = true;
-      });
-    });
+
+    // Timer(Duration(seconds: 19), () {
+    //   setState(() {
+    //     print(" Timer  seconds:24 askQ = true; ");
+    //     askQ = false;
+    //   });
+    // });
   }
 
   //ask question
   askQuestion() {
+    askQ = false;
+    askA = true;
     print(" askQuestion ");
     _controller.stop();
     audioPlayer.pause();
     print(" startRecording seconds 31 ");
     startRecording();
 
-    // Timer(Duration(seconds: 8), () {
-    //   print(" Timer stopRecording seconds: 41");
-    //   stopRecording();
-    //   setState(() {
-    //     isUpload = true;
-    //   });
-    // });
-    // Timer(Duration(seconds: 8), () async {
-    //   print(" Timer  seconds:43 addnewvoice(); ");
-    //
-    //   // stopRecording();
-    //
-    //   // startPlayback();
-    //   // Timer(Duration(seconds: 5), () {
-    //   //   print(" stopPlayback");
-    //   //   // stopPlayback();
-    //   // });
-    // });
+
+
   }
 
   Future<void> startRecording() async {
+    askA = true;
     print("_startRecording Called");
     try {
       if (await Permission.microphone.isGranted) { // Correct way to check for microphone permission
@@ -427,12 +415,15 @@ class _QuestionAnimationScreenState extends State<QuestionAnimationScreen>
     }
   }
   Future<void> stopRecording() async {
+
     print("_stopRecording Called");
     try {
       await _recorder!.stopRecorder();
       setState(() {
         _isRecording = false;
         askA = false;
+        askQ = false;
+        isUpload = true;
       });
     } catch (e) {
       print("Error in _stopRecording: $e");
