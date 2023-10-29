@@ -1,75 +1,78 @@
 import 'dart:async';
-
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_sound/flutter_sound.dart';
-import 'RecordScreen.dart';
 import 'dart:ui';
+import 'package:flutter/material.dart';
 import '../Users/screens/homeScreen.dart';
+import 'RecordScreen.dart';
 import 'package:audioplayers/audioplayers.dart';
 
-import 'ListWords.dart';
-
-
-class HowToSpeak extends StatefulWidget {
-  const HowToSpeak({Key? key}) : super(key: key);
-
-  @override
-  State<HowToSpeak> createState() => _HowToSpeakState();
-}
-
 class _HowToSpeakState extends State<HowToSpeak> {
-  //1
   final audioPlayer = AudioPlayer();
+  String currentBackground = 'assets/screenTestAssets/HowTo.jpg'; // Initialize to the first image
+  late AudioCache player;
+
   @override
   void initState() {
     super.initState();
-    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-//2
-    Timer(Duration(seconds: 1), () {
-      setAudio();
-    });
-
-    //startvoice recorder
-    Timer(Duration(seconds: 2), () {
-      _handleTap();
-    });
-    /////////////////2
+    player = AudioCache(prefix: "assets/screenTestAssets/VoiceOver/");
+    _playSequence();
   }
-  /////////////////3
-  // Function to handle tap on the screen
-  void _handleTap() {
-    Timer(Duration(seconds:15), () {
 
+  _playSequence() async {
+    // Play first sound and wait for 5 seconds
+    var url = await player.load("S4_1.wav");
+    audioPlayer.play(UrlSource(url.path));
+    await Future.delayed(Duration(seconds: 5));
+
+    // Play second sound, switch background and wait for 5 seconds
+    setState(() {
+      currentBackground = 'assets/screenTestAssets/HowTo2.gif';
     });
-    audioPlayer.resume();
-  }
-  //function to initialize audio
-  Future setAudio() async {
-    audioPlayer.setReleaseMode(ReleaseMode.loop);
+    url = await player.load("S4_2.wav");
+    audioPlayer.play(UrlSource(url.path));
+    await Future.delayed(Duration(seconds: 3));
 
-    final player = AudioCache(prefix: "assets/screenTestAssets/VoiceOver/");
-    //load song from assets
-    final url = await player.load("S4_1.wav");
-    audioPlayer.setSourceUrl(url.path);
+    url = await player.load("S4_2.wav");
+    audioPlayer.play(UrlSource(url.path));
+    await Future.delayed(Duration(seconds: 3));
+
+    setState(() {
+      currentBackground = 'assets/screenTestAssets/HowTo.jpg';
+    });
+    // Play third sound
+    url = await player.load("S4_3.wav");
+    audioPlayer.play(UrlSource(url.path));
+    await Future.delayed(Duration(seconds: 5));
+    // Reset to the initial background and repeat the sequence after 7 seconds
+
+    await Future.delayed(Duration(seconds: 7));
+    _playSequence();
   }
+
+  Future<bool> _onWillPop() async {
+    Navigator.of(context).pushReplacement(
+      MaterialPageRoute(
+        builder: (context) => RecordScreen(),
+      ),
+    );
+    audioPlayer.dispose();
+    audioPlayer.pause();
+    return false; // Prevents the app from exiting
+  }
+
   @override
   void dispose() {
-
-    audioPlayer.dispose();  audioPlayer.pause();
     audioPlayer.pause();
+    audioPlayer.dispose();
     super.dispose();
   }
-  /////////////////3
   @override
   Widget build(BuildContext context) {
     double fem = 1.0; // Your factor value
     double ffem = 1.0; // Your factor value
-
-    return SafeArea(
+    return  WillPopScope(
+      onWillPop: _onWillPop,
       child: Scaffold(
         body: Container(
-
           width: double.infinity,
           height: 807 * fem,
           child: Stack(
@@ -101,7 +104,7 @@ class _HowToSpeakState extends State<HowToSpeak> {
                             height: 30 * fem,
                             child: ElevatedButton(
                               onPressed: () {
-                                audioPlayer.dispose();  audioPlayer.pause();
+                                audioPlayer.pause(); audioPlayer.dispose();
                                 Navigator.of(context).push(MaterialPageRoute(
                                   builder: (context) => HomeScreenAll(),
                                 ));
@@ -180,9 +183,8 @@ class _HowToSpeakState extends State<HowToSpeak> {
                     width: 500,
                     height: 700,
                     child: Image.asset(
-                      'assets/screenTestAssets/HowTo.jpg',
+                      currentBackground,
                       fit: BoxFit.cover,
-
                     ),
                   ),
                 ),
@@ -193,8 +195,8 @@ class _HowToSpeakState extends State<HowToSpeak> {
                 top: 646.991394043 * fem,
                 child: GestureDetector(
                   onTap: () {
-                    audioPlayer.dispose();  audioPlayer.pause();
-                    audioPlayer.pause();
+                      audioPlayer.pause();
+                      audioPlayer.dispose();
                     Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => RecordScreen()),
@@ -245,7 +247,11 @@ class _HowToSpeakState extends State<HowToSpeak> {
       ),
     );
   }
+}
 
+class HowToSpeak extends StatefulWidget {
+  const HowToSpeak({Key? key}) : super(key: key);
 
-
+  @override
+  State<HowToSpeak> createState() => _HowToSpeakState();
 }

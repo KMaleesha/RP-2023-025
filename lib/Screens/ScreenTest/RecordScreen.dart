@@ -26,6 +26,7 @@ class _RecordScreenState extends State<RecordScreen> {
   String? _path;
   String _audioPath = '';
   final audioPlayer = AudioPlayer();
+  double recordingButtonSize = 50.0;
 
   @override
   void initState() {
@@ -82,6 +83,16 @@ class _RecordScreenState extends State<RecordScreen> {
     }
   }
 
+  Future<bool> _onWillPop() async {
+    Navigator.of(context).pushReplacement(
+      MaterialPageRoute(
+        builder: (context) =>  const ListWords(),
+      ),
+    );
+    audioPlayer.dispose();
+    audioPlayer.pause();
+    return false; // Prevents the app from exiting
+  }
 
   Future<void> _stopRecording() async {
     print("_stopRecording Called");
@@ -113,25 +124,24 @@ class _RecordScreenState extends State<RecordScreen> {
         var result = await http.Response.fromStream(response);
         var parsedJson = json.decode(result.body);
         print('Result: ${parsedJson['result']}');
-        // var parsedJson = json.decode(result.body);
-        // if (parsedJson['result'] == "Correct Answer") {
-        //   audioPlayer.dispose();  audioPlayer.pause();
-        //   Navigator.push(
-        //     context,
-        //     MaterialPageRoute(
-        //       builder: (context) => Correct(),
-        //     ),
-        //   );
-        // }
-        // if (parsedJson['result'] == "Wrong Answer") {
-        //   audioPlayer.dispose();  audioPlayer.pause();
-        //   Navigator.push(
-        //     context,
-        //     MaterialPageRoute(
-        //       builder: (context) => InCorrect(),
-        //     ),
-        //   );
-        // }
+        if (parsedJson['result'] == "Correct Answer") {
+          audioPlayer.dispose();  audioPlayer.pause();
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => Correct(),
+            ),
+          );
+        }
+        if (parsedJson['result'] == "Wrong Answer") {
+          audioPlayer.dispose();  audioPlayer.pause();
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => InCorrect(),
+            ),
+          );
+        }
       } else {
         print("Failed to upload. Status code: ${response.statusCode}");
       }
@@ -143,8 +153,8 @@ class _RecordScreenState extends State<RecordScreen> {
   @override
   void dispose() {
     print("dispose Called");
-    audioPlayer.dispose();
     audioPlayer.pause();
+    audioPlayer.dispose();
     _recorder!.closeAudioSession();
     super.dispose();
   }
@@ -152,7 +162,8 @@ class _RecordScreenState extends State<RecordScreen> {
   Widget build(BuildContext context) {
     double fem = 1.0;
     double ffem = 1.0;
-    return SafeArea(
+    return  WillPopScope(
+      onWillPop: _onWillPop,
       child: Scaffold(
         body: Container(
           decoration: const BoxDecoration(
@@ -314,19 +325,21 @@ class _RecordScreenState extends State<RecordScreen> {
                 decoration: BoxDecoration(
                   boxShadow: [
                     BoxShadow(
-                        color: Colors.black26, offset: Offset(0, 4), blurRadius: 5.0)
+                        color: Colors.black26,
+                        offset: Offset(0, 4),
+                        blurRadius: 5.0
+                    )
                   ],
                   gradient: LinearGradient(
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                     stops: [0.0, 1.0],
                     colors: [
-                      Color(0xff3f13ae),
-                      Color(0xffca1ac7),
+                      Color(0xffa00000), // Red shade
+                      Color(0xffff0000), // Pure red
                     ],
                   ),
-                  color: Colors.deepPurple.shade300,
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(30),
                 ),
                 child: ElevatedButton(
                   child: _isRecording
@@ -336,28 +349,17 @@ class _RecordScreenState extends State<RecordScreen> {
                   )
                       : Text(
                     '',
-                    style: TextStyle(
-                      fontFamily: 'Noto Sans Sinhala',
-                      fontSize: 18.5,
-                      fontWeight: FontWeight.w700,
-                      color: Color(0xff591010),
-                    ),
                   ),
                   style: ButtonStyle(
-                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                      RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20.0),
-                      ),
-                    ),
-                    minimumSize: MaterialStateProperty.all(Size(fem, 50)),
+                    minimumSize: MaterialStateProperty.all(Size(fem * 1.1, 60)), // Increase size
                     backgroundColor:
                     MaterialStateProperty.all(Colors.transparent),
-                    // elevation: MaterialStateProperty.all(3),
                     shadowColor:
                     MaterialStateProperty.all(Colors.transparent),
                   ),
                   onPressed: (){
-                    audioPlayer.dispose();  audioPlayer.pause();
+                    audioPlayer.dispose();
+                    audioPlayer.pause();
                     audioPlayer.pause();
                     if (_isRecording) {
                       _stopRecording();
@@ -367,6 +369,7 @@ class _RecordScreenState extends State<RecordScreen> {
                   },
                 ),
               ),
+
             ],
           ),
         ),
