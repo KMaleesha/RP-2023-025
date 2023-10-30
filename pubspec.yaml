@@ -5,7 +5,7 @@ description: A new Flutter project.
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
 
-version: 1.1.0
+version: 2.3.1
 
 environment:
   sdk: '>=2.18.2 <3.0.0'
@@ -115,6 +115,7 @@ flutter:
     - assets/gameAssets/songs/questionPage.mp3
     - assets/gameAssets/songs/loseAudio.mp3
     - assets/gameAssets/songs/questionWords/hawa.wav
+    - assets/gameAssets/clouds.png
     - assets/logoGif.gif
     - assets/screenTestAssets/incorrect.png
     - assets/screenTestAssets/correct.gif

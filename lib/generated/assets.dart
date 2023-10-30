@@ -424,15 +424,18 @@ class Assets {
   static const String assetsPhonologicalAssetsBackgroundImage1 = 'assets/phonologicalAssets/background_image1.jpg';
   static const String assetsPhonologicalAssetsBackgroundImage2 = 'assets/phonologicalAssets/background_image2.jpg';
   static const String assetsPhonologicalAssetsBackgroundImage3 = 'assets/phonologicalAssets/background_image3.jpeg';
+  static const String assetsScreenTestAssetsCorrect = 'assets/screenTestAssets/correct.gif';
   static const String assetsScreenTestAssetsDogIn = 'assets/screenTestAssets/DogIn.gif';
   static const String assetsScreenTestAssetsDogList = 'assets/screenTestAssets/DogList.gif';
   static const String assetsScreenTestAssetsG2 = 'assets/screenTestAssets/g2.gif';
   static const String assetsScreenTestAssetsGoatList = 'assets/screenTestAssets/GoatList.gif';
   static const String assetsScreenTestAssetsHomeScreen = 'assets/screenTestAssets/HomeScreen.gif';
   static const String assetsScreenTestAssetsHowTo = 'assets/screenTestAssets/HowTo.jpg';
+  static const String assetsScreenTestAssetsHowTo2 = 'assets/screenTestAssets/HowTo2.gif';
   static const String assetsScreenTestAssetsIconBack = 'assets/screenTestAssets/icon-back.png';
   static const String assetsScreenTestAssetsIconHome = 'assets/screenTestAssets/icon-home.png';
   static const String assetsScreenTestAssetsIconProfile = 'assets/screenTestAssets/icon-profile.png';
+  static const String assetsScreenTestAssetsIncorrect = 'assets/screenTestAssets/incorrect.png';
   static const String assetsScreenTestAssetsIncorrectFinal = 'assets/screenTestAssets/incorrectFinal.jpg';
   static const String assetsScreenTestAssetsSpiderList = 'assets/screenTestAssets/SpiderList.gif';
   static const String assetsScreenTestAssetsWordListBack = 'assets/screenTestAssets/wordListBack.jpg';
@@ -444,6 +447,7 @@ class Assets {
   static const String gameAssetsChild = 'assets/gameAssets/child.gif';
   static const String gameAssetsChildface = 'assets/gameAssets/childface.png';
   static const String gameAssetsClick = 'assets/gameAssets/click.json';
+  static const String gameAssetsClouds = 'assets/gameAssets/clouds.png';
   static const String gameAssetsEluwa = 'assets/gameAssets/eluwa.gif';
   static const String gameAssetsGemba = 'assets/gameAssets/gemba.gif';
   static const String gameAssetsHawa = 'assets/gameAssets/hawa.gif';
@@ -526,17 +530,18 @@ class Assets {
   static const String questionWordsHariiii = 'assets/gameAssets/songs/questionWords/Hariiii.wav';
   static const String questionWordsHawa = 'assets/gameAssets/songs/questionWords/hawa.wav';
   static const String questionWordsUthsahakarankooo = 'assets/gameAssets/songs/questionWords/uthsahakarankooo.wav';
+  static const String screenTestAssetsCorrect = 'assets/screenTestAssets/correct.gif';
   static const String screenTestAssetsDogIn = 'assets/screenTestAssets/DogIn.gif';
   static const String screenTestAssetsDogList = 'assets/screenTestAssets/DogList.gif';
   static const String screenTestAssetsG2 = 'assets/screenTestAssets/g2.gif';
   static const String screenTestAssetsGoatList = 'assets/screenTestAssets/GoatList.gif';
   static const String screenTestAssetsHomeScreen = 'assets/screenTestAssets/HomeScreen.gif';
   static const String screenTestAssetsHowTo = 'assets/screenTestAssets/HowTo.jpg';
+  static const String screenTestAssetsHowTo2 = 'assets/screenTestAssets/HowTo2.gif';
   static const String screenTestAssetsIconBack = 'assets/screenTestAssets/icon-back.png';
   static const String screenTestAssetsIconHome = 'assets/screenTestAssets/icon-home.png';
   static const String screenTestAssetsIconProfile = 'assets/screenTestAssets/icon-profile.png';
   static const String screenTestAssetsIncorrect = 'assets/screenTestAssets/incorrect.jpg';
-  static const String screenTestAssetsIncorrect1 = 'assets/screenTestAssets/incorrect1.jpg';
   static const String screenTestAssetsIncorrectFinal = 'assets/screenTestAssets/incorrectFinal.jpg';
   static const String screenTestAssetsSpiderList = 'assets/screenTestAssets/SpiderList.gif';
   static const String screenTestAssetsVoiceOverS1 = 'assets/screenTestAssets/VoiceOver/S1.wav';
@@ -544,6 +549,7 @@ class Assets {
   static const String screenTestAssetsVoiceOverS33 = 'assets/screenTestAssets/VoiceOver/S3_3.wav';
   static const String screenTestAssetsVoiceOverS41 = 'assets/screenTestAssets/VoiceOver/S4_1.wav';
   static const String screenTestAssetsVoiceOverS42 = 'assets/screenTestAssets/VoiceOver/S4_2.wav';
+  static const String screenTestAssetsVoiceOverS43 = 'assets/screenTestAssets/VoiceOver/S4_3.wav';
   static const String screenTestAssetsVoiceOverS5 = 'assets/screenTestAssets/VoiceOver/S5.wav';
   static const String screenTestAssetsWordListBack = 'assets/screenTestAssets/wordListBack.jpg';
   static const String screenTestCorrect = 'lib/Screens/ScreenTest/Correct.dart';
@@ -608,6 +614,7 @@ class Assets {
   static const String voiceOverS33 = 'assets/screenTestAssets/VoiceOver/S3_3.wav';
   static const String voiceOverS41 = 'assets/screenTestAssets/VoiceOver/S4_1.wav';
   static const String voiceOverS42 = 'assets/screenTestAssets/VoiceOver/S4_2.wav';
+  static const String voiceOverS43 = 'assets/screenTestAssets/VoiceOver/S4_3.wav';
   static const String voiceOverS5 = 'assets/screenTestAssets/VoiceOver/S5.wav';
 
 }

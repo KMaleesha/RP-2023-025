@@ -12,8 +12,11 @@ import 'package:flutter/services.dart';
 
 import 'package:lottie/lottie.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:record/record.dart';
+import 'package:permission_handler/permission_handler.dart';
+
 import '../../../utils/configt.dart';
+import '../../ScreenTest/Correct.dart';
+import '../../ScreenTest/InCorrect.dart';
 import 'imageSaveSharedPreferences.dart';
 import 'loserScreen.dart';
 import 'model/childImage.dart';
@@ -48,11 +51,12 @@ class _QuestionAnimationScreenState extends State<QuestionAnimationScreen>
   double _stopPosition = 0.0;
   double _leftPadding2 = 0.0;
   double _stopPosition2 = 0.0;
+  bool cloud = true;
   bool askQ = false;
   bool askA = false;
   bool isLoading = true;
   bool isUpload = false;
-
+  FlutterSoundRecorder? _recorder;
   @override
   void initState() {
     super.initState();
@@ -63,6 +67,8 @@ class _QuestionAnimationScreenState extends State<QuestionAnimationScreen>
         isLoading = false; // Content is now loaded
       });
     });
+    _recorder = FlutterSoundRecorder();
+    _recorder!.openAudioSession();
     getData();
     _player = FlutterSoundPlayer();
     _player?.openAudioSession();
@@ -270,15 +276,25 @@ class _QuestionAnimationScreenState extends State<QuestionAnimationScreen>
                       ],
                     ),
 
-                    Padding(
-                      padding: EdgeInsets.only(
-                          left: width * 0.7, top: height * 0.4),
-                      child: Container(
-                        width: 150,
-                        height: 150,
-                        alignment: Alignment.topLeft,
-                        child: Image.asset(Configt.app_hawa),
-                      ),
+                    GestureDetector(
+
+                        onTap: () {
+
+                          setState(() {
+                            stopRecording();
+                            isUpload = true;
+                          });
+                        },
+                      child: Padding(
+                        padding: EdgeInsets.only(
+                            left: width * 0.7, top: height * 0.4),
+                        child: Container(
+                          width: 150,
+                          height: 150,
+                          alignment: Alignment.topLeft,
+                          child: Image.asset(Configt.app_hawa),
+                        ),
+                     )
                     ),
                   ],
                 ),
@@ -327,7 +343,34 @@ class _QuestionAnimationScreenState extends State<QuestionAnimationScreen>
                         ),
                       ),
                     ],
-                  )
+                  ),
+                if (cloud)
+                  GestureDetector(
+                    onTap: (){
+                      setState(() {
+
+                        stopRecording1();
+                        cloud = false ;
+                      });
+
+                    },
+                  child: Stack(
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.only(
+                            left: 600, top:90),
+                        child: SizedBox(
+                          height: 80,
+                          width: 80,
+                          child:Image.asset(
+                          "assets/gameAssets/clouds.png",
+                            fit: BoxFit.contain,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                )
               ],
             ),
           ),
@@ -351,90 +394,111 @@ class _QuestionAnimationScreenState extends State<QuestionAnimationScreen>
 
   // Function to handle tap on the screen
   void _handleTap() {
-    Timer(Duration(seconds: 26), () {
-      askQuestion();
-      print(" Timer seconds: 31  askQuestion(); ");
-    });
     audioPlayer.resume();
-    Timer(Duration(seconds: 19), () {
+
+    Timer(Duration(seconds: 20), () {
+      print(" seconds: 20  (25) askQ = true; ");
       setState(() {
-        print(" Timer  seconds:24 askQ = true; ");
         askQ = true;
       });
-    });
-  }
 
-  //ask question
-  askQuestion() {
-    print(" askQuestion ");
-    _controller.stop();
-    audioPlayer.pause();
-    print(" startRecording seconds 31 ");
-    startRecording();
-
-    Timer(Duration(seconds: 5), () {
-      print(" Timer stopRecording seconds: 41");
-      stopRecording();
-      setState(() {
-        isUpload = true;
-      });
-    });
-    Timer(Duration(seconds: 8), () async {
-      print(" Timer  seconds:43 addnewvoice(); ");
-
-      await addnewvoice(File(_audioPath!), 'balla');
-
-      // startPlayback();
-      // Timer(Duration(seconds: 5), () {
-      //   print(" stopPlayback");
-      //   // stopPlayback();
-      // });
-    });
-  }
-
-  Future<void> startRecording() async {
-    print("Start Recording - Entry");
-    try {
-      Record record = Record();
-      if (await record.hasPermission()) {
-        print("startRecording() hasPermission ");
-        Directory tempDir = await getTemporaryDirectory();
-        String tempPath = tempDir.path + '/audio.wav';
-        await record.start(path: tempPath);
+      Timer(Duration(seconds: 5), () {
+        print(" seconds: 5  (30)        askQ = false;  startRecording(); ");
         setState(() {
           askQ = false;
           askA = true;
-
-          // _isRecording = true;
-          _audioPath = tempPath;
-          print("tempPath $tempPath");
+          print(" askQuestion ");
+          _controller.stop();
+          audioPlayer.pause();
+          print(" startRecording seconds 31 ");
+          startRecording();
         });
-        print("Start Recording - _audioPath: $_audioPath");
+        print(" Timer seconds: 31  askQuestion(); ");
+      });
+
+    });
+
+    // Timer(Duration(seconds: 19), () {
+    //   setState(() {
+    //     print(" Timer  seconds:24 askQ = true; ");
+    //     askQ = false;
+    //   });
+    // });
+  }
+
+  //ask question
+
+
+  Future<void> startRecording() async {
+    askA = true;
+    print("_startRecording Called");
+    try {
+      if (await Permission.microphone.isGranted) { // Correct way to check for microphone permission
+        Directory tempDir = await getTemporaryDirectory();
+        String tempPath = tempDir.path + '/audio.wav';
+        await _recorder!.startRecorder(toFile: tempPath);
+        setState(() {
+          _isRecording = true;
+          _audioPath = tempPath;
+          askA = true;
+          askQ = false;
+        });
+      } else {
+        print("Permission Denied");
       }
     } catch (e) {
-      print("startRecording() has no Permission");
-      print(e);
+      print("Error in _startRecording: $e");
     }
   }
-  Future<void> stopRecording() async {
-    print(" stopRecording ");
-    print("Stop Recording - Entry");
+  Future<void> stopRecording1() async {
+
+    print("_stopRecording Called");
     try {
-      Record record = Record();
-      String? path = await record.stop();
-      if (path != null) {
-        setState(() {
-          askQ = false;
-          askA = false;
-          // _isRecording = false;
-          _audioPath = path;
-          print(" path $path");
-        }); // Call the upload method here
-        print("Stop Recording - _audioPath: $_audioPath");
-      }
+      await _recorder!.stopRecorder();
+      setState(() {
+        cloud = false;
+        _isRecording = false;
+        askA = false;
+        askQ = false;
+        isUpload = true;
+      });
     } catch (e) {
-      print(e);
+      print("Error in _stopRecording: $e");
     }
+
+    Timer(Duration(seconds: 2), () {
+      print("navigate loser");
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => LoserScreen(),
+        ),
+      );
+    });
+  }
+  Future<void> stopRecording() async {
+
+    print("_stopRecording Called");
+    try {
+      await _recorder!.stopRecorder();
+      setState(() {
+        _isRecording = false;
+        askA = false;
+        askQ = false;
+        cloud = false;
+      });
+    } catch (e) {
+      print("Error in _stopRecording: $e");
+    }
+
+    Timer(Duration(seconds: 1), () {
+      print("Timer inside _stopRecording fired");
+      setState(() {
+        addnewvoice(File(_audioPath!), 'balla');
+        isUpload = true;
+      });
+
+    });
   }
 
   Future<void> addnewvoice(File audioFile, String inputWord) async {
@@ -462,7 +526,7 @@ class _QuestionAnimationScreenState extends State<QuestionAnimationScreen>
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => LoserScreen(),
+                builder: (context) => WinnerScreen(),
               ),
             );
           }
