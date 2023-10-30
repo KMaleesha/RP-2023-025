@@ -51,6 +51,7 @@ class _QuestionAnimationScreenState extends State<QuestionAnimationScreen>
   double _stopPosition = 0.0;
   double _leftPadding2 = 0.0;
   double _stopPosition2 = 0.0;
+  bool cloud = true;
   bool askQ = false;
   bool askA = false;
   bool isLoading = true;
@@ -278,8 +279,9 @@ class _QuestionAnimationScreenState extends State<QuestionAnimationScreen>
                     GestureDetector(
 
                         onTap: () {
-                          stopRecording();
+
                           setState(() {
+                            stopRecording();
                             isUpload = true;
                           });
                         },
@@ -341,7 +343,34 @@ class _QuestionAnimationScreenState extends State<QuestionAnimationScreen>
                         ),
                       ),
                     ],
-                  )
+                  ),
+                if (cloud)
+                  GestureDetector(
+                    onTap: (){
+                      setState(() {
+
+                        stopRecording1();
+                        cloud = false ;
+                      });
+
+                    },
+                  child: Stack(
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.only(
+                            left: 600, top:90),
+                        child: SizedBox(
+                          height: 80,
+                          width: 80,
+                          child:Image.asset(
+                          "assets/gameAssets/clouds.png",
+                            fit: BoxFit.contain,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                )
               ],
             ),
           ),
@@ -366,9 +395,27 @@ class _QuestionAnimationScreenState extends State<QuestionAnimationScreen>
   // Function to handle tap on the screen
   void _handleTap() {
     audioPlayer.resume();
-    Timer(Duration(seconds: 26), () {
-      askQuestion();
-      print(" Timer seconds: 31  askQuestion(); ");
+
+    Timer(Duration(seconds: 20), () {
+      print(" seconds: 20  (25) askQ = true; ");
+      setState(() {
+        askQ = true;
+      });
+
+      Timer(Duration(seconds: 5), () {
+        print(" seconds: 5  (30)        askQ = false;  startRecording(); ");
+        setState(() {
+          askQ = false;
+          askA = true;
+          print(" askQuestion ");
+          _controller.stop();
+          audioPlayer.pause();
+          print(" startRecording seconds 31 ");
+          startRecording();
+        });
+        print(" Timer seconds: 31  askQuestion(); ");
+      });
+
     });
 
     // Timer(Duration(seconds: 19), () {
@@ -380,18 +427,7 @@ class _QuestionAnimationScreenState extends State<QuestionAnimationScreen>
   }
 
   //ask question
-  askQuestion() {
-    askQ = false;
-    askA = true;
-    print(" askQuestion ");
-    _controller.stop();
-    audioPlayer.pause();
-    print(" startRecording seconds 31 ");
-    startRecording();
 
-
-
-  }
 
   Future<void> startRecording() async {
     askA = true;
@@ -414,12 +450,13 @@ class _QuestionAnimationScreenState extends State<QuestionAnimationScreen>
       print("Error in _startRecording: $e");
     }
   }
-  Future<void> stopRecording() async {
+  Future<void> stopRecording1() async {
 
     print("_stopRecording Called");
     try {
       await _recorder!.stopRecorder();
       setState(() {
+        cloud = false;
         _isRecording = false;
         askA = false;
         askQ = false;
@@ -429,9 +466,38 @@ class _QuestionAnimationScreenState extends State<QuestionAnimationScreen>
       print("Error in _stopRecording: $e");
     }
 
+    Timer(Duration(seconds: 2), () {
+      print("navigate loser");
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => LoserScreen(),
+        ),
+      );
+    });
+  }
+  Future<void> stopRecording() async {
+
+    print("_stopRecording Called");
+    try {
+      await _recorder!.stopRecorder();
+      setState(() {
+        _isRecording = false;
+        askA = false;
+        askQ = false;
+        cloud = false;
+      });
+    } catch (e) {
+      print("Error in _stopRecording: $e");
+    }
+
     Timer(Duration(seconds: 1), () {
       print("Timer inside _stopRecording fired");
-      addnewvoice(File(_audioPath!), 'balla');
+      setState(() {
+        addnewvoice(File(_audioPath!), 'balla');
+        isUpload = true;
+      });
+
     });
   }
 
@@ -460,7 +526,7 @@ class _QuestionAnimationScreenState extends State<QuestionAnimationScreen>
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => LoserScreen(),
+                builder: (context) => WinnerScreen(),
               ),
             );
           }
