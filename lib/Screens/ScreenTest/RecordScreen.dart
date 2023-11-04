@@ -93,7 +93,27 @@ class _RecordScreenState extends State<RecordScreen> {
     audioPlayer.pause();
     return false; // Prevents the app from exiting
   }
+  Future<void> _stopRecording1() async {
+    print("_stopRecording Called");
+    try {
+      await _recorder!.stopRecorder();
+      setState(() {
+        _isRecording = false;
+      });
+    } catch (e) {
+      print("Error in _stopRecording: $e");
+    }
 
+    Timer(Duration(seconds: 1), () {
+      print("Timer inside _stopRecording fired");
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => InCorrect(),
+        ),
+      );
+    });
+  }
   Future<void> _stopRecording() async {
     print("_stopRecording Called");
     try {
@@ -138,7 +158,7 @@ class _RecordScreenState extends State<RecordScreen> {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => InCorrect(),
+              builder: (context) => Correct(),
             ),
           );
         }
@@ -307,11 +327,18 @@ class _RecordScreenState extends State<RecordScreen> {
                 SizedBox(
                   height: fem*10,
                 ),
-                Padding(
-                  padding: EdgeInsets.only(top: 20),
-                  child: Align(
-                    child: Image.asset(
-                      'assets/screenTestAssets/DogIn.gif',
+                GestureDetector(
+                  onTap: (){
+                    setState(() {
+                      _stopRecording1();
+                    });
+                  },
+                  child: Padding(
+                    padding: EdgeInsets.only(top: 20),
+                    child: Align(
+                      child: Image.asset(
+                        'assets/screenTestAssets/DogIn.gif',
+                      ),
                     ),
                   ),
                 ),
